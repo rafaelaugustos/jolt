@@ -28,7 +28,8 @@ public final class ReorderSession implements View.OnTouchListener, Choreographer
         final SpringState spring = new SpringState(0, 0);
         Cell(View view, int index) { this.translation = view.getTranslationY(); this.alpha = view.getAlpha(); this.index = index; }
     }
-    final ListView list;
+    final ViewGroup list;
+    private final RecycledList port;
     private final ReorderSurface surface;
     private final Listener listener;
     private final WeakHashMap<View, Cell> cells = new WeakHashMap<>();
@@ -47,8 +48,8 @@ public final class ReorderSession implements View.OnTouchListener, Choreographer
     private Bitmap bitmap;
     private ValueAnimator drop;
 
-    public ReorderSession(ReorderSurface surface, ListView list, String options, Listener listener) {
-        this.surface = surface; this.list = list; this.listener = listener;
+    public ReorderSession(ReorderSurface surface, ViewGroup list, String options, Listener listener) {
+        this.surface = surface; this.list = list; this.listener = listener; this.port=new RecycledList(list);
         density = list.getResources().getDisplayMetrics().density;
         slop = ViewConfiguration.get(list.getContext()).getScaledTouchSlop();
         try {
@@ -84,7 +85,7 @@ public final class ReorderSession implements View.OnTouchListener, Choreographer
         if (action == MotionEvent.ACTION_DOWN) {
             cancel(); peer.begin(event.getDownTime());
             downX = pointerX = event.getX(); downY = pointerY = event.getY();
-            if (enabled && list.isEnabled() && inHandle(downX, downY) && list.pointToPosition((int)downX, (int)downY) >= 0) {
+            if (enabled && list.isEnabled() && inHandle(downX, downY) && port.point(downX,downY) >= 0) {
                 pending = true; list.postDelayed(activate, longPress);
             }
         }
@@ -105,8 +106,8 @@ public final class ReorderSession implements View.OnTouchListener, Choreographer
     private void begin() {
         if (!pending || disposed || !enabled || !list.isAttachedToWindow()) return;
         clearPending();
-        int index = list.pointToPosition((int)pointerX, (int)pointerY);
-        View cell = list.getChildAt(index - list.getFirstVisiblePosition());
+        int index = port.point(pointerX,pointerY);
+        View cell = port.at(index);
         if (cell == null || index < 0 || cell.getWidth() <= 0 || cell.getHeight() <= 0 || (long)cell.getWidth() * cell.getHeight() > 8000000) return;
         bitmap = Bitmap.createBitmap(cell.getWidth(), cell.getHeight(), Bitmap.Config.ARGB_8888);
         cell.draw(new Canvas(bitmap));
@@ -115,8 +116,8 @@ public final class ReorderSession implements View.OnTouchListener, Choreographer
         overlay.layout(cell.getLeft(), 0, cell.getRight(), cell.getHeight());
         overlay.setTranslationY(cell.getTop()); overlay.setElevation(12 * density);
         list.getOverlay().add(overlay);
-        rowHeight = cell.getHeight() + list.getDividerHeight(); grabOffset = pointerY - cell.getTop();
-        width = list.getWidth(); height = list.getHeight(); count = list.getCount();
+        rowHeight = port.stride(cell); grabOffset = pointerY - cell.getTop();
+        width = list.getWidth(); height = list.getHeight(); count = port.count();
         from = target = index; active = true; settling = false; remainder = 0; generation++;
         // Stop the ListView's pending click/scroll, retaining this pointer stream.
         MotionEvent cancel = MotionEvent.obtain(0, 0, MotionEvent.ACTION_CANCEL, pointerX, pointerY, 0);
@@ -129,14 +130,14 @@ public final class ReorderSession implements View.OnTouchListener, Choreographer
     }
     @Override public void doFrame(long time) {
         if (!active || settling || disposed) return;
-        if (!list.isAttachedToWindow() || count != list.getCount() || width != list.getWidth() || height != list.getHeight()) { finish(false, 1); return; }
+        if (!list.isAttachedToWindow() || count != port.count() || width != list.getWidth() || height != list.getHeight()) { finish(false, 1); return; }
         double dt = Math.min(.04, Math.max(0, (time - previousTime) / 1e9)); previousTime = time;
         float edge = Math.min(edgeSize, list.getHeight() / 3f), direction = 0;
         if (pointerY < list.getPaddingTop() + edge) direction = -Math.min(1, (list.getPaddingTop() + edge - pointerY) / edge);
         else if (pointerY > list.getHeight() - list.getPaddingBottom() - edge) direction = Math.min(1, (pointerY - list.getHeight() + list.getPaddingBottom() + edge) / edge);
         float distance = (float)(direction * edgeSpeed * dt) + remainder;
         int pixels = (int)distance; remainder = distance - pixels;
-        if (pixels != 0) list.scrollListBy(pixels);
+        if (pixels != 0) port.scroll(pixels);
         update(dt);
         if (active) Choreographer.getInstance().postFrameCallback(this);
     }
@@ -145,10 +146,9 @@ public final class ReorderSession implements View.OnTouchListener, Choreographer
         if (!active || settling) return;
         float top = pointerY - grabOffset;
         overlay.setTranslationY(top);
-        int first = list.getFirstVisiblePosition(), visible = list.getChildCount(), destination = from;
+        int visible = list.getChildCount(), destination = from;
         for (int offset = 0; offset < visible; offset++) {
-            int index = first + offset; if (index == from) continue;
-            View view = list.getChildAt(offset);
+            View view = list.getChildAt(offset); int index=port.index(view); if(index<0 || index==from)continue;
             float midpoint = view.getTop() + view.getHeight() / 2f - (index > from ? rowHeight : 0);
             int insertion = index - (index > from ? 1 : 0);
             destination = insertion;
@@ -157,12 +157,12 @@ public final class ReorderSession implements View.OnTouchListener, Choreographer
         }
         target = Math.max(0, Math.min(count - 1, destination));
         for (View view : new ArrayList<>(cells.keySet())) {
-            int index = list.getPositionForView(view);
+            int index = port.index(view);
             Cell state = cells.get(view);
-            if (index < first || index >= first + visible || index != state.index) { restore(view, state); cells.remove(view); }
+            if (index < 0 || view.getParent()!=list || index != state.index) { restore(view, state); cells.remove(view); }
         }
         for (int offset = 0; offset < visible; offset++) {
-            int index = first + offset; View view = list.getChildAt(offset);
+            View view = list.getChildAt(offset); int index=port.index(view); if(index<0)continue;
             Cell state = cells.get(view);
             if (state == null) { state = new Cell(view, index); cells.put(view, state); }
             float displacement = index > from && index <= target ? -rowHeight : index < from && index >= target ? rowHeight : 0;
@@ -175,7 +175,7 @@ public final class ReorderSession implements View.OnTouchListener, Choreographer
     private void drop() {
         if (!active || settling) return;
         settling = true; Choreographer.getInstance().removeFrameCallback(this);
-        View destination = list.getChildAt(target - list.getFirstVisiblePosition());
+        View destination = port.at(target);
         float end = destination == null ? overlay.getTranslationY() : target > from ? destination.getBottom() - bitmap.getHeight() : destination.getTop();
         if (reduced) { finish(true, 0); return; }
         final int ticket = generation;
@@ -198,6 +198,12 @@ public final class ReorderSession implements View.OnTouchListener, Choreographer
         if (surface.getParent() != null) surface.getParent().requestDisallowInterceptTouchEvent(false);
         emit(commit ? 2 : 3, commit ? target : detail);
     }
+    /** Restore before the plugin binds a recycled cell to a new identity. */
+    public void recycle(View descendant) {
+        View view=port.cell(descendant); Cell state=cells.remove(view);
+        if(state!=null)restore(view,state);
+    }
+    public static boolean supportsCollections(){return true;}
     public void cancel() { clearPending(); finish(false, 0); }
     public void setEnabled(boolean value) { enabled = value; if (!value) cancel(); }
     public void setReducedMotion(boolean value) { reduced = value; }

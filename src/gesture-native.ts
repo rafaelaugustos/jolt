@@ -1,4 +1,4 @@
-import { isIOS, type View, type ScrollView } from '@nativescript/core'
+import { isIOS, type View } from '@nativescript/core'
 import { liveValueInput, type DerivedValue } from './motion-value.js'
 import { nativeLiveNode } from './live-spring-driver.js'
 import { retainScrollDelegate } from './driver/ios-scroll-delegate.js'
@@ -32,7 +32,7 @@ export interface GestureDriver {
 }
 export function createGestureDriver(
   surface: View,
-  scroll: ScrollView | undefined,
+  scroll: View | undefined,
   values: readonly DerivedValue[],
   options: GestureSettings,
   callback: (state: number, vx: number, vy: number) => void,
@@ -54,6 +54,8 @@ export function createGestureDriver(
       throw new Error(
         'Rebuild the native app to use gesture contact events and bottomSheet().',
       )
+    if (scroll && typeof JoltGestureSession.supportsScrollAdapters !== 'function')
+      throw new Error('Rebuild the native app to use scroll handoff adapters.')
     const [x, y, scale, rotation] = nodes as [
       JoltLiveSpring,
       JoltLiveSpring,
@@ -112,6 +114,11 @@ export function createGestureDriver(
     throw new Error(
       'Rebuild the native app to use gesture contact events and bottomSheet().',
     )
+  if (
+    scroll &&
+    typeof org.rafaelaugusto.jolt.GestureSession.supportsScrollAdapters !== 'function'
+  )
+    throw new Error('Rebuild the native app to use scroll handoff adapters.')
   const [x, y, scale, rotation] = nodes as [
     org.rafaelaugusto.jolt.LiveSpring,
     org.rafaelaugusto.jolt.LiveSpring,

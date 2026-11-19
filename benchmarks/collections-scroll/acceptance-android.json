@@ -1,0 +1,978 @@
+{
+  "platform": "android",
+  "environment": "Pixel 7 / API 36 emulator / debug APK / production JS",
+  "base": "a37b0f5d45812ccd5091c78d5a19d1169c2b4820",
+  "candidate": "feat/rc16-collections-scroll; source changes in this PR; not RC.15",
+  "collectionPlugin": "6.1.3",
+  "scope": "Real native input. Producer timing excludes later binding graph evaluation and rendering. Native per-event JS callbacks are zero; fixture baseline deliberately installs its own JS listener. No physical hardware, CPU/PSS or frame-time claim.",
+  "audits": [
+    {
+      "scene": "Changes",
+      "name": "audit",
+      "count": 200,
+      "first": "row-0",
+      "commits": 0,
+      "cancels": 0,
+      "taps": 0,
+      "offset": 4952.380952380952,
+      "anchor": "row-100",
+      "anchorY": 0,
+      "requested": 64,
+      "effective": 168,
+      "rowSize": {
+        "width": 379.42857142857144,
+        "height": 49.523809523809526
+      }
+    },
+    {
+      "scene": "Changes",
+      "name": "audit",
+      "count": 201,
+      "first": "new-1795053509076",
+      "commits": 0,
+      "cancels": 0,
+      "taps": 0,
+      "offset": 5001.9047619047615,
+      "anchor": "row-100",
+      "anchorY": 0,
+      "requested": 64,
+      "effective": 168,
+      "rowSize": {
+        "width": 379.42857142857144,
+        "height": 49.523809523809526
+      }
+    },
+    {
+      "scene": "Reorder",
+      "name": "audit",
+      "count": 200,
+      "first": "row-1",
+      "commits": 1,
+      "cancels": 0,
+      "taps": 0,
+      "offset": 0,
+      "anchor": "row-1",
+      "anchorY": 0,
+      "panel": 0,
+      "travel": {
+        "offset": 0,
+        "updates": 3,
+        "callbacks": 0,
+        "minimum": 0,
+        "maximum": 0,
+        "producerMs": []
+      },
+      "lastMove": {
+        "key": "row-0",
+        "beforeKey": "row-4",
+        "fromIndex": 0,
+        "toIndex": 3,
+        "committed": "row-0"
+      },
+      "requested": 64,
+      "effective": 168,
+      "rowSize": {
+        "width": 379.42857142857144,
+        "height": 49.523809523809526
+      }
+    },
+    {
+      "scene": "Reorder",
+      "name": "audit",
+      "count": 200,
+      "first": "row-1",
+      "commits": 2,
+      "cancels": 0,
+      "taps": 0,
+      "offset": 7180.952380952381,
+      "anchor": "row-100",
+      "anchorY": 0,
+      "panel": 0,
+      "travel": {
+        "offset": 9280,
+        "updates": 552,
+        "callbacks": 0,
+        "minimum": 6244.190476190476,
+        "maximum": 11176.761904761905,
+        "producerMs": []
+      },
+      "lastMove": {
+        "key": "row-100",
+        "beforeKey": "row-146",
+        "fromIndex": 100,
+        "toIndex": 145,
+        "committed": "row-100"
+      },
+      "requested": 64,
+      "effective": 168,
+      "rowSize": {
+        "width": 379.42857142857144,
+        "height": 49.523809523809526
+      }
+    },
+    {
+      "scene": "Reorder",
+      "name": "audit",
+      "count": 200,
+      "first": "row-0",
+      "commits": 2,
+      "cancels": 1,
+      "taps": 0,
+      "offset": 2329.1428571428573,
+      "anchor": "row-47",
+      "anchorY": -1.5238095238095237,
+      "panel": 0,
+      "travel": {
+        "offset": 3009.5238095238096,
+        "updates": 1174,
+        "callbacks": 0,
+        "minimum": 3009.5238095238096,
+        "maximum": 3361.904761904762,
+        "producerMs": []
+      },
+      "lastMove": {
+        "key": "row-100",
+        "beforeKey": "row-146",
+        "fromIndex": 100,
+        "toIndex": 145,
+        "committed": "row-100"
+      },
+      "requested": 64,
+      "effective": 168,
+      "rowSize": {
+        "width": 379.42857142857144,
+        "height": 49.523809523809526
+      }
+    },
+    {
+      "scene": "Reorder",
+      "name": "audit",
+      "count": 199,
+      "first": "row-0",
+      "commits": 2,
+      "cancels": 2,
+      "taps": 0,
+      "offset": 2038.857142857143,
+      "anchor": "row-41",
+      "anchorY": -8.380952380952381,
+      "panel": 0,
+      "travel": {
+        "offset": 2632.3809523809523,
+        "updates": 1925,
+        "callbacks": 0,
+        "minimum": 2632.3809523809523,
+        "maximum": 3009.904761904762,
+        "producerMs": []
+      },
+      "lastMove": {
+        "key": "row-100",
+        "beforeKey": "row-146",
+        "fromIndex": 100,
+        "toIndex": 145,
+        "committed": "row-100"
+      },
+      "requested": 64,
+      "effective": 168,
+      "rowSize": {
+        "width": 379.42857142857144,
+        "height": 49.523809523809526
+      }
+    },
+    {
+      "scene": "Reorder",
+      "name": "audit",
+      "count": 199,
+      "first": "row-0",
+      "commits": 2,
+      "cancels": 3,
+      "taps": 0,
+      "offset": 1745.904761904762,
+      "anchor": "row-35",
+      "anchorY": -12.571428571428571,
+      "panel": 0,
+      "travel": {
+        "offset": 2252.5714285714284,
+        "updates": 2645,
+        "callbacks": 0,
+        "minimum": 2252.5714285714284,
+        "maximum": 2632.7619047619046,
+        "producerMs": []
+      },
+      "lastMove": {
+        "key": "row-100",
+        "beforeKey": "row-146",
+        "fromIndex": 100,
+        "toIndex": 145,
+        "committed": "row-100"
+      },
+      "requested": 64,
+      "effective": 168,
+      "rowSize": {
+        "width": 379.42857142857144,
+        "height": 49.523809523809526
+      }
+    },
+    {
+      "scene": "Reorder",
+      "name": "audit",
+      "count": 200,
+      "first": "row-1",
+      "commits": 1,
+      "cancels": 0,
+      "taps": 0,
+      "offset": 0,
+      "anchor": "row-1",
+      "anchorY": 0,
+      "panel": 0,
+      "travel": {
+        "offset": 0,
+        "updates": 3,
+        "callbacks": 0,
+        "minimum": 0,
+        "maximum": 0,
+        "producerMs": []
+      },
+      "lastMove": {
+        "key": "row-0",
+        "beforeKey": "row-4",
+        "fromIndex": 0,
+        "toIndex": 3,
+        "committed": "row-0"
+      },
+      "requested": 64,
+      "effective": 168,
+      "rowSize": {
+        "width": 379.42857142857144,
+        "height": 49.523809523809526
+      }
+    },
+    {
+      "scene": "Reorder",
+      "name": "audit",
+      "count": 200,
+      "first": "row-1",
+      "commits": 1,
+      "cancels": 0,
+      "taps": 0,
+      "offset": 138.66666666666666,
+      "anchor": "row-3",
+      "anchorY": -39.61904761904762,
+      "panel": 0,
+      "travel": {
+        "offset": 167.61904761904762,
+        "updates": 44,
+        "callbacks": 0,
+        "minimum": 0,
+        "maximum": 167.61904761904762,
+        "producerMs": []
+      },
+      "lastMove": {
+        "key": "row-0",
+        "beforeKey": "row-4",
+        "fromIndex": 0,
+        "toIndex": 3,
+        "committed": "row-0"
+      },
+      "requested": 64,
+      "effective": 168,
+      "rowSize": {
+        "width": 379.42857142857144,
+        "height": 49.523809523809526
+      }
+    },
+    {
+      "scene": "List handoff",
+      "name": "audit",
+      "panel": 0.19047619047615827,
+      "scroll": 112,
+      "starts": 1,
+      "ends": 1,
+      "cancels": 0
+    },
+    {
+      "scene": "List handoff",
+      "name": "audit",
+      "panel": 143.04761904761907,
+      "scroll": 0,
+      "starts": 2,
+      "ends": 2,
+      "cancels": 0
+    },
+    {
+      "scene": "CV handoff",
+      "name": "audit",
+      "panel": 0.1904761904761605,
+      "scroll": 134.0952380952381,
+      "starts": 1,
+      "ends": 1,
+      "cancels": 0
+    },
+    {
+      "scene": "CV handoff",
+      "name": "audit",
+      "panel": 155.23809523809527,
+      "scroll": 0,
+      "starts": 2,
+      "ends": 2,
+      "cancels": 0
+    },
+    {
+      "scene": "X handoff",
+      "name": "audit",
+      "panel": -3.019806626980426e-14,
+      "scroll": 133.33333333333334,
+      "starts": 1,
+      "ends": 1,
+      "cancels": 0
+    },
+    {
+      "scene": "LTR",
+      "name": "audit",
+      "order": ["Bravo", "Alpha", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel"],
+      "commits": 1,
+      "offset": 0
+    },
+    {
+      "scene": "RTL",
+      "name": "audit",
+      "order": ["Bravo", "Alpha", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel"],
+      "commits": 1,
+      "offset": 763.8095238095239
+    },
+    {
+      "scene": "Y source",
+      "name": "audit",
+      "source": {
+        "offset": 400,
+        "updates": 3,
+        "callbacks": 0,
+        "minimum": 0,
+        "maximum": 400,
+        "producerMs": [0.007916]
+      },
+      "baseline": {
+        "offset": 400,
+        "updates": 1,
+        "callbacks": 1,
+        "minimum": 0,
+        "maximum": 400,
+        "producerMs": [1.044999999954598]
+      },
+      "stride": 0,
+      "widget": 400
+    },
+    {
+      "scene": "Y source",
+      "name": "audit",
+      "source": {
+        "offset": 134.85714285714286,
+        "updates": 46,
+        "callbacks": 0,
+        "minimum": 0,
+        "maximum": 134.85714285714286,
+        "producerMs": [
+          0.00775, 0.005875, 0.001083, 0.001875, 0.001292, 0.00125, 0.001209, 0.000958,
+          0.001042, 0.001042, 0.001084, 0.00125, 0.001584, 0.001166, 0.001125, 0.001416,
+          0.001208, 0.001084, 0.001625, 0.001458, 0.001417, 0.001167, 0.001375, 0.001167,
+          0.001333, 0.00175, 0.002209, 0.001875, 0.002, 0.001625, 0.001875, 0.002166,
+          0.001584, 0.002166, 0.002875, 0.002042, 0.002, 0.002, 0.00725, 0.067875,
+          0.002166, 0.005125
+        ]
+      },
+      "baseline": {
+        "offset": 134.85714285714286,
+        "updates": 44,
+        "callbacks": 44,
+        "minimum": 0,
+        "maximum": 134.85714285714286,
+        "producerMs": [
+          0.40800000078161247, 7.6519999993324745, 0.39900000047055073,
+          0.19799999971291982, 0.24599999960628338, 0.2169999997713603,
+          0.8950000001350418, 0.46600000039325096, 0.17100000058417208,
+          0.1879999999946449, 0.19800000061513856, 0.1769999999087304,
+          0.20599999971454963, 3.04800000047544, 0.17000000024563633, 12.633999999699881,
+          0.17800000024726614, 0.32999999984167516, 0.19599999993806705,
+          6.237999999924796, 0.18499999988125637, 0.19599999996717088, 0.6750000002502929,
+          0.2240000003366731, 0.21299999934853986, 0.44600000002537854, 5.333000000071479,
+          0.2489999997196719, 0.2640000002575107, 0.23400000008405186, 0.4090000002179295,
+          0.5940000000991859, 0.24300000042421743, 0.27400000000488944,
+          0.2989999993587844, 0.3790000000735745, 0.27199999932781793, 0.2949999998381827,
+          7.510000000387663, 0.31599999967147596, 0.2759999997506384, 0.42799999937415123
+        ]
+      },
+      "stride": 0,
+      "widget": 134.85714285714286
+    },
+    {
+      "scene": "X source",
+      "name": "audit",
+      "source": {
+        "offset": 400,
+        "updates": 3,
+        "callbacks": 0,
+        "minimum": 0,
+        "maximum": 400,
+        "producerMs": [0.005]
+      },
+      "baseline": {
+        "offset": 400,
+        "updates": 1,
+        "callbacks": 1,
+        "minimum": 0,
+        "maximum": 400,
+        "producerMs": [0.2029999996011611]
+      },
+      "stride": 0,
+      "widget": 400
+    },
+    {
+      "scene": "X source",
+      "name": "audit",
+      "source": {
+        "offset": 92.19047619047619,
+        "updates": 41,
+        "callbacks": 0,
+        "minimum": 0,
+        "maximum": 92.19047619047619,
+        "producerMs": [
+          0.005708, 0.005416, 0.001542, 0.001666, 0.00125, 0.001584, 0.001333, 0.001583,
+          0.001583, 0.001709, 0.001583, 0.0015, 0.00175, 0.001833, 0.0015, 0.00175,
+          0.001584, 0.001958, 0.001833, 0.001708, 0.0035, 0.001541, 0.001791, 0.001583,
+          0.002084, 0.004333, 0.001792, 0.002542, 0.00175, 0.002208, 0.00225, 0.00175,
+          0.002167, 0.002209, 0.005125, 0.002083, 0.00225
+        ]
+      },
+      "baseline": {
+        "offset": 92.19047619047619,
+        "updates": 39,
+        "callbacks": 39,
+        "minimum": 0,
+        "maximum": 92.19047619047619,
+        "producerMs": [
+          0.4790000002249144, 0.18399999954272062, 0.1569999994826503,
+          0.26100000011501834, 0.17100000055506825, 0.16500000038649887,
+          0.21199999994132668, 0.17800000018905848, 0.4410000001662411,
+          3.6110000000917353, 2.472000000125263, 0.3940000005532056, 0.19100000010803342,
+          0.2020000001648441, 0.20899999985704198, 0.22100000019418076,
+          0.21000000013737008, 0.3579999993671663, 0.2539999996079132,
+          0.26299999991897494, 0.24000000028172508, 0.2549999998882413,
+          0.28099999960977584, 0.2560000002849847, 0.330999999307096, 0.29500000074040145,
+          0.2739999999757856, 0.2979999999515712, 0.28299999941373244, 0.8059999999823049,
+          0.3410000008298084, 0.25700000062352046, 0.27300000056857243,
+          0.29300000006332994, 7.708000000100583, 0.3010000000358559, 0.2809999996679835
+        ]
+      },
+      "stride": 0,
+      "widget": 92.19047619047619
+    },
+    {
+      "scene": "X source",
+      "name": "audit",
+      "source": {
+        "offset": 400,
+        "updates": 43,
+        "callbacks": 0,
+        "minimum": 0,
+        "maximum": 400,
+        "producerMs": [
+          0.005708, 0.005416, 0.001542, 0.001666, 0.00125, 0.001584, 0.001333, 0.001583,
+          0.001583, 0.001709, 0.001583, 0.0015, 0.00175, 0.001833, 0.0015, 0.00175,
+          0.001584, 0.001958, 0.001833, 0.001708, 0.0035, 0.001541, 0.001791, 0.001583,
+          0.002084, 0.004333, 0.001792, 0.002542, 0.00175, 0.002208, 0.00225, 0.00175,
+          0.002167, 0.002209, 0.005125, 0.002083, 0.00225, 0.004958
+        ]
+      },
+      "baseline": {
+        "offset": 400,
+        "updates": 40,
+        "callbacks": 40,
+        "minimum": 0,
+        "maximum": 400,
+        "producerMs": [
+          0.4790000002249144, 0.18399999954272062, 0.1569999994826503,
+          0.26100000011501834, 0.17100000055506825, 0.16500000038649887,
+          0.21199999994132668, 0.17800000018905848, 0.4410000001662411,
+          3.6110000000917353, 2.472000000125263, 0.3940000005532056, 0.19100000010803342,
+          0.2020000001648441, 0.20899999985704198, 0.22100000019418076,
+          0.21000000013737008, 0.3579999993671663, 0.2539999996079132,
+          0.26299999991897494, 0.24000000028172508, 0.2549999998882413,
+          0.28099999960977584, 0.2560000002849847, 0.330999999307096, 0.29500000074040145,
+          0.2739999999757856, 0.2979999999515712, 0.28299999941373244, 0.8059999999823049,
+          0.3410000008298084, 0.25700000062352046, 0.27300000056857243,
+          0.29300000006332994, 7.708000000100583, 0.3010000000358559, 0.2809999996679835,
+          0.18600000021979213
+        ]
+      },
+      "stride": 0,
+      "widget": 400
+    },
+    {
+      "scene": "CV source",
+      "name": "audit",
+      "source": {
+        "offset": 399.99999999999994,
+        "updates": 3,
+        "callbacks": 0,
+        "minimum": 0,
+        "maximum": 399.99999999999994,
+        "producerMs": []
+      },
+      "stride": 129.9047619047619,
+      "widget": 400
+    },
+    {
+      "scene": "CV source",
+      "name": "audit",
+      "source": {
+        "offset": 399.99999999999994,
+        "updates": 5,
+        "callbacks": 0,
+        "minimum": 0,
+        "maximum": 399.99999999999994,
+        "producerMs": []
+      },
+      "stride": 129.9047619047619,
+      "widget": 400
+    }
+  ],
+  "horizontalAudits": [
+    {
+      "scene": "LTR",
+      "name": "audit",
+      "order": ["Bravo", "Alpha", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel"],
+      "commits": 1,
+      "cancels": 0,
+      "offset": 0,
+      "extent": 763.8095238095239,
+      "travel": {
+        "offset": 0,
+        "updates": 3,
+        "callbacks": 0,
+        "minimum": 0,
+        "maximum": 0,
+        "producerMs": []
+      }
+    },
+    {
+      "scene": "LTR",
+      "name": "audit",
+      "order": ["Alpha", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel"],
+      "commits": 2,
+      "cancels": 0,
+      "offset": 0,
+      "extent": 763.8095238095239,
+      "travel": {
+        "offset": 0,
+        "updates": 176,
+        "callbacks": 0,
+        "minimum": 0,
+        "maximum": 763.8095238095239,
+        "producerMs": []
+      }
+    },
+    {
+      "scene": "LTR",
+      "name": "audit",
+      "order": ["Bravo", "Alpha", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel"],
+      "commits": 3,
+      "cancels": 0,
+      "offset": 0,
+      "extent": 763.8095238095239,
+      "travel": {
+        "offset": 0,
+        "updates": 177,
+        "callbacks": 0,
+        "minimum": 0,
+        "maximum": 0,
+        "producerMs": []
+      }
+    },
+    {
+      "scene": "LTR",
+      "name": "audit",
+      "order": ["Alpha", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel"],
+      "commits": 0,
+      "cancels": 1,
+      "offset": 0,
+      "extent": 763.8095238095239,
+      "travel": {
+        "offset": 0,
+        "updates": 2,
+        "callbacks": 0,
+        "minimum": 0,
+        "maximum": 0,
+        "producerMs": []
+      }
+    },
+    {
+      "scene": "LTR",
+      "name": "audit",
+      "order": ["Bravo", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel"],
+      "commits": 0,
+      "cancels": 1,
+      "offset": 0,
+      "extent": 641.9047619047619,
+      "travel": {
+        "offset": 0,
+        "updates": 3,
+        "callbacks": 0,
+        "minimum": 0,
+        "maximum": 0,
+        "producerMs": []
+      }
+    },
+    {
+      "scene": "LTR",
+      "name": "audit",
+      "order": ["Alpha", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel"],
+      "commits": 0,
+      "cancels": 1,
+      "offset": 0,
+      "extent": 793.9047619047619,
+      "travel": {
+        "offset": 0,
+        "updates": 3,
+        "callbacks": 0,
+        "minimum": 0,
+        "maximum": 0,
+        "producerMs": []
+      }
+    },
+    {
+      "scene": "RTL",
+      "name": "audit",
+      "order": ["Bravo", "Alpha", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel"],
+      "commits": 1,
+      "cancels": 0,
+      "offset": 763.8095238095239,
+      "extent": 763.8095238095239,
+      "travel": {
+        "offset": 763.8095238095239,
+        "updates": 3,
+        "callbacks": 0,
+        "minimum": 763.8095238095239,
+        "maximum": 763.8095238095239,
+        "producerMs": []
+      }
+    },
+    {
+      "scene": "RTL",
+      "name": "audit",
+      "order": ["Alpha", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel"],
+      "commits": 2,
+      "cancels": 0,
+      "offset": 763.8095238095239,
+      "extent": 763.8095238095239,
+      "travel": {
+        "offset": 763.8095238095239,
+        "updates": 178,
+        "callbacks": 0,
+        "minimum": 0,
+        "maximum": 763.8095238095239,
+        "producerMs": []
+      }
+    },
+    {
+      "scene": "RTL",
+      "name": "audit",
+      "order": ["Bravo", "Alpha", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel"],
+      "commits": 3,
+      "cancels": 0,
+      "offset": 763.8095238095239,
+      "extent": 763.8095238095239,
+      "travel": {
+        "offset": 763.8095238095239,
+        "updates": 179,
+        "callbacks": 0,
+        "minimum": 763.8095238095239,
+        "maximum": 763.8095238095239,
+        "producerMs": []
+      }
+    },
+    {
+      "scene": "RTL",
+      "name": "audit",
+      "order": ["Alpha", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel"],
+      "commits": 0,
+      "cancels": 1,
+      "offset": 763.8095238095239,
+      "extent": 763.8095238095239,
+      "travel": {
+        "offset": 763.8095238095239,
+        "updates": 2,
+        "callbacks": 0,
+        "minimum": 763.8095238095239,
+        "maximum": 763.8095238095239,
+        "producerMs": []
+      }
+    },
+    {
+      "scene": "RTL",
+      "name": "audit",
+      "order": ["Bravo", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel"],
+      "commits": 0,
+      "cancels": 1,
+      "offset": 641.9047619047619,
+      "extent": 641.9047619047619,
+      "travel": {
+        "offset": 641.9047619047619,
+        "updates": 3,
+        "callbacks": 0,
+        "minimum": 641.9047619047619,
+        "maximum": 763.8095238095239,
+        "producerMs": []
+      }
+    },
+    {
+      "scene": "RTL",
+      "name": "audit",
+      "order": ["Alpha", "Bravo", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel"],
+      "commits": 0,
+      "cancels": 1,
+      "offset": 763.8095238095239,
+      "extent": 793.9047619047619,
+      "travel": {
+        "offset": 763.8095238095239,
+        "updates": 3,
+        "callbacks": 0,
+        "minimum": 763.8095238095239,
+        "maximum": 763.8095238095239,
+        "producerMs": []
+      }
+    }
+  ],
+  "lifecycle": [
+    {
+      "scene": "Changes",
+      "name": "audit",
+      "count": 200,
+      "first": "row-0",
+      "commits": 0,
+      "cancels": 0,
+      "taps": 0,
+      "offset": 0,
+      "anchor": "row-0",
+      "anchorY": 0,
+      "requested": 64,
+      "effective": 168,
+      "rowSize": {
+        "width": 379.42857142857144,
+        "height": 49.523809523809526
+      }
+    },
+    {
+      "name": "background-events",
+      "events": [
+        {
+          "scene": "Changes",
+          "name": "scene",
+          "count": 200,
+          "first": "row-0",
+          "commits": 0,
+          "cancels": 0,
+          "taps": 0,
+          "offset": 0,
+          "anchor": "row-0",
+          "requested": 64
+        },
+        {
+          "scene": "Changes",
+          "name": "ready",
+          "count": 200,
+          "first": "row-0",
+          "commits": 0,
+          "cancels": 0,
+          "taps": 0,
+          "offset": 0,
+          "anchor": "row-0",
+          "anchorY": 0,
+          "requested": 64,
+          "effective": 168,
+          "rowSize": {
+            "width": 379.42857142857144,
+            "height": 49.523809523809526
+          }
+        },
+        {
+          "scene": "LTR",
+          "name": "scene",
+          "order": [
+            "Alpha",
+            "Bravo",
+            "Charlie",
+            "Delta",
+            "Echo",
+            "Foxtrot",
+            "Golf",
+            "Hotel"
+          ],
+          "commits": 0,
+          "cancels": 0,
+          "offset": 0,
+          "extent": 0
+        },
+        {
+          "scene": "LTR",
+          "name": "ready",
+          "order": [
+            "Alpha",
+            "Bravo",
+            "Charlie",
+            "Delta",
+            "Echo",
+            "Foxtrot",
+            "Golf",
+            "Hotel"
+          ],
+          "commits": 0,
+          "cancels": 0,
+          "offset": 0,
+          "extent": 763.8095238095239,
+          "travel": {
+            "offset": 0,
+            "updates": 1,
+            "callbacks": 0,
+            "minimum": 0,
+            "maximum": 0,
+            "producerMs": []
+          }
+        },
+        {
+          "scene": "LTR",
+          "name": "drag start",
+          "order": [
+            "Alpha",
+            "Bravo",
+            "Charlie",
+            "Delta",
+            "Echo",
+            "Foxtrot",
+            "Golf",
+            "Hotel"
+          ],
+          "commits": 0,
+          "cancels": 0,
+          "offset": 0,
+          "extent": 763.8095238095239,
+          "travel": {
+            "offset": 0,
+            "updates": 2,
+            "callbacks": 0,
+            "minimum": 0,
+            "maximum": 0,
+            "producerMs": []
+          },
+          "key": "Alpha"
+        },
+        {
+          "scene": "LTR",
+          "name": "cancel",
+          "order": [
+            "Alpha",
+            "Bravo",
+            "Charlie",
+            "Delta",
+            "Echo",
+            "Foxtrot",
+            "Golf",
+            "Hotel"
+          ],
+          "commits": 0,
+          "cancels": 1,
+          "offset": 0,
+          "extent": 763.8095238095239,
+          "travel": {
+            "offset": 0,
+            "updates": 2,
+            "callbacks": 0,
+            "minimum": 0,
+            "maximum": 0,
+            "producerMs": []
+          }
+        },
+        {
+          "scene": "Changes",
+          "name": "scene",
+          "count": 200,
+          "first": "row-0",
+          "commits": 0,
+          "cancels": 0,
+          "taps": 0,
+          "offset": 0,
+          "anchor": "row-0",
+          "requested": 64
+        },
+        {
+          "scene": "Changes",
+          "name": "ready",
+          "count": 200,
+          "first": "row-0",
+          "commits": 0,
+          "cancels": 0,
+          "taps": 0,
+          "offset": 0,
+          "anchor": "row-0",
+          "anchorY": 0,
+          "requested": 64,
+          "effective": 168,
+          "rowSize": {
+            "width": 379.42857142857144,
+            "height": 49.523809523809526
+          }
+        },
+        {
+          "scene": "Changes",
+          "name": "audit",
+          "count": 200,
+          "first": "row-0",
+          "commits": 0,
+          "cancels": 0,
+          "taps": 0,
+          "offset": 0,
+          "anchor": "row-0",
+          "anchorY": 0,
+          "requested": 64,
+          "effective": 168,
+          "rowSize": {
+            "width": 379.42857142857144,
+            "height": 49.523809523809526
+          }
+        }
+      ]
+    },
+    {
+      "scene": "LTR",
+      "name": "audit",
+      "order": ["Bravo", "Alpha", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel"],
+      "commits": 1,
+      "cancels": 0,
+      "offset": 0,
+      "extent": 763.8095238095239,
+      "travel": {
+        "offset": 0,
+        "updates": 3,
+        "callbacks": 0,
+        "minimum": 0,
+        "maximum": 0,
+        "producerMs": []
+      }
+    },
+    {
+      "scene": "LTR",
+      "name": "audit",
+      "order": ["Bravo", "Alpha", "Charlie", "Delta", "Echo", "Foxtrot", "Golf", "Hotel"],
+      "commits": 1,
+      "cancels": 0,
+      "offset": 0,
+      "extent": 763.8095238095239,
+      "travel": {
+        "offset": 0,
+        "updates": 3,
+        "callbacks": 0,
+        "minimum": 0,
+        "maximum": 0,
+        "producerMs": []
+      }
+    }
+  ]
+}

@@ -19,6 +19,7 @@
           "animateSize",
           "animateText",
           "bind",
+          "collectionViewListAdapter",
           "conceal",
           "confetti",
           "configure",
@@ -95,7 +96,7 @@
       {
         "entry": "./gestures",
         "file": "src/gestures/index.ts",
-        "exports": ["GestureSurface", "gestureRelations", "gestures"]
+        "exports": ["GestureSurface", "gestureRelations", "gestures", "scrollHandoff"]
       },
       {
         "entry": "./native",
@@ -130,6 +131,7 @@
         "exports": [
           "ReorderHandle",
           "ReorderSurface",
+          "collectionViewReorderAdapter",
           "coreListAdapter",
           "realizedRowsAdapter",
           "reorder"
@@ -2635,6 +2637,36 @@
       "contract": "Unpublished native-only optional endpoint for an app-owned UIKit recognizer or Android Jolt GesturePeer. Disposing removes Jolt links without destroying the app recognizer; no arbitrary Android detector/OS navigation adapter. Web applications coordinate Jolt pointer controllers.",
       "issues": [497],
       "evidence": ["src/gesture-relations-native.ts", "docs/guide/motion-contracts.md"]
+    },
+    {
+      "entry": ".",
+      "symbol": "collectionViewListAdapter",
+      "nativeStatus": "pending",
+      "webStatus": "platform-specific",
+      "counterpart": "listChanges",
+      "contract": "Source candidate: optional community CollectionView 6.1.x native vertical one-span adapter. Web reuses its explicit rows/render/anchor/recycling adapter; no shared virtualizer.",
+      "issues": [511],
+      "evidence": ["src/collection-view.ts", "benchmarks/collections-scroll/README.md"]
+    },
+    {
+      "entry": "./reorder",
+      "symbol": "collectionViewReorderAdapter",
+      "nativeStatus": "pending",
+      "webStatus": "platform-specific",
+      "counterpart": "reorder",
+      "contract": "Source candidate: vertical one-span UICollectionView/RecyclerView input, native edge scrolling and recycling. Web reorder cancels a contact when its realized keys or DOM targets change; pin the realized window for continuous drag.",
+      "issues": [512],
+      "evidence": ["src/collection-view.ts", "benchmarks/collections-scroll/README.md"]
+    },
+    {
+      "entry": "./gestures",
+      "symbol": "scrollHandoff",
+      "nativeStatus": "pending",
+      "webStatus": "platform-specific",
+      "counterpart": "gestures",
+      "contract": "Source candidate: native Core ListView, linear CollectionView and horizontal Core ScrollView port. Web keeps existing scrollView input with browser ownership and scheduling.",
+      "issues": [496],
+      "evidence": ["src/scroll-handoff.ts", "benchmarks/collections-scroll/README.md"]
     }
   ],
   "contracts": [
@@ -2929,6 +2961,16 @@
         "benchmarks/web-motion-contracts/contracts.spec.ts",
         "packages/swiftui/Tests/JoltSwiftUITests/MotionContractsTests.swift",
         "docs/guide/motion-contracts.md"
+      ]
+    },
+    {
+      "id": "collections-scroll-source-candidate",
+      "issues": [495, 496, 510, 511, 512, 513],
+      "limit": "Source candidate after RC.15: native CollectionView adapters, continuous scroll ownership, SwiftUI sheet continuity and horizontal/RTL realized reorder. Simulator/emulator and browser acceptance; physical performance and accessibility expansion excluded. Producer-only measurements do not include later graph evaluation/rendering. Web virtualization remains application-owned and a recycled drag target cancels contact.",
+      "evidence": [
+        "docs/guide/collections-scroll.md",
+        "benchmarks/collections-scroll/README.md",
+        "benchmarks/web-gestures/gestures.spec.ts"
       ]
     }
   ]

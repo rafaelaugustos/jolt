@@ -18,6 +18,10 @@ export interface RealizedReorderOptions<K extends ReorderKey = ReorderKey> exten
   items(): readonly RealizedReorderItem<K>[]
   /** Defaults to the closest Core ScrollView ancestor. */
   scroll?: ScrollView
+  /** Defaults to the ScrollView orientation. */
+  axis?: 'x' | 'y'
+  /** Logical item order on the horizontal axis; does not change application layout. */
+  direction?: 'ltr' | 'rtl'
 }
 function descendant(view: View, parent: View) {
   for (let current: View['parent'] = view; current; current = current.parent)
@@ -27,7 +31,7 @@ function descendant(view: View, parent: View) {
 
 export function realizedRowsAdapter<K extends ReorderKey>(
   container: LayoutBase,
-  options: Pick<RealizedReorderOptions<K>, 'items' | 'scroll'>,
+  options: Pick<RealizedReorderOptions<K>, 'items' | 'scroll' | 'axis' | 'direction'>,
 ): ReorderAdapter<RealizedReorderItem<K>> {
   if (
     !(container instanceof LayoutBase) ||
@@ -42,13 +46,20 @@ export function realizedRowsAdapter<K extends ReorderKey>(
         scroll = parent
         break
       }
-  if (
-    !(scroll instanceof ScrollView) ||
-    scroll.orientation !== 'vertical' ||
-    !descendant(container, scroll)
-  )
-    throw new TypeError('Realized reorder requires a vertical Core ScrollView ancestor.')
+  if (!(scroll instanceof ScrollView) || !descendant(container, scroll))
+    throw new TypeError('Realized reorder requires a Core ScrollView ancestor.')
   const source = scroll
+  const axis = options.axis ?? (scroll.orientation === 'horizontal' ? 'x' : 'y')
+  const direction = options.direction ?? 'ltr'
+  if (
+    !['x', 'y'].includes(axis) ||
+    !['ltr', 'rtl'].includes(direction) ||
+    (axis === 'x') !== (scroll.orientation === 'horizontal') ||
+    (axis === 'y' && direction === 'rtl')
+  )
+    throw new TypeError('Reorder axis must match its ScrollView; RTL needs the x axis.')
+  const horizontal = axis === 'x',
+    rtl = direction === 'rtl'
   const read = () => {
     const rows = [...options.items()]
     if (rows.length > 100 || new Set(rows.map((row) => row.target)).size !== rows.length)
@@ -124,15 +135,17 @@ export function realizedRowsAdapter<K extends ReorderKey>(
             if (!row || !handle?.isLoaded) return
             const location = row.target.getLocationRelativeTo(source)
             if (location) {
-              const height = row.target.getActualSize().height,
-                viewport = source.getActualSize().height
-              if (location.y < 0)
-                source.scrollToVerticalOffset(source.verticalOffset + location.y, false)
-              else if (location.y + height > viewport)
-                source.scrollToVerticalOffset(
-                  source.verticalOffset + location.y + height - viewport,
-                  false,
-                )
+              const size = row.target.getActualSize(),
+                viewport = source.getActualSize()
+              const start = horizontal ? location.x : location.y
+              const length = horizontal ? size.width : size.height
+              const extent = horizontal ? viewport.width : viewport.height
+              const delta = start < 0 ? start : Math.max(0, start + length - extent)
+              if (delta) {
+                if (horizontal)
+                  source.scrollToHorizontalOffset(source.horizontalOffset + delta, false)
+                else source.scrollToVerticalOffset(source.verticalOffset + delta, false)
+              }
             }
             handle.focus()
             if (accessible) handle.accessibilityScreenChanged()
@@ -161,10 +174,14 @@ export function realizedRowsAdapter<K extends ReorderKey>(
         edgeSize: config.edgeSize,
         edgeSpeed: config.edgeSpeed,
         reducedMotion: config.reducedMotion,
+        horizontal,
+        rtl,
       })
       if (isIOS) {
         if (typeof JoltRealizedReorder === 'undefined')
           throw new Error('Rebuild the native application for realized-row reorder.')
+        if (horizontal && !JoltRealizedReorder.supportsAxes?.())
+          throw new Error('Rebuild the native app to use horizontal reorder.')
         native = JoltRealizedReorder.attachContainerOptionsOnState(
           source.nativeViewProtected,
           container.nativeViewProtected,
@@ -174,6 +191,8 @@ export function realizedRowsAdapter<K extends ReorderKey>(
       } else {
         if (typeof org.rafaelaugusto.jolt.RealizedReorder === 'undefined')
           throw new Error('Rebuild the native application for realized-row reorder.')
+        if (horizontal && !org.rafaelaugusto.jolt.RealizedReorder.supportsAxes?.())
+          throw new Error('Rebuild the native app to use horizontal reorder.')
         native = new org.rafaelaugusto.jolt.RealizedReorder(
           source.nativeViewProtected,
           container.nativeViewProtected,
@@ -191,20 +210,26 @@ export function realizedRowsAdapter<K extends ReorderKey>(
               !row.target.isLoaded ||
               !row.target.nativeViewProtected ||
               !positions[i] ||
-              row.target.getActualSize().height <= 0,
+              (horizontal
+                ? row.target.getActualSize().width
+                : row.target.getActualSize().height) <= 0,
           )
         )
           throw new Error('Wait for realized reorder rows to finish layout.')
+        const geometry = rows.map((row, i) => {
+          const size = row.target.getActualSize()
+          const start = horizontal ? positions[i]!.x : positions[i]!.y
+          const length = horizontal ? size.width : size.height
+          return { start: rtl ? -start - length : start, length }
+        })
         if (
-          rows.some(
+          geometry.some(
             (row, i) =>
-              i > 0 &&
-              positions[i]!.y <
-                positions[i - 1]!.y + rows[i - 1]!.target.getActualSize().height - 0.5,
+              i > 0 && row.start < geometry[i - 1]!.start + geometry[i - 1]!.length - 0.5,
           )
         )
           throw new TypeError(
-            'Realized reorder rows must be vertical, ordered and nonoverlapping.',
+            'Realized reorder items must follow the declared axis/direction without overlap.',
           )
         const handles = rows.map((row) => row.handle ?? row.target)
         if (isIOS)

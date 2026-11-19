@@ -26,7 +26,7 @@ static double clamp(double value, double minimum, double maximum) { return MAX(m
 @property(nonatomic) JoltLiveSpring *x, *y, *scale, *rotation;
 @property(nonatomic) double minX, maxX, minY, maxY, minScale, maxScale, velocityX, velocityY, scrollPosition;
 @property(nonatomic, readwrite) BOOL active;
-@property(nonatomic) BOOL enabled, disposed, contactEvents, contact, fromScroll, adjusting, ending, replayOnly;
+@property(nonatomic) BOOL enabled, disposed, contactEvents, contact, fromScroll, adjusting, ending, replayOnly, horizontal, panelOwnsVelocity;
 @property(nonatomic, copy) void (^onState)(NSInteger, double, double);
 - (void)touchStarted:(UITouch *)touch;
 - (void)finish:(BOOL)cancelled;
@@ -74,7 +74,12 @@ static double clamp(double value, double minimum, double maximum) { return MAX(m
     }
 }
 - (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event { self.state = UIGestureRecognizerStateCancelled; [self.owner finish:YES]; }
-- (void)reset { [super reset]; [self.contacts removeAllObjects]; self.delta = CGPointZero; self.velocity = CGPointZero; }
+- (void)reset {
+    // UIKit does not send an action when a still-possible recognizer loses a
+    // failure relationship. Release its pending scroll lease before reuse.
+    if (!self.owner.active) [self.owner finish:YES];
+    [super reset]; [self.contacts removeAllObjects]; self.delta = CGPointZero; self.velocity = CGPointZero;
+}
 @end
 
 @implementation JoltGestureSession
@@ -86,12 +91,15 @@ static double clamp(double value, double minimum, double maximum) { return MAX(m
     return nil;
 }
 + (BOOL)supportsContactEvents { return YES; }
++ (BOOL)supportsScrollAdapters { return YES; }
 + (BOOL)hasSession:(UIView *)surface {
     for (UIGestureRecognizer *g in surface.gestureRecognizers) if ([g isKindOfClass:JoltAxisPan.class]) return YES;
     return NO;
 }
 + (instancetype)attach:(UIView *)surface scroll:(UIScrollView *)scroll x:(JoltLiveSpring *)x y:(JoltLiveSpring *)y scale:(JoltLiveSpring *)scale rotation:(JoltLiveSpring *)rotation options:(NSString *)options onState:(void (^)(NSInteger,double,double))onState {
     NSDictionary *config = [NSJSONSerialization JSONObjectWithData:[options dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
+    if(scroll && (![scroll isKindOfClass:UIScrollView.class] || ![scroll isDescendantOfView:surface]))
+        [NSException raise:NSInvalidArgumentException format:@"Handoff needs a descendant native ScrollView, ListView or CollectionView"];
     if ([config[@"replay"] boolValue] && [self hasSession:surface])
         [NSException raise:NSInvalidArgumentException format:@"Replay requires an unowned gesture surface"];
     JoltGestureSession *s = [self new]; s.surface = surface; s.scroll = scroll; s.x = x; s.y = y; s.scale = scale; s.rotation = rotation;
@@ -99,6 +107,7 @@ static double clamp(double value, double minimum, double maximum) { return MAX(m
     s.minScale = [config[@"minScale"] doubleValue]; s.maxScale = [config[@"maxScale"] doubleValue]; s.onState = onState; s.enabled = YES;
     s.pan = [[JoltAxisPan alloc] initWithTarget:s action:@selector(panned:)]; s.pan.owner = s;
     s.pan.axis = [config[@"axis"] integerValue]; s.pan.threshold = [config[@"threshold"] doubleValue]; s.pan.failOffset = [config[@"failOffset"] doubleValue];
+    s.horizontal=s.pan.axis==1;
     s.pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:s action:@selector(pinched:)];
     s.rotate = [[UIRotationGestureRecognizer alloc] initWithTarget:s action:@selector(rotated:)];
     s.tap = [[UITapGestureRecognizer alloc] initWithTarget:s action:@selector(tapped:)];
@@ -131,7 +140,8 @@ static double clamp(double value, double minimum, double maximum) { return MAX(m
 - (void)touchStarted:(UITouch *)touch {
     if (self.disposed || !self.enabled) return;
     self.contact = YES; self.fromScroll = self.scroll && [touch.view isDescendantOfView:self.scroll];
-    self.scrollPosition = MAX(-self.scroll.adjustedContentInset.top, self.scroll.contentOffset.y);
+    self.scrollPosition = MAX([self scrollMinimum],self.horizontal?self.scroll.contentOffset.x:self.scroll.contentOffset.y);
+    self.panelOwnsVelocity=NO;
     self.velocityX = self.velocityY = 0;
     for (JoltLiveSpring *node in @[self.x, self.y, self.scale, self.rotation]) [node releaseInput:node.position velocity:0];
     if (self.contactEvents) [self emit:6];
@@ -150,7 +160,7 @@ static double clamp(double value, double minimum, double maximum) { return MAX(m
         self.velocityX = (pan.axis & 1) ? pan.velocity.x : 0; self.velocityY = (pan.axis & 2) ? pan.velocity.y : 0;
         double dx = pan.delta.x, dy = pan.delta.y;
         if (self.fromScroll) {
-            [self consumeScrollDelta:dy];
+            [self consumeScrollDelta:self.horizontal?dx:dy];
         } else {
             if (pan.axis & 1) [self.x holdInput:clamp(self.x.position + dx, self.minX, self.maxX) velocity:self.velocityX];
             if (pan.axis & 2) [self.y holdInput:clamp(self.y.position + dy, self.minY, self.maxY) velocity:self.velocityY];
@@ -159,17 +169,24 @@ static double clamp(double value, double minimum, double maximum) { return MAX(m
     else if (pan.state == UIGestureRecognizerStateCancelled || pan.state == UIGestureRecognizerStateFailed) [self finish:YES];
 }
 // Shared by the OS recognizer and the isolated semantic replay adapter.
+- (double)scrollMinimum { return -(self.horizontal?self.scroll.adjustedContentInset.left:self.scroll.adjustedContentInset.top); }
+- (double)scrollMaximum { return MAX([self scrollMinimum],self.horizontal?self.scroll.contentSize.width-self.scroll.bounds.size.width+self.scroll.adjustedContentInset.right:self.scroll.contentSize.height-self.scroll.bounds.size.height+self.scroll.adjustedContentInset.bottom); }
 - (void)consumeScrollDelta:(double)dy {
-    double oldY = self.y.position, nextY = oldY, top = -self.scroll.adjustedContentInset.top;
-    if (dy < 0) { nextY = MAX(self.minY, oldY + dy); dy -= nextY - oldY; }
+    JoltLiveSpring *panel=self.horizontal?self.x:self.y;
+    double originalDelta=dy,oldScroll=self.scrollPosition;
+    double oldY = panel.position, nextY = oldY, top = [self scrollMinimum];
+    double minimum=self.horizontal?self.minX:self.minY,maximum=self.horizontal?self.maxX:self.maxY;
+    if (dy < 0) { nextY = MAX(minimum, oldY + dy); dy -= nextY - oldY; }
     else {
         double consumed = MIN(dy, MAX(0, self.scrollPosition - top));
         self.scrollPosition -= consumed; dy -= consumed;
-        nextY = MIN(self.maxY, oldY + dy); dy -= nextY - oldY;
+        nextY = MIN(maximum, oldY + dy); dy -= nextY - oldY;
     }
-    double bottom = MAX(top, self.scroll.contentSize.height - self.scroll.bounds.size.height + self.scroll.adjustedContentInset.bottom);
+    double bottom = [self scrollMaximum];
     self.scrollPosition = clamp(self.scrollPosition - dy, top, bottom);
-    [self.y holdInput:nextY velocity:self.velocityY]; [self applyScroll];
+    if(nextY!=oldY || self.scrollPosition!=oldScroll)
+        self.panelOwnsVelocity=originalDelta>0 ? nextY!=oldY : self.scrollPosition==oldScroll && nextY!=oldY;
+    [panel holdInput:nextY velocity:self.panelOwnsVelocity?(self.horizontal?self.velocityX:self.velocityY):0]; [self applyScroll];
 }
 + (BOOL)supportsScrollReplay { return YES; }
 - (void)replayScroll:(NSInteger)phase delta:(double)dy velocity:(double)velocity {
@@ -177,16 +194,17 @@ static double clamp(double value, double minimum, double maximum) { return MAX(m
         [NSException raise:NSInvalidArgumentException format:@"Scroll replay needs an isolated replay session and finite input"];
     if (phase == 1) {
         [self cancel]; self.contact = YES; self.fromScroll = YES;
-        self.scrollPosition = MAX(-self.scroll.adjustedContentInset.top, self.scroll.contentOffset.y);
+        self.scrollPosition = MAX([self scrollMinimum],self.horizontal?self.scroll.contentOffset.x:self.scroll.contentOffset.y);
         self.velocityX = self.velocityY = 0; [self begin];
     } else if (phase == 2 && self.contact) {
-        self.velocityY = velocity; [self consumeScrollDelta:dy];
+        if (self.horizontal) self.velocityX = velocity; else self.velocityY = velocity;
+        [self consumeScrollDelta:dy];
     } else if (phase == 3 || phase == 4) [self finish:phase == 4];
 }
 - (void)replayScrollOffset:(double)offset {
     if (!self.replayOnly || self.disposed || !isfinite(offset))
         [NSException raise:NSInvalidArgumentException format:@"Invalid scroll replay offset"];
-    self.scrollPosition = -self.scroll.adjustedContentInset.top + offset; [self applyScroll];
+    self.scrollPosition = [self scrollMinimum] + offset; [self applyScroll];
 }
 - (void)pinched:(UIPinchGestureRecognizer *)gesture {
     if (self.fromScroll || self.disposed || !self.enabled) return;
@@ -206,22 +224,26 @@ static double clamp(double value, double minimum, double maximum) { return MAX(m
 - (void)applyScroll {
     if (!self.scroll || self.adjusting) return;
     self.adjusting = YES;
-    [self.scroll setContentOffset:CGPointMake(self.scroll.contentOffset.x, self.scrollPosition) animated:NO];
+    [self.scroll setContentOffset:self.horizontal?CGPointMake(self.scrollPosition,self.scroll.contentOffset.y):CGPointMake(self.scroll.contentOffset.x,self.scrollPosition) animated:NO];
     self.adjusting = NO;
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scroll {
-    if (self.contact && self.fromScroll && !self.adjusting) [self applyScroll];
+    BOOL owns = self.replayOnly || self.pan.state == UIGestureRecognizerStatePossible || self.pan.state == UIGestureRecognizerStateBegan || self.pan.state == UIGestureRecognizerStateChanged;
+    if (owns && self.contact && self.fromScroll && !self.adjusting) [self applyScroll];
     if (!self.adjusting && [self.previousDelegate respondsToSelector:_cmd]) [self.previousDelegate scrollViewDidScroll:scroll];
 }
 - (void)scrollViewWillEndDragging:(UIScrollView *)scroll withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)target {
-    if (self.y.position > self.minY + .01) target->y = scroll.contentOffset.y;
     if ([self.previousDelegate respondsToSelector:_cmd]) [self.previousDelegate scrollViewWillEndDragging:scroll withVelocity:velocity targetContentOffset:target];
+    if (self.panelOwnsVelocity || (self.horizontal?self.x.position>self.minX+.01:self.y.position>self.minY+.01)) {
+        if(self.horizontal)target->x=scroll.contentOffset.x;else target->y=scroll.contentOffset.y;
+    }
 }
 - (void)finish:(BOOL)cancelled {
     BOOL hadContact = self.contact;
     self.contact = NO;
     if (!self.active) { if (hadContact && self.contactEvents) [self emit:7]; return; }
     self.active = NO;
+    if(self.fromScroll && !self.panelOwnsVelocity)self.velocityX=self.velocityY=0;
     for (JoltLiveSpring *node in @[self.x, self.y, self.scale, self.rotation]) [node releaseInput:node.position velocity:0];
     self.ending = !cancelled;
     @try { [self emit:cancelled ? 3 : 2]; } @finally { self.ending = NO; }

@@ -102,6 +102,15 @@ export function sidebar(
             ],
             'values-scroll-lists',
           ),
+          localized(
+            [
+              'Collections and scroll',
+              'Coleções e scroll',
+              'Colecciones y scroll',
+              '集合与滚动',
+            ],
+            'collections-scroll',
+          ),
         ],
       ),
       group(

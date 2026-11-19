@@ -21,7 +21,8 @@ public final class GestureSession {
     private final boolean pinch, rotate, tapEnabled, doubleEnabled, contactEvents, replayOnly;
     private double minX, maxX, minY, maxY, minScale, maxScale;
     private double downX, downY, lastX, lastY, lastSpan, lastAngle, velocityX, velocityY, replayRemainder;
-    private boolean enabled = true, disposed, active, rejected, fromScroll, contact, ending;
+    private boolean enabled = true, disposed, active, rejected, fromScroll, contact, ending, panelOwnsVelocity;
+    private final boolean manualScroll, previousNested;
     private VelocityTracker velocity;
     private final GesturePeer panPeer = new GesturePeer(this::cancel);
     private final GesturePeer pinchPeer = new GesturePeer(this::cancel);
@@ -34,8 +35,8 @@ public final class GestureSession {
     private void tap(int state) { tapPeer.request(() -> { emit(state); tapPeer.finish(); }); }
 
     public GestureSession(GestureSurface surface, View scroll, LiveSpring x, LiveSpring y, LiveSpring scale, LiveSpring rotation, String options, Listener listener) {
-        if (scroll != null && !(scroll instanceof androidx.core.view.NestedScrollingChild3))
-            throw new IllegalArgumentException("Scroll handoff requires NativeScript's NestedScrollView implementation");
+        if (scroll != null && !(scroll instanceof androidx.core.view.NestedScrollingChild3) && !(scroll instanceof android.widget.ListView) && !(scroll instanceof android.widget.HorizontalScrollView))
+            throw new IllegalArgumentException("Scroll handoff needs Core ScrollView/ListView or a nested CollectionView");
         this.surface = surface; this.scroll = scroll; this.x = x; this.y = y; this.scale = scale; this.rotation = rotation; this.listener = listener;
         density = surface.getResources().getDisplayMetrics().density;
         try {
@@ -48,6 +49,10 @@ public final class GestureSession {
             minX = config.getDouble("minX"); maxX = config.getDouble("maxX"); minY = config.getDouble("minY"); maxY = config.getDouble("maxY");
             minScale = config.getDouble("minScale"); maxScale = config.getDouble("maxScale");
         } catch (JSONException error) { throw new IllegalArgumentException(error); }
+        manualScroll=scroll instanceof android.widget.HorizontalScrollView;
+        previousNested=scroll!=null && scroll.isNestedScrollingEnabled();
+        if(scroll!=null && (manualScroll && axis!=1 || scroll instanceof android.widget.ListView && axis!=2))
+            throw new IllegalArgumentException("Scroll handoff axis does not match the native widget");
         taps = new GestureDetector(surface.getContext(), new GestureDetector.SimpleOnGestureListener() {
             @Override public boolean onDown(MotionEvent event) { return true; }
             @Override public boolean onSingleTapUp(MotionEvent event) { if (tapEnabled && !doubleEnabled) tap(4); return true; }
@@ -57,12 +62,25 @@ public final class GestureSession {
         if (!doubleEnabled) taps.setOnDoubleTapListener(null);
         if (replayOnly && surface.hasSession())
             throw new IllegalStateException("Replay requires an unowned gesture surface");
+        if(scroll!=null && !manualScroll)scroll.setNestedScrollingEnabled(true);
         surface.setSession(this);
     }
     public static boolean supportsContactEvents() { return true; }
+    public static boolean supportsScrollAdapters() { return true; }
     public boolean isActive() { return active; }
-    boolean intercepts() { return enabled && active && !fromScroll && !panPeer.isCoordinated() && !pinchPeer.isCoordinated() && !rotatePeer.isCoordinated(); }
+    boolean intercepts() { return enabled && active && (fromScroll && manualScroll || !fromScroll && !panPeer.isCoordinated() && !pinchPeer.isCoordinated() && !rotatePeer.isCoordinated()); }
     boolean accepts(View target) { return enabled && !disposed && target == scroll; }
+    int scrollAxis() { return axis; }
+    boolean atStart() { return axis==1?!scroll.canScrollHorizontally(-1):!scroll.canScrollVertically(-1); }
+    void childConsumed(int dx,int dy) {
+        if((axis==1?dx:dy)!=0) {
+            panelOwnsVelocity=false;
+            if(active) {
+                LiveSpring panel=axis==1?x:y;
+                panel.holdInput(panel.getPosition(),0);
+            }
+        }
+    }
     private static double clamp(double value, double min, double max) { return Math.max(min, Math.min(max, value)); }
     private void emit(int state) { if (!disposed && listener != null) listener.onState(state, velocityX, velocityY); }
     private void begin() {
@@ -85,7 +103,7 @@ public final class GestureSession {
         int action = event.getActionMasked();
         if (action == MotionEvent.ACTION_DOWN) {
             cancel(); if (disposed || !enabled) return;
-            contact = true; rejected = false; velocityX = velocityY = 0;
+            contact = true; rejected = false; velocityX = velocityY = replayRemainder = 0; panelOwnsVelocity=false;
             for (GesturePeer peer : new GesturePeer[]{panPeer,pinchPeer,rotatePeer,tapPeer}) peer.begin(event.getDownTime());
             velocity = VelocityTracker.obtain();
             fromScroll = false;
@@ -126,10 +144,18 @@ public final class GestureSession {
             velocityX = (axis & 1) != 0 ? velocity.getXVelocity(event.getPointerId(0)) / density : 0;
             velocityY = (axis & 2) != 0 ? velocity.getYVelocity(event.getPointerId(0)) / density : 0;
         }
-        if (!active && !fromScroll && !rejected) {
+        if (!active && (!fromScroll || manualScroll) && !rejected) {
             double dx = Math.abs(cx - downX), dy = Math.abs(cy - downY);
             if (axis == 1 && dy > failOffset || axis == 2 && dx > failOffset) { rejected = true; panPeer.fail(); }
             else if (axis != 0 && (axis == 1 ? dx : axis == 2 ? dy : Math.hypot(dx, dy)) >= threshold) begin();
+        }
+        if(active && fromScroll && manualScroll && !disposed) {
+            double pixels=-(cx-lastX)*density+replayRemainder;
+            int remaining=(int)Math.round(pixels);replayRemainder=pixels-remaining;
+            remaining-=consume(remaining,atStart());
+            int before=scroll.getScrollX();scroll.scrollBy(remaining,0);
+            int consumed=scroll.getScrollX()-before;childConsumed(consumed,0);remaining-=consumed;
+            consume(remaining,true);
         }
         if (active && !fromScroll && !disposed) {
             if ((axis & 1) != 0) x.holdInput(clamp(x.getPosition() + cx - lastX, minX, maxX), velocityX);
@@ -162,21 +188,25 @@ public final class GestureSession {
     }
     int consume(int pixels, boolean atTop) {
         if (!contact || pixels == 0 || pixels < 0 && !atTop) return 0;
-        double before = y.getPosition(), next = clamp(before - pixels / density, minY, maxY);
+        LiveSpring panel=axis==1?x:y;
+        double before = panel.getPosition(), next = clamp(before - pixels / density, axis==1?minX:minY, axis==1?maxX:maxY);
         int consumed = (int)Math.round((before - next) * density);
         if (consumed == 0) return 0;
         begin();
         if (disposed || !enabled || !active) return 0;
-        y.holdInput(before - consumed / density, velocityY);
+        panelOwnsVelocity=true;
+        panel.holdInput(before - consumed / density, axis==1?velocityX:velocityY);
         return consumed;
     }
     boolean preFling(float vx, float vy) {
         if (!active) return false;
-        velocityX = 0; velocityY = -vy / density;
-        return y.getPosition() > minY + .01 || vy < 0 && !scroll.canScrollVertically(-1);
+        velocityX = axis==1?-vx/density:0; velocityY = axis==2?-vy/density:0;
+        return panelOwnsVelocity || (axis==1?x.getPosition()>minX+.01:y.getPosition()>minY+.01);
     }
     private void finish(boolean cancelled) {
         boolean hadContact = contact;
+        boolean coast=active && fromScroll && manualScroll && !panelOwnsVelocity && !cancelled;
+        double coastVelocity=velocityX;
         contact = false;
         for (GesturePeer peer : new GesturePeer[]{panPeer,pinchPeer,rotatePeer}) {
             if (cancelled) peer.fail(); else peer.finish();
@@ -185,12 +215,14 @@ public final class GestureSession {
         if (velocity != null) { velocity.recycle(); velocity = null; }
         if (!active) { if (hadContact && contactEvents) emit(7); return; }
         active = false;
+        if(fromScroll && !panelOwnsVelocity)velocityX=velocityY=0;
         x.releaseInput(x.getPosition(), 0); y.releaseInput(y.getPosition(), 0);
         scale.releaseInput(scale.getPosition(), 0); rotation.releaseInput(rotation.getPosition(), 0);
         if (surface.getParent() != null) surface.getParent().requestDisallowInterceptTouchEvent(false);
         ending = !cancelled;
         try { emit(cancelled ? 3 : 2); } finally { ending = false; }
         if (hadContact && contactEvents) emit(7);
+        if(coast && !disposed && enabled)((android.widget.HorizontalScrollView)scroll).fling((int)Math.round(-coastVelocity*density));
     }
     public static boolean supportsScrollReplay() { return true; }
     /** Semantic replay uses the same pre-scroll / child / post-scroll consumption as GestureSurface. */
@@ -208,7 +240,9 @@ public final class GestureSession {
             remaining -= consume(remaining, !scroll.canScrollVertically(-1));
             int before = scroll.getScrollY();
             scroll.scrollBy(0, remaining);
-            remaining -= scroll.getScrollY() - before;
+            int consumed = scroll.getScrollY() - before;
+            childConsumed(0, consumed);
+            remaining -= consumed;
             consume(remaining, true);
         } else if (phase == 3 || phase == 4) finish(phase == 4);
     }
@@ -241,6 +275,7 @@ public final class GestureSession {
     public void dispose() {
         if (disposed) return;
         cancel(); disposed = true; surface.setSession(null);
+        if(scroll!=null && !manualScroll && scroll.isNestedScrollingEnabled())scroll.setNestedScrollingEnabled(previousNested);
         for (GesturePeer peer : new GesturePeer[]{panPeer,pinchPeer,rotatePeer,tapPeer}) peer.dispose();
         MotionEvent cancel = MotionEvent.obtain(0, 0, MotionEvent.ACTION_CANCEL, 0, 0, 0);
         taps.onTouchEvent(cancel); cancel.recycle();

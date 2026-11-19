@@ -27,15 +27,15 @@
 @end
 
 @interface JoltReorderSession () <UIGestureRecognizerDelegate>
-@property(nonatomic, weak) UITableView *list;
+@property(nonatomic, weak) UIScrollView *list;
 @property(nonatomic) UILongPressGestureRecognizer *press;
 @property(nonatomic) NSHashTable<UIView *> *handles;
-@property(nonatomic) NSMapTable<UITableViewCell *, JoltReorderCellState *> *cells;
+@property(nonatomic) NSMapTable<UIView *, JoltReorderCellState *> *cells;
 @property(nonatomic) UIView *overlay;
 @property(nonatomic) CADisplayLink *clock;
 @property(nonatomic, copy) void (^onState)(NSInteger, NSInteger, NSInteger);
 @property(nonatomic) NSInteger from, target, count, generation;
-@property(nonatomic) CGFloat edgeSize, edgeSpeed, height, grabOffset, pointerY, pointerX;
+@property(nonatomic) CGFloat edgeSize, edgeSpeed, height, stride, grabOffset, pointerY, pointerX;
 @property(nonatomic) CGSize viewport;
 @property(nonatomic) double previousTime;
 @property(nonatomic) BOOL enabled, disposed, handlesOnly, reduced, settling, scrollEnabled, cancelling;
@@ -43,8 +43,29 @@
 @end
 
 @implementation JoltReorderSession
-+ (instancetype)attach:(UITableView *)list options:(NSString *)options onState:(void (^)(NSInteger, NSInteger, NSInteger))onState {
-    if (![list isKindOfClass:UITableView.class]) @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Reorder requires a UITableView" userInfo:nil];
++ (BOOL)supportsCollections { return YES; }
+- (BOOL)collection { return [self.list isKindOfClass:UICollectionView.class]; }
+- (NSInteger)sections { return self.collection?((UICollectionView *)self.list).numberOfSections:((UITableView *)self.list).numberOfSections; }
+- (NSInteger)itemCount { return self.collection?[(UICollectionView *)self.list numberOfItemsInSection:0]:[(UITableView *)self.list numberOfRowsInSection:0]; }
+- (NSIndexPath *)pathAt:(CGPoint)p { return self.collection?[(UICollectionView *)self.list indexPathForItemAtPoint:p]:[(UITableView *)self.list indexPathForRowAtPoint:p]; }
+- (UIView *)cellAt:(NSIndexPath *)p { return self.collection?[(UICollectionView *)self.list cellForItemAtIndexPath:p]:[(UITableView *)self.list cellForRowAtIndexPath:p]; }
+- (CGRect)frameAt:(NSIndexPath *)p { return self.collection?[(UICollectionView *)self.list layoutAttributesForItemAtIndexPath:p].frame:[(UITableView *)self.list rectForRowAtIndexPath:p]; }
+- (NSArray<NSIndexPath *> *)paths { return [(self.collection?[(UICollectionView *)self.list indexPathsForVisibleItems]:[(UITableView *)self.list indexPathsForVisibleRows]) sortedArrayUsingSelector:@selector(compare:)]; }
+- (NSArray<UIView *> *)visibleCells { if(self.collection)return [(UICollectionView *)self.list visibleCells];return [(UITableView *)self.list visibleCells]; }
+- (UIView *)content:(UIView *)cell { return [cell isKindOfClass:UITableViewCell.class]?((UITableViewCell *)cell).contentView:((UICollectionViewCell *)cell).contentView; }
+- (void)recycle:(UIView *)view {
+    UIView *cell=view;
+    while(cell && ![cell isKindOfClass:UITableViewCell.class] && ![cell isKindOfClass:UICollectionViewCell.class])cell=cell.superview;
+    JoltReorderCellState *state=[self.cells objectForKey:cell];
+    if(state){[self restore:cell state:state];[self.cells removeObjectForKey:cell];}
+}
++ (instancetype)attach:(UIScrollView *)list options:(NSString *)options onState:(void (^)(NSInteger, NSInteger, NSInteger))onState {
+    if (![list isKindOfClass:UITableView.class] && ![list isKindOfClass:UICollectionView.class]) @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Reorder requires UITableView or UICollectionView" userInfo:nil];
+    if([list isKindOfClass:UICollectionView.class]) {
+        UICollectionViewLayout *layout=((UICollectionView *)list).collectionViewLayout;
+        if(![layout isKindOfClass:UICollectionViewFlowLayout.class] || ((UICollectionViewFlowLayout *)layout).scrollDirection!=UICollectionViewScrollDirectionVertical)
+            [NSException raise:NSInvalidArgumentException format:@"Collection reorder needs vertical flow layout"];
+    }
     NSDictionary *config = [NSJSONSerialization JSONObjectWithData:[options dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
     JoltReorderSession *s = [self new]; s.list = list; s.onState = onState; s.enabled = YES;
     s.edgeSize = [config[@"edgeSize"] doubleValue]; s.edgeSpeed = [config[@"edgeSpeed"] doubleValue];
@@ -66,8 +87,8 @@
     return NO;
 }
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)recognizer {
-    NSIndexPath *path = [self.list indexPathForRowAtPoint:[recognizer locationInView:self.list]];
-    return path && path.section == 0 && self.list.numberOfSections == 1 && !self.list.dragging && !self.list.decelerating;
+    NSIndexPath *path = [self pathAt:[recognizer locationInView:self.list]];
+    return path && path.section == 0 && self.sections == 1 && !self.list.dragging && !self.list.decelerating;
 }
 - (void)emit:(NSInteger)state detail:(NSInteger)detail { if (!self.disposed && self.onState) self.onState(state, self.from, detail); }
 - (void)pressed:(UILongPressGestureRecognizer *)press {
@@ -78,13 +99,15 @@
     else if (press.state == UIGestureRecognizerStateCancelled || press.state == UIGestureRecognizerStateFailed) [self cancel];
 }
 - (void)begin {
-    UITableView *list = self.list;
-    NSIndexPath *path = [list indexPathForRowAtPoint:[self.press locationInView:list]];
-    UITableViewCell *cell = path ? [list cellForRowAtIndexPath:path] : nil;
+    UIScrollView *list = self.list;
+    NSIndexPath *path = [self pathAt:[self.press locationInView:list]];
+    UIView *cell = path ? [self cellAt:path] : nil;
     if (!cell || path.section != 0 || !list.window) return;
+    CGFloat pixelScale = list.window.screen.scale;
+    if (cell.bounds.size.width * cell.bounds.size.height * pixelScale * pixelScale > 8000000) return;
     UIView *snapshot = [cell snapshotViewAfterScreenUpdates:NO];
     if (!snapshot) return;
-    CGRect frame = [list convertRect:[list rectForRowAtIndexPath:path] toView:list.window];
+    CGRect frame = [list convertRect:[self frameAt:path] toView:list.window];
     self.overlay = snapshot; snapshot.frame = frame; snapshot.userInteractionEnabled = NO;
     snapshot.accessibilityElementsHidden = YES;
     snapshot.layer.shadowColor = UIColor.blackColor.CGColor; snapshot.layer.shadowRadius = 12;
@@ -92,8 +115,8 @@
     [list.window addSubview:snapshot];
     CGPoint p = [self.press locationInView:list.window];
     self.pointerY = p.y; self.pointerX = p.x; self.grabOffset = p.y - CGRectGetMidY(frame);
-    self.height = frame.size.height; self.viewport = list.bounds.size;
-    self.count = [list numberOfRowsInSection:0]; self.from = self.target = path.row;
+    self.height = frame.size.height; self.stride=self.height+(self.collection?((UICollectionViewFlowLayout *)((UICollectionView *)list).collectionViewLayout).minimumLineSpacing:0); self.viewport = list.bounds.size;
+    self.count = self.itemCount; self.from = self.target = path.row;
     self.scrollEnabled = list.scrollEnabled; list.scrollEnabled = NO;
     self.active = YES; self.settling = NO; self.previousTime = CACurrentMediaTime(); self.generation++;
     [self emit:1 detail:self.from];
@@ -104,8 +127,8 @@
 }
 - (void)tick:(CADisplayLink *)clock {
     if (!self.active || self.settling) return;
-    UITableView *list = self.list;
-    if (!list.window || !CGSizeEqualToSize(self.viewport, list.bounds.size) || self.count != [list numberOfRowsInSection:0]) {
+    UIScrollView *list = self.list;
+    if (!list.window || !CGSizeEqualToSize(self.viewport, list.bounds.size) || self.count != self.itemCount) {
         [self finish:NO detail:1]; return;
     }
     double now = CACurrentMediaTime(), dt = MIN(.04, MAX(0, now - self.previousTime)); self.previousTime = now;
@@ -118,45 +141,45 @@
     if (fabs(next - list.contentOffset.y) > .01) { [list setContentOffset:CGPointMake(list.contentOffset.x, next) animated:NO]; [list layoutIfNeeded]; }
     [self update];
 }
-- (void)restore:(UITableViewCell *)cell state:(JoltReorderCellState *)state {
-    [cell.contentView.layer removeAnimationForKey:@"jolt.reorder"];
-    cell.contentView.layer.sublayerTransform = state.transform; cell.alpha = state.alpha; state.offset = 0;
-    cell.clipsToBounds = state.cellClips; cell.contentView.clipsToBounds = state.contentClips;
+- (void)restore:(UIView *)cell state:(JoltReorderCellState *)state {
+    [[self content:cell].layer removeAnimationForKey:@"jolt.reorder"];
+    [self content:cell].layer.sublayerTransform = state.transform; cell.alpha = state.alpha; state.offset = 0;
+    cell.clipsToBounds = state.cellClips; [self content:cell].clipsToBounds = state.contentClips;
 }
 - (void)update {
     if (!self.active || self.settling) return;
-    UITableView *list = self.list;
+    UIScrollView *list = self.list;
     CGFloat center = self.pointerY - self.grabOffset;
     CGPoint inList = [list convertPoint:CGPointMake(self.pointerX, center) fromView:list.window];
     CGFloat draggedTop = inList.y - self.height / 2;
     self.overlay.center = CGPointMake(self.overlay.center.x, center);
-    NSArray<NSIndexPath *> *paths = [[list indexPathsForVisibleRows] sortedArrayUsingSelector:@selector(compare:)];
+    NSArray<NSIndexPath *> *paths = self.paths;
     NSInteger destination = self.from;
     for (NSIndexPath *path in paths) {
         if (path.section || path.row == self.from) continue;
-        CGRect frame = [list rectForRowAtIndexPath:path];
-        CGFloat midpoint = CGRectGetMidY(frame) - (path.row > self.from ? self.height : 0);
+        CGRect frame = [self frameAt:path];
+        CGFloat midpoint = CGRectGetMidY(frame) - (path.row > self.from ? self.stride : 0);
         NSInteger insertion = path.row - (path.row > self.from ? 1 : 0);
         destination = insertion;
         if (draggedTop < midpoint) break;
         destination = insertion + 1;
     }
     self.target = MAX(0, MIN(self.count - 1, destination));
-    NSSet *visible = [NSSet setWithArray:list.visibleCells];
-    for (UITableViewCell *cell in self.cells.keyEnumerator.allObjects)
+    NSSet *visible = [NSSet setWithArray:self.visibleCells];
+    for (UIView *cell in self.cells.keyEnumerator.allObjects)
         if (![visible containsObject:cell]) { [self restore:cell state:[self.cells objectForKey:cell]]; [self.cells removeObjectForKey:cell]; }
     for (NSIndexPath *path in paths) {
-        UITableViewCell *cell = [list cellForRowAtIndexPath:path]; if (!cell) continue;
+        UIView *cell = [self cellAt:path]; if (!cell) continue;
         JoltReorderCellState *state = [self.cells objectForKey:cell];
         if (state && state.index != path.row) { [self restore:cell state:state]; [self.cells removeObjectForKey:cell]; state = nil; }
-        if (!state) { state = [JoltReorderCellState new]; state.transform = cell.contentView.layer.sublayerTransform; state.cellClips = cell.clipsToBounds; state.contentClips = cell.contentView.clipsToBounds; state.alpha = cell.alpha; state.index = path.row; [self.cells setObject:state forKey:cell]; }
-        cell.clipsToBounds = NO; cell.contentView.clipsToBounds = NO;
+        if (!state) { state = [JoltReorderCellState new]; state.transform = [self content:cell].layer.sublayerTransform; state.cellClips = cell.clipsToBounds; state.contentClips = [self content:cell].clipsToBounds; state.alpha = cell.alpha; state.index = path.row; [self.cells setObject:state forKey:cell]; }
+        cell.clipsToBounds = NO; [self content:cell].clipsToBounds = NO;
         cell.alpha = path.row == self.from ? 0 : state.alpha;
-        CGFloat offset = path.row > self.from && path.row <= self.target ? -self.height : path.row < self.from && path.row >= self.target ? self.height : 0;
+        CGFloat offset = path.row > self.from && path.row <= self.target ? -self.stride : path.row < self.from && path.row >= self.target ? self.stride : 0;
         if (fabs(offset - state.offset) < .01) continue;
         // UITableView owns cell/contentView frames. Move only the contents of
         // the layer so height estimation and recycling cannot corrupt geometry.
-        CALayer *layer = cell.contentView.layer;
+        CALayer *layer = [self content:cell].layer;
         CATransform3D previous = ((CALayer *)layer.presentationLayer ?: layer).sublayerTransform;
         state.offset = offset; layer.sublayerTransform = CATransform3DTranslate(state.transform, 0, offset, 0);
         [layer removeAnimationForKey:@"jolt.reorder"];
@@ -172,7 +195,7 @@
     if (!self.active || self.settling) return;
     self.settling = YES; [self.clock invalidate]; self.clock = nil;
     NSInteger generation = self.generation;
-    CGRect row = [self.list rectForRowAtIndexPath:[NSIndexPath indexPathForRow:self.target inSection:0]];
+    CGRect row = [self frameAt:[NSIndexPath indexPathForRow:self.target inSection:0]];
     CGFloat top = self.target > self.from ? CGRectGetMaxY(row) - self.height : row.origin.y;
     CGPoint end = [self.list convertPoint:CGPointMake(row.origin.x + row.size.width / 2, top + self.height / 2) toView:self.list.window];
     if (self.reduced) { [self finish:YES detail:0]; return; }
@@ -185,7 +208,7 @@
     self.active = NO; self.settling = NO; self.generation++;
     [self.clock invalidate]; self.clock = nil;
     [self.overlay.layer removeAllAnimations]; [self.overlay removeFromSuperview]; self.overlay = nil;
-    for (UITableViewCell *cell in self.cells.keyEnumerator.allObjects) [self restore:cell state:[self.cells objectForKey:cell]];
+    for (UIView *cell in self.cells.keyEnumerator.allObjects) [self restore:cell state:[self.cells objectForKey:cell]];
     [self.cells removeAllObjects]; self.list.scrollEnabled = self.scrollEnabled;
     [self emit:commit ? 2 : 3 detail:commit ? self.target : detail];
 }

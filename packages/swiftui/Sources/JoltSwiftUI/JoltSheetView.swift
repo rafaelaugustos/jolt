@@ -18,10 +18,7 @@ public struct JoltBottomSheet<Background: View, Content: View>: View {
   @State private var keyboardOverlap = 0.0
   @State private var visible = false
   @State private var handleContact = false
-  @State private var contentContact = false
-  @State private var contentOrigin = 0.0
   @GestureState private var handleActive = false
-  @GestureState private var contentActive = false
   @FocusState private var handleFocused: Bool
   @AccessibilityFocusState private var accessibilityFocused: Bool
   @JoltSceneActivity private var sceneActive
@@ -66,27 +63,6 @@ public struct JoltBottomSheet<Background: View, Content: View>: View {
         handleContact = false
       }
   }
-  private var scrollingGesture: some Gesture {
-    DragGesture(minimumDistance: 8, coordinateSpace: .global)
-      .updating($contentActive) { _, state, _ in state = true }
-      .onChanged { event in
-        if !contentContact {
-          // Expand before scrolling; a downward drag at the scroll origin returns to the panel.
-          let handoff =
-            (!model.canExpand && scroll.offset <= 0.5 && event.translation.height > 0)
-            || (model.canExpand && event.translation.height < 0)
-            || (model.canExpand && scroll.offset <= 0.5 && event.translation.height > 0)
-          if handoff && model.beginDrag() {
-            contentContact = true
-            contentOrigin = event.translation.height
-          }
-        }
-        if contentContact { model.drag(by: event.translation.height - contentOrigin) }
-      }.onEnded { event in
-        if contentContact { model.endDrag(velocity: event.velocity.height) }
-        contentContact = false
-      }
-  }
   public var body: some View {
     GeometryReader { geometry in
       ZStack(alignment: .top) {
@@ -120,6 +96,9 @@ public struct JoltBottomSheet<Background: View, Content: View>: View {
               .modifier(SheetKeys(model: model))
             JoltScrollView(progress: scroll) {
               content().frame(maxWidth: .infinity).fixedSize(horizontal: false, vertical: true)
+                .background(SheetScrollProbe(model: model,
+                  enabled: visible && enabled && sceneActive && model.isOpen && !model.paused && !model.suspended,
+                  reduced: reduced || appReduced).frame(width: 0, height: 0))
                 .background(
                   GeometryReader { contentGeometry in
                     Color.clear.preference(
@@ -127,8 +106,6 @@ public struct JoltBottomSheet<Background: View, Content: View>: View {
                   })
             }
             .accessibilityIdentifier("jolt-sheet-scroll")
-            .scrollDisabled(model.canExpand || model.dragging)
-            .simultaneousGesture(scrollingGesture)
           }
           .frame(
             width: geometry.size.width, height: max(1, model.visibleHeight) + layout.bottomExtension
@@ -183,12 +160,7 @@ public struct JoltBottomSheet<Background: View, Content: View>: View {
           handleContact = false
         }
       }
-      .onChange(of: contentActive) { _, next in
-        if !next {
-          if contentContact { model.cancel() }
-          contentContact = false
-        }
-      }
+
     }
     .modifier(JoltActivityProvider($sceneActive))
   }

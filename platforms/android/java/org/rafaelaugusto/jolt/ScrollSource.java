@@ -17,11 +17,16 @@ public final class ScrollSource implements ViewTreeObserver.OnScrollChangedListe
     private final double density, rowHeight;
     private final ListView list;
     private Object manager;
-    private Method first, find;
+    private Method first, find, decoratedStart, decoratedEnd, itemCount;
     private boolean enabled, observing, disposed;
     private ViewTreeObserver observer;
     private double offset, previousTime;
     private long updates, callbacks;
+    private boolean profiling;
+    private double minimum, maximum;
+    private double[] costs;
+    private int costCount;
+    public void setProfiling(boolean value) { profiling=value;costs=value?new double[256]:null;costCount=0;minimum=maximum=offset; }
     private static int active;
     public static int activeCount() { return active; }
     public ScrollSource(View source, LiveSpring node, boolean horizontal, double rowHeight, Listener listener) {
@@ -37,13 +42,18 @@ public final class ScrollSource implements ViewTreeObserver.OnScrollChangedListe
                 Class<?> recycler=Class.forName("androidx.recyclerview.widget.RecyclerView");
                 if (!recycler.isInstance(source)) throw new IllegalArgumentException("Unsupported scroll container");
                 manager=recycler.getMethod("getLayoutManager").invoke(source);
-                if (manager==null || !Class.forName("androidx.recyclerview.widget.LinearLayoutManager").isInstance(manager) || Class.forName("androidx.recyclerview.widget.GridLayoutManager").isInstance(manager) || rowHeight<=0)
+                if (manager==null || !Class.forName("androidx.recyclerview.widget.LinearLayoutManager").isInstance(manager) || rowHeight<=0)
                     throw new IllegalArgumentException("CollectionView needs a linear layout and fixed rowHeight (item stride for x)");
                 Class<?> type=manager.getClass();
+                if (Class.forName("androidx.recyclerview.widget.GridLayoutManager").isInstance(manager) && (Integer)type.getMethod("getSpanCount").invoke(manager)!=1)
+                    throw new IllegalArgumentException("CollectionView scroll values require one span");
                 int orientation=(Integer)type.getMethod("getOrientation").invoke(manager);
                 if ((orientation==0)!=horizontal || (Boolean)type.getMethod("getReverseLayout").invoke(manager) || (Boolean)type.getMethod("getStackFromEnd").invoke(manager))
                     throw new IllegalArgumentException("Reversed/staggered CollectionView offsets are unsupported");
                 first=type.getMethod("findFirstVisibleItemPosition"); find=type.getMethod("findViewByPosition",int.class);
+                decoratedStart=type.getMethod(horizontal?"getDecoratedLeft":"getDecoratedTop",View.class);
+                decoratedEnd=type.getMethod(horizontal?"getDecoratedRight":"getDecoratedBottom",View.class);
+                itemCount=type.getMethod("getItemCount");
             } catch (ReflectiveOperationException error) { throw new IllegalArgumentException("Unsupported CollectionView layout",error); }
         }
         setEnabled(true);
@@ -57,8 +67,16 @@ public final class ScrollSource implements ViewTreeObserver.OnScrollChangedListe
             try {
                 int index=(Integer)first.invoke(manager); if(index<0)return 0;
                 View child=(View)find.invoke(manager,index); if(child==null)return offset;
-                double local=horizontal ? source.getLayoutDirection()==View.LAYOUT_DIRECTION_RTL ? source.getWidth()-source.getPaddingRight()-child.getRight() : source.getPaddingLeft()-child.getLeft() : source.getPaddingTop()-child.getTop();
-                return index*rowHeight+local/density;
+                boolean rtl=horizontal && source.getLayoutDirection()==View.LAYOUT_DIRECTION_RTL;
+                double local=rtl ? source.getWidth()-source.getPaddingRight()-(Integer)decoratedEnd.invoke(manager,child) :
+                    (horizontal?source.getPaddingLeft():source.getPaddingTop())-(Integer)decoratedStart.invoke(manager,child);
+                double logical=index*rowHeight+local/density;
+                // Match ScrollView/UIKit: physical left is zero even when key order starts on the right.
+                if(rtl) {
+                    double maximum=Math.max(0,(Integer)itemCount.invoke(manager)*rowHeight-(source.getWidth()-source.getPaddingLeft()-source.getPaddingRight())/density);
+                    return maximum-logical;
+                }
+                return logical;
             } catch(ReflectiveOperationException error) { return offset; }
         }
         return (horizontal?source.getScrollX():source.getScrollY())/density;
@@ -75,12 +93,19 @@ public final class ScrollSource implements ViewTreeObserver.OnScrollChangedListe
     @Override public void onLayoutChange(View view,int l,int t,int r,int b,int ol,int ot,int or,int ob) { update(true); }
     private void update(boolean force) {
         if(disposed || !enabled)return;
+        long started=profiling&&!force?System.nanoTime():0;
         double next=read(), now=SystemClock.uptimeMillis();
         if(!Double.isFinite(next) || (!force && next==offset))return;
         double velocity=force || previousTime==0 || now<=previousTime || now-previousTime>100 ? 0 : (next-offset)*1000/(now-previousTime);
         offset=next; previousTime=now; updates++; node.setDataInput(offset,velocity);
+        minimum=Math.min(minimum,next);maximum=Math.max(maximum,next);
         if(observing && listener!=null) { callbacks++; listener.changed(); }
+        if(started!=0 && costCount<costs.length)costs[costCount++]=(System.nanoTime()-started)/1000000.0;
     }
-    public String snapshot() { return "{\"offset\":"+offset+",\"updates\":"+updates+",\"callbacks\":"+callbacks+"}"; }
+    public String snapshot() {
+        StringBuilder samples=new StringBuilder("[");
+        for(int i=0;i<costCount;i++){if(i>0)samples.append(',');samples.append(costs[i]);}samples.append(']');
+        return "{\"offset\":"+offset+",\"updates\":"+updates+",\"callbacks\":"+callbacks+",\"minimum\":"+minimum+",\"maximum\":"+maximum+",\"producerMs\":"+samples+"}";
+    }
     public void dispose() { if(disposed)return; setEnabled(false); disposed=true; listener=null; manager=null; }
 }

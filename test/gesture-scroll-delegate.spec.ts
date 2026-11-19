@@ -37,3 +37,14 @@ it('does not replace a hook another owner installed later', () => {
   release()
   expect(scroll.attachNative).toBe(replacement)
 })
+
+it('forwards CollectionView layout arguments before restoring its native delegate wrapper', () => {
+  const events: unknown[] = []
+  const layout = (...bounds: number[]) => events.push(bounds)
+  const scroll = { onLayout: layout } as unknown as ScrollView
+  const release = retainScrollDelegate(scroll, () => events.push('refresh'))
+  scroll.onLayout(1, 2, 301, 402)
+  expect(events).toEqual([[1, 2, 301, 402], 'refresh'])
+  release()
+  expect(scroll.onLayout).toBe(layout)
+})

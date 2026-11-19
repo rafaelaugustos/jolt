@@ -49,9 +49,10 @@ declare namespace org.rafaelaugusto.jolt {
     dispose(): void
   }
   class RealizedReorder {
+    static supportsAxes(): boolean
     recognizer(kind: string): GesturePeer | null
     constructor(
-      scroll: androidx.core.widget.NestedScrollView,
+      scroll: android.view.ViewGroup,
       container: android.view.ViewGroup,
       options: string,
       listener: RealizedReorder.Listener,
@@ -200,10 +201,12 @@ declare namespace org.rafaelaugusto.jolt {
     }
   }
   class ReorderSession {
+    static supportsCollections(): boolean
+    recycle(view: android.view.View): void
     recognizer(kind: string): GesturePeer | null
     constructor(
       surface: ReorderSurface,
-      list: android.widget.ListView,
+      list: android.view.ViewGroup,
       options: string,
       listener: ReorderSession.Listener,
     )
@@ -227,6 +230,7 @@ declare namespace org.rafaelaugusto.jolt {
   }
   class GestureSession {
     recognizer(kind: string): GesturePeer | null
+    static supportsScrollAdapters(): boolean
     static supportsContactEvents(): boolean
     static supportsScrollReplay(): boolean
     replayScroll(phase: number, delta: number, velocity: number): void
@@ -760,6 +764,7 @@ declare namespace org.rafaelaugusto.jolt {
 
 declare namespace org.rafaelaugusto.jolt {
   class ScrollSource {
+    setProfiling(enabled: boolean): void
     constructor(
       source: android.view.View,
       node: LiveSpring,

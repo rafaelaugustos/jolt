@@ -14,6 +14,37 @@
 - (BOOL)synthesizeWithError:(NSError **)error;
 @end
 
+NSString *JoltScrollContact(CGPoint start, CGPoint delta, CGPoint reverse, double hold) {
+    Class paths=NSClassFromString(@"XCPointerEventPath"), records=NSClassFromString(@"XCSynthesizedEventRecord");
+    if(!paths || !records)return @"XCTest pointer-path interfaces are unavailable";
+    id path=[[paths alloc]initForTouchAtPoint:start offset:0];
+    [path moveToPoint:start atOffset:hold];
+    for(int i=1;i<=40;i++)[path moveToPoint:CGPointMake(start.x+delta.x*i/40,start.y+delta.y*i/40) atOffset:hold+i*.025];
+    if(reverse.x || reverse.y)for(int i=1;i<=40;i++)[path moveToPoint:CGPointMake(start.x+delta.x+reverse.x*i/40,start.y+delta.y+reverse.y*i/40) atOffset:hold+1+i*.025];
+    [path liftUpAtOffset:hold+((reverse.x || reverse.y)?2.25:1.25)];
+    id record=[[records alloc]initWithName:@"Jolt continuous scroll contact" interfaceOrientation:UIInterfaceOrientationPortrait];
+    [record addPointerEventPath:path];NSError *error=nil;
+    return [record synthesizeWithError:&error]?nil:error.localizedDescription?:@"XCTest event synthesis failed";
+}
+
+// Hold at real viewport edges while native autoscroll recycles rows, then reverse.
+NSString *JoltReorderContact(CGPoint start, CGPoint end, CGPoint reverse, double dwell, double reverseDwell) {
+    Class paths=NSClassFromString(@"XCPointerEventPath"), records=NSClassFromString(@"XCSynthesizedEventRecord");
+    if(!paths || !records)return @"XCTest pointer-path interfaces are unavailable";
+    id path=[[paths alloc]initForTouchAtPoint:start offset:0];
+    [path moveToPoint:start atOffset:.6];
+    for(int i=1;i<=40;i++)[path moveToPoint:CGPointMake(start.x+(end.x-start.x)*i/40,start.y+(end.y-start.y)*i/40) atOffset:.6+i*.025];
+    [path moveToPoint:end atOffset:1.6+dwell];
+    if(reverseDwell>0) {
+        for(int i=1;i<=40;i++)[path moveToPoint:CGPointMake(end.x+(reverse.x-end.x)*i/40,end.y+(reverse.y-end.y)*i/40) atOffset:1.6+dwell+i*.025];
+        [path moveToPoint:reverse atOffset:2.6+dwell+reverseDwell];
+    }
+    [path liftUpAtOffset:(reverseDwell>0?2.85+dwell+reverseDwell:1.85+dwell)];
+    id record=[[records alloc]initWithName:@"Jolt recycled reorder edges" interfaceOrientation:UIInterfaceOrientationPortrait];
+    [record addPointerEventPath:path];NSError *error=nil;
+    return [record synthesizeWithError:&error]?nil:error.localizedDescription?:@"XCTest event synthesis failed";
+}
+
 // A paused UIViewPropertyAnimator never satisfies XCTest's animation-idle wait.
 // Deliver an ordinary OS tap without that wait; the app still handles the touch.
 NSString *JoltNativeTap(CGPoint point) {

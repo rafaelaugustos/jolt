@@ -70,7 +70,7 @@ export function captureFocus(panel: View, returnFocus?: View): () => void {
   }
 }
 
-export function revealFocusedField(panel: View, scroll?: ScrollView): void {
+export function revealFocusedField(panel: View, scroll?: View): void {
   if (!scroll?.nativeViewProtected || !panel.nativeViewProtected) return
   if (isIOS) {
     const focused = firstResponder(panel.nativeViewProtected as UIView)

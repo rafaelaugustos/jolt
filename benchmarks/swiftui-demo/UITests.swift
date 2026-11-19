@@ -5,6 +5,64 @@ import XCTest
 #endif
 
 final class SwiftUIAcceptance: XCTestCase {
+  @MainActor private func clickSheetControl(_ element: XCUIElement) {
+    #if os(macOS)
+      // XCTest's click tries to scroll the translated panel to reveal an already
+      // visible control, which changes the sheet before clicking. Deliver a real
+      // OS mouse click at the displayed control, without that automatic scroll.
+      element.coordinate(withNormalizedOffset: .init(dx: 0.5, dy: 0.5)).click()
+      Thread.sleep(forTimeInterval: 0.5)
+    #else
+      click(element)
+    #endif
+  }
+  @MainActor func testSheetScrollContinuity() {
+    let app = lab("--panel-lab")
+    XCTAssertTrue(app.buttons["panel-open"].waitForExistence(timeout: 10))
+    cue("start")
+    click(app.buttons["panel-open"])
+    XCTAssertTrue(wait { self.label(app, "panel-status").contains("230 pt") })
+    let handle = app.descendants(matching: .any)["jolt-sheet-handle"].firstMatch
+    let compact = handle.frame.midY
+    let scroll = app.scrollViews["jolt-sheet-scroll"].firstMatch
+    #if os(iOS)
+      let start = CGPoint(x: scroll.frame.midX, y: scroll.frame.maxY - 30)
+      XCTAssertNil(JoltScrollContact(start, CGPoint(x: 0, y: -420), .zero, 0.1))
+    #else
+      let start = scroll.coordinate(withNormalizedOffset: .init(dx: 0.8, dy: 0.8))
+      start.press(forDuration: 0.1, thenDragTo: start.withOffset(.init(dx: 0, dy: -420)), withVelocity: .slow, thenHoldForDuration: 0.2)
+    #endif
+    Thread.sleep(forTimeInterval: 0.8)
+    XCTAssertLessThan(handle.frame.midY, compact - 100)
+    let expanded = handle.frame.midY
+    // Content must already have scrolled during that first contact.
+    let expand = app.buttons["panel-expand"]
+    XCTAssertLessThan(expand.frame.midY, handle.frame.maxY + 30)
+    #if os(iOS)
+      let returnStart = CGPoint(x: scroll.frame.midX, y: scroll.frame.minY + 80)
+      XCTAssertNil(JoltScrollContact(returnStart, CGPoint(x: 0, y: 430), .zero, 0.1))
+    #else
+      scroll.scroll(byDeltaX: 0, deltaY: 350)
+    #endif
+    Thread.sleep(forTimeInterval: 0.7)
+    XCTAssertGreaterThan(handle.frame.midY, expanded + 40)
+    // Existing action controls still receive an ordinary tap after pan recognition.
+    clickSheetControl(app.buttons["panel-expand"])
+    XCTAssertTrue(wait { handle.frame.midY < compact - 100 })
+    Thread.sleep(forTimeInterval: 0.8)
+    clickSheetControl(app.buttons["panel-compact"])
+    XCTAssertTrue(wait { abs(handle.frame.midY - compact) < 4 })
+    #if os(iOS)
+      let reverseStart = CGPoint(x: scroll.frame.midX, y: scroll.frame.maxY - 30)
+      XCTAssertNil(JoltScrollContact(reverseStart, CGPoint(x: 0, y: -420), CGPoint(x: 0, y: 360), 0.1))
+      Thread.sleep(forTimeInterval: 0.7)
+      XCTAssertGreaterThan(handle.frame.midY, expanded + 40)
+    #endif
+    click(app.buttons["panel-mount"])
+    click(app.buttons["panel-mount"])
+    XCTAssertTrue(handle.waitForExistence(timeout: 3))
+    cue("stop")
+  }
   @MainActor func testMotionContractsExpansion() {
     let app = lab("--motion-contracts-lab")
     XCTAssertTrue(app.buttons["contract-spring"].waitForExistence(timeout: 10))

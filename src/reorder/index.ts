@@ -19,6 +19,7 @@ import type {
 } from './types.js'
 
 export { coreListAdapter }
+export { collectionViewReorderAdapter } from '../collection-view.js'
 export { realizedRowsAdapter }
 export type { RealizedReorderOptions, RealizedReorderItem } from './realized.js'
 export { ReorderHandle } from './handle.js'

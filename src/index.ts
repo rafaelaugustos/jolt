@@ -170,6 +170,8 @@ export type { RenderActivity, RenderActivityAdapter } from './render-activity.js
 export type { LayoutExit } from './core/layout-exit.js'
 
 export { listChanges, type ListChanges, type ListChangesOptions } from './list-changes.js'
+export type { NativeListAdapter } from './list-adapter.js'
+export { collectionViewListAdapter } from './collection-view.js'
 export { gestureRelations } from './core/gesture-relations.js'
 export type {
   GestureRelation,

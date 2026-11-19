@@ -31,6 +31,8 @@ public typealias JoltSheetGeometry = JoltCore.JoltSheetGeometry
     return geometry.stops.contains { $0.height < stop.height - 0.5 }
   }
   private let value: JoltMotionValue
+  let clock: JoltClock
+  var inputRevision: Int { revision }
   private let transition: JoltTransition
   private let onChange: @MainActor (JoltSheetSnap?) -> Void
   private var observation: JoltObservation?
@@ -45,6 +47,7 @@ public typealias JoltSheetGeometry = JoltCore.JoltSheetGeometry
   ) throws {
     try JoltSheetGeometry.validate(snaps)
     self.snaps = snaps
+    self.clock = clock
     self.dismissible = dismissible
     self.transition = transition
     self.onChange = onChange
@@ -142,6 +145,14 @@ public typealias JoltSheetGeometry = JoltCore.JoltSheetGeometry
   public func drag(by translation: Double) {
     guard dragging, !disposed, !paused, !suspended, translation.isFinite else { return }
     try? value.set(clamp(origin + translation))
+  }
+  func consumeScroll(delta: Double, offset: Double, extent: Double) -> JoltScrollConsumption? {
+    guard dragging, !disposed, !paused, !suspended, let geometry else { return nil }
+    guard let next=try? JoltScrollHandoff.consume(delta: delta, panel: position,
+      bounds: (geometry.stops.map(\.y).min() ?? 0)...geometry.closedY,
+      offset: offset, extent: extent) else { return nil }
+    try? value.set(next.panel)
+    return next
   }
   public func endDrag(velocity: Double = 0) {
     guard dragging, let geometry, !disposed else { return }

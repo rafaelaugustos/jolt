@@ -28,6 +28,17 @@ public final class NativeGestureInput {
         manager = type.getMethod("getInstance").invoke(null);
         inject = type.getMethod("injectInputEvent", InputEvent.class, int.class);
         float cx = Float.parseFloat(args[0]), cy = Float.parseFloat(args[1]);
+        if(args.length>7 && args[2].equals("scroll-contact")) {
+            float dx=Float.parseFloat(args[3]),dy=Float.parseFloat(args[4]);
+            float rx=Float.parseFloat(args[5]),ry=Float.parseFloat(args[6]);
+            down=SystemClock.uptimeMillis();send(MotionEvent.ACTION_DOWN,cx,cy);
+            SystemClock.sleep(Long.parseLong(args[7]));
+            for(int i=1;i<=40;i++)send(MotionEvent.ACTION_MOVE,cx+dx*i/40,cy+dy*i/40);
+            if(args.length>8)SystemClock.sleep(Long.parseLong(args[8]));
+            if(rx!=0 || ry!=0)for(int i=1;i<=40;i++)send(MotionEvent.ACTION_MOVE,cx+dx+rx*i/40,cy+dy+ry*i/40);
+            if(args.length>9)SystemClock.sleep(Long.parseLong(args[9]));
+            SystemClock.sleep(200);send(MotionEvent.ACTION_UP,cx+dx+rx,cy+dy+ry);return;
+        }
         if(args.length>2 && args[2].equals("photo-interrupt")) {
             down=SystemClock.uptimeMillis();send(MotionEvent.ACTION_DOWN,cx,cy);send(MotionEvent.ACTION_UP,cx,cy);
             SystemClock.sleep(70);down=SystemClock.uptimeMillis();send(MotionEvent.ACTION_DOWN,cx,cy);send(MotionEvent.ACTION_UP,cx,cy);

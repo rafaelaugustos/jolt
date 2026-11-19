@@ -280,7 +280,7 @@
       "id": "sheet",
       "expected": {
         "position": 0,
-        "velocity": -250,
+        "velocity": 0,
         "settled": false
       },
       "tolerance": {
@@ -306,7 +306,7 @@
       "id": "sheet",
       "expected": {
         "position": 0,
-        "velocity": -250,
+        "velocity": 0,
         "settled": false
       },
       "tolerance": {
@@ -580,7 +580,7 @@
       "id": "sheet",
       "expected": {
         "position": 0,
-        "velocity": -200,
+        "velocity": 0,
         "settled": false
       },
       "tolerance": {
