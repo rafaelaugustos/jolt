@@ -56,8 +56,11 @@ Install root, Angular and native fixture dependencies as in [CONTRIBUTING](../..
 ```sh
 python3 benchmarks/gesture-input/build.py /tmp/jolt-collections-input
 python3 benchmarks/collections-scroll/record-ios.py IOS_SIMULATOR_ID OUTPUT
+python3 benchmarks/collections-scroll/record-ios.py IOS_SIMULATOR_ID EDGE_OUTPUT testHorizontalEdges
+python3 benchmarks/collections-scroll/record-ios.py IOS_SIMULATOR_ID LIFECYCLE_OUTPUT testHorizontalLifecycle
 python3 benchmarks/collections-scroll/record-android.py emulator-SERIAL OUTPUT /tmp/jolt-collections-input/gesture-input.jar
 python3 benchmarks/collections-scroll/record-android.py emulator-SERIAL EDGE_OUTPUT /tmp/jolt-collections-input/gesture-input.jar edges
+python3 benchmarks/collections-scroll/record-android.py emulator-SERIAL LIFECYCLE_OUTPUT /tmp/jolt-collections-input/gesture-input.jar lifecycle
 python3 benchmarks/swiftui-demo/record.py IOS_SIMULATOR_ID SWIFT_OUTPUT sheet-continuity
 python3 benchmarks/swiftui-demo/record.py macos MAC_OUTPUT sheet-continuity
 node benchmarks/collections-scroll/record-web.mjs

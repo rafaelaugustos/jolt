@@ -7,7 +7,7 @@ recorder=runner=None
 try:
  subprocess.run(['/opt/homebrew/opt/ruby@3.3/bin/ruby',str(root/'benchmarks/docs-ios-ui.rb'),str(output/'project'),str(root/'benchmarks/collections-scroll/NativeTests.swift')],check=True)
  with (output/'xctest.log').open('w') as log:
-  runner=subprocess.Popen(['xcodebuild','test','-project',str(output/'project/DocsTests.xcodeproj'),'-scheme','DocsTests','-destination','platform=iOS Simulator,id='+serial,'-parallel-testing-enabled','NO','-collect-test-diagnostics','never','-derivedDataPath',str(output/'build'),'-resultBundlePath',str(output/'result.xcresult'),'CODE_SIGNING_ALLOWED=NO',*(['-only-testing:DocsTests/CollectionsScroll/'+sys.argv[3]] if len(sys.argv)>3 else [])],stdout=log,stderr=subprocess.STDOUT)
+  runner=subprocess.Popen(['xcodebuild','test','-project',str(output/'project/DocsTests.xcodeproj'),'-scheme','DocsTests','-destination','platform=iOS Simulator,id='+serial,'-parallel-testing-enabled','NO','-collect-test-diagnostics','never','-derivedDataPath',str(output/'build'),'-resultBundlePath',str(output/'result.xcresult'),'CODE_SIGNING_ALLOWED=NO','-only-testing:DocsTests/CollectionsScroll/'+(sys.argv[3] if len(sys.argv)>3 else 'testCollections')],stdout=log,stderr=subprocess.STDOUT)
   seen=None;deadline=time.monotonic()+600
   while runner.poll() is None:
    if time.monotonic()>deadline:raise RuntimeError('XCTest timeout')
