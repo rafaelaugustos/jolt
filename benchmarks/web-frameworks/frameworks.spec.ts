@@ -60,10 +60,29 @@ test('Angular reentry during leave retains its root and cancels stale removal', 
   await expect
     .poll(() => card.evaluate((n) => Number(getComputedStyle(n).opacity)))
     .toBe(1)
-  await card.evaluate((n) => ((window as any).originalRoot = n))
+  // Reenter on an actual intermediate browser frame. Protocol latency between
+  // two remote clicks must not turn this into a completed exit and a new mount.
+  await card.evaluate((root) => {
+    const toggle = [...document.querySelectorAll('button')].find(
+      (button) => button.textContent?.trim() === 'Toggle',
+    )!
+    ;(window as any).originalRoot = root
+    ;(window as any).reentryOpacity = new Promise<number>((resolve) => {
+      const frame = () => {
+        if (!root.isConnected) return resolve(0)
+        const opacity = Number(getComputedStyle(root).opacity)
+        if (opacity > 0 && opacity < 1) {
+          toggle.click()
+          resolve(opacity)
+        } else requestAnimationFrame(frame)
+      }
+      requestAnimationFrame(frame)
+    })
+  })
   await page.getByRole('button', { name: 'Toggle', exact: true }).click()
-  await expect(card).toHaveCount(1)
-  await page.getByRole('button', { name: 'Toggle', exact: true }).click()
+  const leavingOpacity = await page.evaluate(() => (window as any).reentryOpacity)
+  expect(leavingOpacity).toBeGreaterThan(0)
+  expect(leavingOpacity).toBeLessThan(1)
   await expect
     .poll(() => card.evaluate((n) => Number(getComputedStyle(n).opacity)))
     .toBe(1)
