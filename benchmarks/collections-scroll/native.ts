@@ -14,7 +14,7 @@ import {
   isIOS,
   type View,
 } from '@nativescript/core'
-import { CollectionView } from '../native-app/node_modules/@nativescript-community/ui-collectionview'
+import { CollectionView } from '@nativescript-community/ui-collectionview'
 import {
   bind,
   collectionViewListAdapter,
