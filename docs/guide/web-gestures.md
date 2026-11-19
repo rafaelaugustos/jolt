@@ -1,6 +1,6 @@
 # Web gestures, zoom and scroll
 
-The published 0.1.0-rc.15 behavior is described below. For the unpublished continuity and gesture additions, see [motion contracts](./motion-contracts).
+Available in **0.1.0-rc.16**. See [motion contracts](./motion-contracts) for gesture/velocity and SwiftUI additions, and [collections and scroll](./collections-scroll) for continuous handoff, CollectionView and horizontal/RTL reorder.
 
 Experimental capabilities available since **0.1.0-rc.9**, tracked by #340–#345. The six capabilities belong to the same document runtime and resource scopes. NativeScript and framework runtimes are absent from the Web import graph. The existing native implementations remain available; their recordings below are references, not footage of this Web implementation.
 

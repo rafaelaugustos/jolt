@@ -1,6 +1,6 @@
 # 集合与连续滚动
 
-**源码候选版本，未包含在 0.1.0-rc.15 中。** 涵盖 [#495](https://github.com/rafaelaugustos/jolt/issues/495)、[#496](https://github.com/rafaelaugustos/jolt/issues/496) 和 [#510](https://github.com/rafaelaugustos/jolt/issues/510), [#511](https://github.com/rafaelaugustos/jolt/issues/511), [#512](https://github.com/rafaelaugustos/jolt/issues/512), [#513](https://github.com/rafaelaugustos/jolt/issues/513)。使用包含这些改动的版本重新构建原生应用。SwiftUI 在 iOS 17+、macOS 14+ 上仍为 Beta。
+**已包含在 0.1.0-rc.16 中（Beta）。** 涵盖 [#495](https://github.com/rafaelaugustos/jolt/issues/495)、[#496](https://github.com/rafaelaugustos/jolt/issues/496) 和 [#510](https://github.com/rafaelaugustos/jolt/issues/510), [#511](https://github.com/rafaelaugustos/jolt/issues/511), [#512](https://github.com/rafaelaugustos/jolt/issues/512), [#513](https://github.com/rafaelaugustos/jolt/issues/513)。请安装版本一致的核心包与原生插件，并在升级后重新构建原生应用。SwiftUI 在 iOS 17+、macOS 14+ 上仍为 Beta。
 
 ## CollectionView 适配器 {#collections}
 

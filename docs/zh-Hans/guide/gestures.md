@@ -1,6 +1,6 @@
 # 原生手势 {#native-gestures-and-scroll-handoff}
 
-下文描述已发布的 0.1.0-rc.15 行为。尚未发布的连续性与手势扩展见[动效约定](./motion-contracts)。
+已包含在 **0.1.0-rc.16** 中。手势/速度与 SwiftUI 扩展见[动效约定](./motion-contracts)；连续交接、CollectionView 与水平/RTL 排序见[集合与滚动](./collections-scroll)。
 
 自 **0.1.0-beta.16** 起在核心包中可用。升级后重建原生应用程序。不需要可选的原生属性插件。
 
@@ -86,7 +86,7 @@ scope.use(() => bind(panelSurface, { y: input.y }))
 
 <Clip name="gesture-handoff-android" caption="使用 NativeScript 的 NestedScrollView 实现在 Android 模拟器上进行相同的页内切换。在面板/内容边界处不需要抬起手指。" />
 
-此集成已使用 NativeScript 核心 **9.1.3**、iOS 运行时 **9.1.0** 和 Android 运行时 **9.1.1** 进行测试。支持垂直核心ScrollView；它不承诺 ListView、RecyclerView 插件、第三方列表实现或水平内部滚动的切换。 Android 检查原生滚动是否实现了所需的嵌套滚动协议。不同的列表需要自己的适配器和原生测试。
+原有垂直 Core ScrollView 路径使用 NativeScript Core 9.1.3、iOS runtime 9.1.0 和 Android runtime 9.1.1 验证。RC.16 新增 [Core ListView、线性 CollectionView 与水平 Core ScrollView 交接](./collections-scroll#handoff)。每种容器须遵循对应适配器与限制；这不代表支持任意第三方列表。
 
 ## 移动和所有权 {#movement-and-ownership}
 

@@ -259,6 +259,14 @@
       "bytes": 1487617,
       "sha256": "9b646b8655af421f0728465df591760476cc743074897f4c4f8c4b9e13cb82f4"
     },
+    "docs-topics-rc16-desktop.mp4": {
+      "bytes": 1106804,
+      "sha256": "395d1b63839ddd278056da347b8976ea5e00c732b621b64c895c3144a872e18b"
+    },
+    "docs-topics-rc16-mobile.mp4": {
+      "bytes": 1721682,
+      "sha256": "95b61a7980949b3ffae446ff45bb9f21bbda0026ee02e62486a1374358b229ec"
+    },
     "drag-ios.mp4": {
       "bytes": 64794,
       "sha256": "421767036c95adf8e9cb6a9636fcfa0676fdbf33acbf82fc9029b82800555741"

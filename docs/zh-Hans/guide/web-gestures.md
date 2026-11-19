@@ -1,6 +1,6 @@
 # Web 手势、缩放与滚动
 
-下文描述已发布的 0.1.0-rc.15 行为。尚未发布的连续性与手势扩展见[动效约定](./motion-contracts)。
+已包含在 **0.1.0-rc.16** 中。手势/速度与 SwiftUI 扩展见[动效约定](./motion-contracts)；连续交接、CollectionView 与水平/RTL 排序见[集合与滚动](./collections-scroll)。
 
 这些实验性功能自 **0.1.0-rc.9** 起可用，由 #340–#345 跟踪。六项功能共享文档运行时和资源作用域。Web 导入图不依赖 NativeScript 或框架。下方原生视频是保留的行为参考，不是此 Web 实现的录像。
 

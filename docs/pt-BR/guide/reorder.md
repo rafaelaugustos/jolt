@@ -1,5 +1,7 @@
 # Reordenar listas
 
+Disponível na **0.1.0-rc.16**. Consulte [contratos de movimento](./motion-contracts) para gestos/velocidade e adições SwiftUI, e [coleções e scroll](./collections-scroll) para transferência contínua, CollectionView e reordenação horizontal/RTL.
+
 A RC.13 corrige a geometria Web após FLIP seguido de mudança na altura do texto e adiciona [linhas SwiftUI medidas](./swiftui-geometry).
 
 Segure a alça de uma linha, mova pela lista e solte. Os vizinhos abrem espaço enquanto a lista rola perto das bordas. A linha levantada permanece em uma cópia nativa mesmo depois que sua célula original sai da área visível e é reciclada.

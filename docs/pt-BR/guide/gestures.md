@@ -1,6 +1,6 @@
 # Gestos nativos e transferência para scroll
 
-O comportamento publicado em 0.1.0-rc.15 está descrito abaixo. As adições ainda não publicadas de continuidade e gestos estão em [contratos de movimento](./motion-contracts).
+Disponível na **0.1.0-rc.16**. Consulte [contratos de movimento](./motion-contracts) para gestos/velocidade e adições SwiftUI, e [coleções e scroll](./collections-scroll) para transferência contínua, CollectionView e reordenação horizontal/RTL.
 
 Disponível desde a **0.1.0-beta.16**, no pacote principal. Recompile o app nativo após atualizar. Não exige o plugin opcional de propriedades nativas.
 
@@ -86,7 +86,7 @@ Arrastar para cima consome o percurso restante do painel antes de rolar o conte�
 
 <Clip name="gesture-handoff-android" caption="A mesma transferência dentro da página em emulador Android, usando a implementação NestedScrollView do NativeScript. Não é preciso levantar o dedo na transição entre painel e conteúdo." />
 
-A integração foi testada com NativeScript core **9.1.3**, runtime iOS **9.1.0** e runtime Android **9.1.1**. Suporta o ScrollView vertical do core; não promete transferência para ListView, plugins de RecyclerView, outras implementações de listas ou scroll interno horizontal. Android verifica se o scroll nativo implementa o protocolo necessário. Outra lista precisa de adapter e testes nativos próprios.
+O caminho original de Core ScrollView vertical foi testado com NativeScript Core 9.1.3, runtime iOS 9.1.0 e Android 9.1.1. A RC.16 adiciona [transferência para Core ListView, CollectionView linear e Core ScrollView horizontal](./collections-scroll#handoff). Use o adaptador e os limites documentados para cada contêiner; isso não inclui listas arbitrárias de terceiros.
 
 ## Movimento e ciclo de vida
 

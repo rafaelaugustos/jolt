@@ -1,6 +1,6 @@
 # Motion contracts: first six issues
 
-Source candidate after RC.15 for #497, #502, #503, #504, #505 and #508. This work does not bump the version or publish a release. The four-language [guide](../../docs/guide/motion-contracts.md) owns the API contract and reviewed recording captions.
+Included in RC.16 through PR #509 for #497, #502, #503, #504, #505 and #508. Acceptance was recorded on the source candidate after RC.15, before the release version bump; raw evidence retains its original labels. The four-language [guide](../../docs/guide/motion-contracts.md) owns the API contract and reviewed recording captions.
 
 | Issue | Native acceptance                                                                                                                                                              | Web acceptance                                                                                                                                                      |
 | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

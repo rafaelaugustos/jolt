@@ -1,6 +1,6 @@
 # Collections and scroll acceptance
 
-Source candidate after RC.15, based on `a37b0f5d45812ccd5091c78d5a19d1169c2b4820`; package version remains unchanged. Owns #495, #496 and #510–513. The previous six are in merged PR #509. No release or merge is performed here.
+Included in RC.16 through PR #514, covering #495, #496 and #510–513. Acceptance was recorded on the source candidate based on `a37b0f5d45812ccd5091c78d5a19d1169c2b4820`, before the release version bump. The previous six are in merged PR #509. Raw evidence retains its original candidate labels.
 
 ## Scope and devices
 

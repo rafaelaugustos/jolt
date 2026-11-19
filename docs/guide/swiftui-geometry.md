@@ -1,8 +1,8 @@
 # SwiftUI: panels and measured geometry
 
-The published 0.1.0-rc.15 behavior is described below. For the unpublished continuity and gesture additions, see [motion contracts](./motion-contracts).
+Available in **0.1.0-rc.16**. See [motion contracts](./motion-contracts) for gesture/velocity and SwiftUI additions, and [collections and scroll](./collections-scroll) for continuous handoff, CollectionView and horizontal/RTL reorder.
 
-Available in **0.1.0-rc.15 (Beta)** for iOS 17+ and macOS 14+, without NativeScript or JavaScript. Install the `JoltSwiftUI` product from the [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) package repository, tag `v0.1.0-rc.15`. See [installation](./swiftui), [ownership](./swiftui-motion) and [interaction/geometry](./swiftui-geometry) for platform limits.
+Available in **0.1.0-rc.16 (Beta)** for iOS 17+ and macOS 14+, without NativeScript or JavaScript. Install the `JoltSwiftUI` product from the [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) package repository, tag `v0.1.0-rc.16`. See [installation](./swiftui), [ownership](./swiftui-motion) and [interaction/geometry](./swiftui-geometry) for platform limits.
 
 ## In-app snap panels
 

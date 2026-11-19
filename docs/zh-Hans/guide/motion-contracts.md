@@ -1,6 +1,6 @@
 # 动效连续性与手势关系
 
-**源码候选，尚未包含在 0.1.0-rc.15 中。** 本批次涵盖 [#497](https://github.com/rafaelaugustos/jolt/issues/497)、[#502](https://github.com/rafaelaugustos/jolt/issues/502)、[#503](https://github.com/rafaelaugustos/jolt/issues/503)、[#504](https://github.com/rafaelaugustos/jolt/issues/504)、[#505](https://github.com/rafaelaugustos/jolt/issues/505) 和 [#508](https://github.com/rafaelaugustos/jolt/issues/508)。不会发布软件包或更改版本。SwiftUI 在 iOS 17+ 和 macOS 14+ 上仍为测试版。
+**已包含在 0.1.0-rc.16 中（Beta）。** 本批次涵盖 [#497](https://github.com/rafaelaugustos/jolt/issues/497)、[#502](https://github.com/rafaelaugustos/jolt/issues/502)、[#503](https://github.com/rafaelaugustos/jolt/issues/503)、[#504](https://github.com/rafaelaugustos/jolt/issues/504)、[#505](https://github.com/rafaelaugustos/jolt/issues/505) 和 [#508](https://github.com/rafaelaugustos/jolt/issues/508)。请安装版本一致的核心包与原生插件，并在升级后重新构建原生应用。SwiftUI 在 iOS 17+ 和 macOS 14+ 上仍为测试版。
 
 ## 控制器之间的关系 {#gesture-relationships}
 

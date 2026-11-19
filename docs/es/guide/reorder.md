@@ -1,5 +1,7 @@
 # Reordenar listas {#reorder-a-list}
 
+Disponible en **0.1.0-rc.16**. Consulte [contratos de movimiento](./motion-contracts) para gestos/velocidad y novedades SwiftUI, y [colecciones y scroll](./collections-scroll) para transferencia continua, CollectionView y reordenación horizontal/RTL.
+
 RC.13 corrige la geometría Web tras FLIP seguido de cambios de altura del texto y añade [filas SwiftUI medidas](./swiftui-geometry).
 
 Sostenga un identificador de fila, muévalo a través de una lista y suéltelo. Los vecinos hacen espacio mientras la lista se desplaza cerca de sus bordes. La fila elevada permanece en una instantánea nativa incluso después de que su celda original abandone la ventana gráfica reciclada.

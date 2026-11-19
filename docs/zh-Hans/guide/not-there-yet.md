@@ -1,8 +1,8 @@
 # 发布状态与限制 {#not-there-yet}
 
-RC.15 通过 [PR #506](https://github.com/rafaelaugustos/jolt/pull/506) 新增[组合运动值、原生滚动绑定、布局退场、按键更新列表和 SwiftUI 标题栏](./values-scroll-lists)。文档将 109 个链接整理为 16 个主题。请安装相同版本的 npm 核心包与原生插件，并重新编译 NativeScript 应用；Swift Package Manager 使用 [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) 的 `v0.1.0-rc.15`。新增功能、Web 和 SwiftUI 仍为实验性。
+RC.16 通过 [PR #509](https://github.com/rafaelaugustos/jolt/pull/509) 和 [PR #514](https://github.com/rafaelaugustos/jolt/pull/514) 带来[手势协调、速度连续性与 SwiftUI 扩展](./motion-contracts)，以及 [CollectionView 更新/排序、水平/RTL 排序和连续滚动交接](./collections-scroll)。请安装相同 `0.1.0-rc.16` 版本的 npm 核心包与原生插件，并重新编译 NativeScript 应用；Swift Package Manager 使用 [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) 的 `v0.1.0-rc.16`。新增功能、Web 和 SwiftUI 仍为实验性。
 
-尚待验证：Android 实体设备上的分配与帧耗时（#494）；完整的水平/RTL/回弹/第三方 CollectionView 滚动矩阵及可比较的每事件成本（#495）；原生 VoiceOver/TalkBack 的完整遍历与焦点验收（#498/#499）。这些 issue 保持开放。Core ListView 过渡仅支持扁平、固定行高列表；CollectionView 过渡、分区、网格和跨列表移动不在首版适配器范围内。模拟器证据不能证明应用 CPU/PSS 更低或优于 Reanimated。
+Android 实体设备分配/帧耗时（#494）、实体指针配件（#492）与原生 VoiceOver/TalkBack 完整遍历/焦点（#498/#499）仍待验证。RC.16 完成 #495 文档范围内的水平/RTL/回弹/CollectionView 矩阵及仅生产端计时；测量不包含后续图求值与渲染。CollectionView 更新/排序支持单列垂直布局。分区、网格和跨列表移动仍不在适配器范围内；Web 虚拟化由应用管理。模拟器证据不能证明实体设备性能或更低的应用 CPU/PSS。
 
 RC.14 通过 PR #488 在 Web、NativeScript 和 SwiftUI 上添加[拖柄、移动中的位置、带内边距的目标和重新锚定](./interaction-depth)，并为 SwiftUI 带来[三维旋转与阴影](./swiftui-motion)、[闪光、加载器、揭示、渐变与模糊](./swiftui-advanced)、[文字入场与滚动数字](./swiftui-text)以及[macOS 上按窗口判断的活动状态](./swiftui)。PR #491 修复了 Android 上立即 set 替换路径的问题（#479），并补齐 #412/#413 中[指针](./portable-foundations)与 SwiftUI 组的缺口。Web 与 SwiftUI 仍为实验性 API。安装匹配的 npm 版本并重新编译 NativeScript 应用；Swift Package Manager 使用 [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) 的标签 `v0.1.0-rc.14`。四种语言的指南均包含已审阅的原生/浏览器录像。实体指针配件仍未验证（#492）：指针证据来自模拟器、仿真器和注入输入。
 
@@ -16,7 +16,7 @@ RC.12 新增[指针存在状态、协调属性组、渲染活动与有界绘图]
 
 实体指针配件、iPhone 静音开关及较新 Android 设备上的检查器与性能验证仍待完成。旧手机仅提供兼容性证据。延迟/PSS（#405、#406）仍作为技术债务跟踪；发布不证明性能优势，也不解决应用 JavaScript 阻塞。
 
-**当前版本：0.1.0-rc.12.1。**包含[原生框架适配器](./frameworks)、[新增传感器来源](./device-sensors#vector-sources)、[移动键盘修复](./mobile-web)、[元素相对 Web 滚动区间](./web-support#element-range)、[原生着色器输入与 iOS 本地视频纹理](./image-effects)，以及 [Android 播放改进](./android-performance)。[安装版本一致的软件包](./install)并重新构建原生应用。Web API 仍为实验性功能。
+**当前版本：0.1.0-rc.16。**包含[原生框架适配器](./frameworks)、[新增传感器来源](./device-sensors#vector-sources)、[移动键盘修复](./mobile-web)、[元素相对 Web 滚动区间](./web-support#element-range)、[原生着色器输入与 iOS 本地视频纹理](./image-effects)，以及 [Android 播放改进](./android-performance)。[安装版本一致的软件包](./install)并重新构建原生应用。Web API 仍为实验性功能。
 
 **RC.10 新增：**[Web 渐变、加载与文字](./web-effects)、[粒子、模糊、形状与图像效果](./web-surfaces)、[键盘、面板、导航、物理与图标](./web-platforms)、[重力、触感、传感器、玻璃与按稳定标识返回缩略图](./web-parity)，以及原生 [Core ScrollView 页头](./scroll-header#retained-scrollview)和[已挂载行排序](./reorder#retained-rows)。请重新构建原生应用。Mavis 的采用工作单独进行。
 
@@ -28,7 +28,7 @@ RC.12 新增[指针存在状态、协调属性组、渲染活动与有界绘图]
 
 **自 RC.7 起：**[颜色、边框、连续绘制、真实尺寸、FLIP 与可定位场景](./web-visual)扩展此运行时。Web API 仍为实验性功能；完整对等由 [#236](https://github.com/rafaelaugustos/jolt/issues/236) 跟踪。
 
-**0.1.0-rc.12.1 已发布。** 原生功能保留各自文档中说明的平台限制，正式版验收仍在进行。Web 入口仍为实验性功能；发布并不表示 Mavis 集成完成，也不保证所有原生/Web API 完全一致。
+**0.1.0-rc.16 已发布。** 原生功能保留各自文档中说明的平台限制，正式版验收仍在进行。Web 入口仍为实验性功能；发布并不表示 Mavis 集成完成，也不保证所有原生/Web API 完全一致。
 
 RC.6 包含[Web 连续动画](./web-dynamic)：数值、跟随弹簧及拖动/吸附，以及[数值映射、几何刷新和垂直滚动](./web-support)。Web API 仍为实验性功能。
 
@@ -54,7 +54,7 @@ RC.4 在原生节点上合成图层窗口，让 Android 的形状、渐变和模
 
 - Web API 仍为实验性功能。快照内容、坐标空间、硬件可用性及浏览器回退均有明确限制。[原生框架适配器](./frameworks)已随 RC.11 发布；稳定的可移植引用仍是独立工作。
 - `animateSize()` 支持 StackLayout/GridLayout 以及不换行 row/column FlexboxLayout 的直接子元素，也可用于 ScrollView 内。主轴动画子元素要求 `flexGrow=0`、`flexShrink=0`；父布局分配与交叉轴 stretch 仍具有优先权。每帧通过 JavaScript 测量/布局。复用单元格与共享元素仍不在范围内。
-- `drag()` 不提供通用的多指手势组合。平移、双指缩放和旋转请使用 [`gestures()`](./gestures)；[照片缩放](./photo-zoom)则提供专用的缩放、平移和关闭控制器。手势交接适配器支持垂直 Core ScrollView；其他列表/容器组合需要独立的适配器和原生验证。
+- `drag()` 不提供通用的多指手势组合。平移、双指缩放和旋转请使用 [`gestures()`](./gestures)；[照片缩放](./photo-zoom)则提供专用的缩放、平移和关闭控制器。受支持的[滚动交接适配器](./collections-scroll#handoff)涵盖双轴 Core ScrollView、垂直 Core ListView 与线性 CollectionView；其他容器需要各自的适配器与验证。
 - 外部属性适配器需要 `@rafaelaugusto/jolt-native`。内置的 SceneKit 相机、光照和材质适配器仅支持 iOS；未内置 Android 3D 渲染器适配器。MapKit 与 MapLibre 的相机单位不同。
 - SceneKit 相机视野支持 iOS 上的自动透视投影。正交缩放、自定义投影矩阵和任意镜头控制不属于该适配器的支持范围。
 - `seekableTimeline()` 可拖动有限声明式视图/数值场景的进度。回调、触觉、连续跟随器及任意一次性效果不属于该合同；命令式 timeline 保留参与者控制。

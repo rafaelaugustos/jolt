@@ -2,7 +2,7 @@
 
 **Disponível na 0.1.0-rc.15 (Beta).** Recompile o aplicativo nativo após atualizar. Os vídeos mostram interação real nas plataformas indicadas; simuladores/emuladores não comprovam desempenho em aparelho físico.
 
-Continuam pendentes as medições de alocações/tempo por frame em Android físico (#494), a matriz completa de scroll horizontal/RTL/bounce/CollectionView de terceiros e o custo comparável por evento (#495), além da navegação e do foco completos com VoiceOver/TalkBack nativos (#498/#499). Essas issues permanecem abertas. As transições de Core ListView exigem linhas simples de altura fixa; transições de CollectionView, seções, grids e movimentos entre listas ficam fora deste primeiro adaptador. Evidências em simulador/emulador não comprovam menor CPU/PSS do app nem superioridade sobre Reanimated.
+Continuam pendentes as medições de alocações/tempo por frame em Android físico (#494), os acessórios de ponteiro físicos (#492) e a navegação/foco completos com VoiceOver/TalkBack nativos (#498/#499). A RC.16 conclui a matriz documentada horizontal/RTL/bounce/CollectionView e o timing apenas do produtor de #495; essas medições excluem a avaliação posterior do grafo e a renderização. Mudanças/reordenação de CollectionView suportam uma coluna vertical. Seções, grids e movimentos entre listas continuam fora dos adaptadores; a virtualização Web pertence ao app. Evidências em simulador/emulador não comprovam desempenho físico nem menor CPU/PSS do app.
 
 ## Combinar valores numéricos
 
