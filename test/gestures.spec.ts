@@ -1,6 +1,11 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { Application, ScrollView } from '@nativescript/core'
-import { GestureSurface, gestures, type Gestures } from '../src/gestures/index.js'
+import { Application, ScrollView, ListView, Observable } from '@nativescript/core'
+import {
+  GestureSurface,
+  gestures,
+  scrollHandoff,
+  type Gestures,
+} from '../src/gestures/index.js'
 import { motionScope } from '../src/index.js'
 import { setLiveSpringDriver, type LiveNode } from '../src/live-spring-driver.js'
 import type { GestureDriver } from '../src/gesture-native.js'
@@ -76,6 +81,45 @@ const create = (...args: Parameters<typeof gestures>) => {
   return control
 }
 describe('native gesture ownership', () => {
+  it('cancels list contacts on source replacement and mutation, then releases both listeners', () => {
+    const surface = new GestureSurface(),
+      list = new ListView()
+    list.parent = surface
+    const source = new Observable(),
+      replacement = new Observable()
+    list.items = source as never
+    const control = create(surface, {
+      pan: { axis: 'y', bounds: { top: 0, bottom: 180 } },
+      scrollView: scrollHandoff(list),
+    })
+    source.notify({ eventName: 'change' })
+    expect(driver.cancel).toHaveBeenCalledOnce()
+    list.items = replacement as never
+    list.notify({ eventName: 'itemsChange' })
+    source.notify({ eventName: 'change' })
+    expect(driver.cancel).toHaveBeenCalledTimes(2)
+    replacement.notify({ eventName: 'change' })
+    expect(driver.cancel).toHaveBeenCalledTimes(3)
+    control.dispose()
+    replacement.notify({ eventName: 'change' })
+    expect(driver.cancel).toHaveBeenCalledTimes(3)
+  })
+  it('matches horizontal bounds and disposes input when the widget changes orientation', () => {
+    const surface = new GestureSurface(),
+      scroll = new ScrollView()
+    scroll.orientation = 'horizontal'
+    scroll.parent = surface
+    expect(() => scrollHandoff(scroll, { axis: 'y' })).toThrow(/axis/)
+    expect(() => scrollHandoff(new ListView(), { axis: 'x' })).toThrow(/vertical/)
+    const control = create(surface, {
+      pan: { axis: 'x', bounds: { left: 0, right: 120 } },
+      scrollView: scrollHandoff(scroll),
+    })
+    expect(factory.create.mock.calls.at(-1)![3].axis).toBe(1)
+    scroll.notify({ eventName: 'orientationChange' })
+    expect(control.disposed).toBe(true)
+    expect(driver.dispose).toHaveBeenCalledOnce()
+  })
   it('opts into first and last contact callbacks without treating a tap as a pan', () => {
     const start = vi.fn(),
       end = vi.fn(),

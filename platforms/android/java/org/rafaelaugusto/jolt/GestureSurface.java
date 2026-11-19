@@ -28,15 +28,20 @@ public final class GestureSurface extends org.nativescript.widgets.GridLayout im
         return session != null || super.onTouchEvent(event);
     }
     @Override public boolean onStartNestedScroll(View child, View target, int axes, int type) {
-        return session != null && type == ViewCompat.TYPE_TOUCH && (axes & ViewCompat.SCROLL_AXIS_VERTICAL) != 0 && session.accepts(target);
+        return session != null && type == ViewCompat.TYPE_TOUCH && (axes & session.scrollAxis()) != 0 && session.accepts(target);
     }
     @Override public void onNestedScrollAccepted(View child, View target, int axes, int type) { nested.onNestedScrollAccepted(child, target, axes, type); }
     @Override public void onStopNestedScroll(View target, int type) { nested.onStopNestedScroll(target, type); }
     @Override public void onNestedPreScroll(View target, int dx, int dy, int[] consumed, int type) {
-        if (session != null && type == ViewCompat.TYPE_TOUCH && session.accepts(target)) consumed[1] += session.consume(dy, !target.canScrollVertically(-1));
+        if (session != null && type == ViewCompat.TYPE_TOUCH && session.accepts(target)) {
+            int axis=session.scrollAxis();consumed[axis==1?0:1] += session.consume(axis==1?dx:dy,session.atStart());
+        }
     }
     @Override public void onNestedScroll(View target, int dx, int dy, int remainingX, int remainingY, int type, int[] consumed) {
-        if (session != null && type == ViewCompat.TYPE_TOUCH && session.accepts(target)) consumed[1] += session.consume(remainingY, true);
+        if (session != null && type == ViewCompat.TYPE_TOUCH && session.accepts(target)) {
+            session.childConsumed(dx,dy);
+            int axis=session.scrollAxis();consumed[axis==1?0:1] += session.consume(axis==1?remainingX:remainingY,true);
+        }
     }
     @Override public boolean onNestedPreFling(View target, float vx, float vy) { return session != null && session.accepts(target) && session.preFling(vx, vy); }
     @Override public boolean onNestedFling(View target, float vx, float vy, boolean consumed) { return false; }

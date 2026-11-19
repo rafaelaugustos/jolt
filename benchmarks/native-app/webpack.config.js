@@ -22,6 +22,7 @@ module.exports = (env) => {
       {
         __JOLT_VALUES_LAB__: JSON.stringify(!!env.valuesLab),
         __JOLT_MOTION_CONTRACTS__: JSON.stringify(!!env.motionContracts),
+        __JOLT_COLLECTIONS_SCROLL__: JSON.stringify(!!env.collectionsScroll),
         __NATIVE_CI_BUILD__: JSON.stringify({
           commit: execFileSync('git', ['rev-parse', 'HEAD'], {
             cwd: __dirname,

@@ -10,6 +10,10 @@
     double _offset, _previousTime;
     CGSize _size;
     NSUInteger _updates, _callbacks;
+    BOOL _profiling;
+    double _minimum, _maximum;
+    NSMutableData *_costStorage;
+    NSUInteger _costCount;
 }
 static NSUInteger active;
 static void *ScrollSourceContext=&ScrollSourceContext;
@@ -41,6 +45,7 @@ static void *ScrollSourceContext=&ScrollSourceContext;
 - (void)update:(BOOL)force {
     UIScrollView *source=_source;
     if(_disposed || !_enabled || !source)return;
+    double started=_profiling&&!force?CACurrentMediaTime():0;
     _size=source.bounds.size;
     UIEdgeInsets inset=source.adjustedContentInset;
     double next=_horizontal ? source.contentOffset.x+inset.left : source.contentOffset.y+inset.top;
@@ -48,10 +53,19 @@ static void *ScrollSourceContext=&ScrollSourceContext;
     double now=CACurrentMediaTime()*1000;
     double velocity=force || _previousTime==0 || now<=_previousTime || now-_previousTime>100 ? 0 : (next-_offset)*1000/(now-_previousTime);
     _offset=next; _previousTime=now; _updates++; [_node setDataInput:next velocity:velocity];
+    _minimum=MIN(_minimum,next);_maximum=MAX(_maximum,next);
     if(_observing && _changed) { _callbacks++; _changed(); }
+    if(started && _costCount<256)((double *)_costStorage.mutableBytes)[_costCount++]=(CACurrentMediaTime()-started)*1000;
 }
+- (void)setProfiling:(BOOL)enabled { _profiling=enabled;_costStorage=enabled?[NSMutableData dataWithLength:256*sizeof(double)]:nil;_costCount=0;_minimum=_maximum=_offset; }
 - (void)refresh { [self update:YES]; }
-- (NSString *)snapshot { return [NSString stringWithFormat:@"{\"offset\":%.17g,\"updates\":%lu,\"callbacks\":%lu}",_offset,(unsigned long)_updates,(unsigned long)_callbacks]; }
+- (NSString *)snapshot {
+    NSMutableArray *costs=[NSMutableArray arrayWithCapacity:_costCount];
+    const double *samples=_costStorage.bytes;
+    for(NSUInteger i=0;i<_costCount;i++)[costs addObject:@(samples[i])];
+    NSData *data=[NSJSONSerialization dataWithJSONObject:@{@"offset":@(_offset),@"updates":@(_updates),@"callbacks":@(_callbacks),@"minimum":@(_minimum),@"maximum":@(_maximum),@"producerMs":costs} options:0 error:nil];
+    return [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+}
 - (void)dispose { if(_disposed)return; [self setEnabled:NO]; _disposed=YES; _changed=nil; _node=nil; _source=nil; }
 - (void)dealloc { [self dispose]; }
 @end

@@ -81,6 +81,7 @@ declare class JoltReorderHandle extends UIButton {
   onMove: ((direction: number) => void) | null
 }
 declare class JoltRealizedReorder extends NSObject {
+  static supportsAxes(): boolean
   recognizer(kind: string): UIGestureRecognizer | null
   static attachContainerOptionsOnState(
     scroll: UIScrollView,
@@ -96,9 +97,11 @@ declare class JoltRealizedReorder extends NSObject {
   dispose(): void
 }
 declare class JoltReorderSession extends NSObject {
+  static supportsCollections(): boolean
+  recycle(view: UIView): void
   recognizer(kind: string): UIGestureRecognizer | null
   static attachOptionsOnState(
-    list: UITableView,
+    list: UIScrollView,
     options: string,
     callback: (state: number, index: number, toIndex: number) => void,
   ): JoltReorderSession
@@ -111,6 +114,7 @@ declare class JoltReorderSession extends NSObject {
 }
 declare class JoltGestureSession extends NSObject {
   recognizer(kind: string): UIGestureRecognizer | null
+  static supportsScrollAdapters(): boolean
   static supportsContactEvents(): boolean
   static supportsScrollReplay(): boolean
   static hasSession(surface: UIView): boolean
@@ -475,6 +479,7 @@ declare class JoltPressInput extends UIGestureRecognizer {
 }
 
 declare class JoltScrollSource extends NSObject {
+  setProfiling(enabled: boolean): void
   static attachNodeHorizontalChanged(
     source: UIScrollView,
     node: JoltLiveSpring,

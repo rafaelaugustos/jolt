@@ -141,6 +141,7 @@ export function createReorder<K extends ReorderKey>(
     suppressUntil = 0,
     keyboard = false,
     scrolling = false
+  let orderDirection = 1
   let cancelDelay: (() => void) | undefined,
     restoreDrag: (() => void) | undefined,
     layout: Animation | undefined
@@ -246,6 +247,12 @@ export function createReorder<K extends ReorderKey>(
       return false
     }
     if (active !== undefined) {
+      const direction =
+        axis === 'x' && view.getComputedStyle(container).direction === 'rtl' ? -1 : 1
+      if (direction !== orderDirection) {
+        cancel('geometry-changed')
+        return false
+      }
       if (preview.some((entry) => !entry.binding.owns())) {
         cancel()
         return false
@@ -274,7 +281,8 @@ export function createReorder<K extends ReorderKey>(
     order.splice(to, 0, preview[from]!)
     let offset = baseStart
     for (const entry of order) {
-      if (entry !== preview[from]) entry.value.set(offset - entry.start)
+      if (entry !== preview[from])
+        entry.value.set(orderDirection * (offset - entry.start))
       offset += entry.size + gap
     }
   }
@@ -291,20 +299,34 @@ export function createReorder<K extends ReorderKey>(
     baseScroll = scrollOffset()
     try {
       const boxes = rows.map((row) => row.target.getBoundingClientRect())
+      orderDirection =
+        axis === 'x' && view.getComputedStyle(container).direction === 'rtl' ? -1 : 1
+      const logicalStart = (rect: DOMRect) =>
+        axis === 'y' ? rect.top : orderDirection < 0 ? -rect.right : rect.left
+      const length = (rect: DOMRect) => (axis === 'y' ? rect.height : rect.width)
+      if (
+        boxes.some(
+          (box, i) =>
+            i > 0 &&
+            logicalStart(box) < logicalStart(boxes[i - 1]!) + length(boxes[i - 1]!) - 0.5,
+        )
+      )
+        throw new TypeError(
+          'Reorder items must follow their axis and text direction without overlap.',
+        )
       gap =
         boxes.length > 1
           ? Math.max(
               0,
               ...boxes
                 .slice(1)
-                .map((rect, i) =>
-                  axis === 'y'
-                    ? rect.top - boxes[i]!.bottom
-                    : rect.left - boxes[i]!.right,
+                .map(
+                  (rect, i) =>
+                    logicalStart(rect) - logicalStart(boxes[i]!) - length(boxes[i]!),
                 ),
             )
           : 0
-      baseStart = axis === 'y' ? boxes[0]!.top : boxes[0]!.left
+      baseStart = logicalStart(boxes[0]!)
       preview = []
       for (const [i, entry] of rows.entries()) {
         const box = boxes[i]!,
@@ -326,8 +348,8 @@ export function createReorder<K extends ReorderKey>(
         }
         preview.push({
           row: entry,
-          start: axis === 'y' ? box.top : box.left,
-          size: axis === 'y' ? box.height : box.width,
+          start: logicalStart(box),
+          size: length(box),
           value,
           binding,
         })
@@ -410,7 +432,7 @@ export function createReorder<K extends ReorderKey>(
       const delta = latest - start + scrollOffset() - baseScroll,
         entry = preview[from]!
       entry.value.set(delta)
-      const center = entry.start + delta + entry.size / 2
+      const center = entry.start + orderDirection * delta + entry.size / 2
       const index = reorderDestination(preview, from, center) ?? from
       if (index !== to) {
         reorderPreview(index)

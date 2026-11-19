@@ -1,4 +1,7 @@
-import { Application, GridLayout, ScrollView, Trace, isAndroid } from '@nativescript/core'
+import { Application, GridLayout, Observable, Trace, isAndroid } from '@nativescript/core'
+import { handoffSource, type ScrollHandoffSource } from '../scroll-handoff.js'
+export { scrollHandoff } from '../scroll-handoff.js'
+export type { ScrollHandoffAdapter, ScrollHandoffSource } from '../scroll-handoff.js'
 import { registerGestureEndpoints } from '../core/gesture-relations.js'
 export { gestureRelations } from '../core/gesture-relations.js'
 export type { GestureRelation, GestureRelations } from '../core/gesture-relations.js'
@@ -54,8 +57,8 @@ export interface GesturesOptions {
   rotate?: boolean
   initial?: Partial<GesturePosition>
   spring?: Pick<SpringValueOptions, 'stiffness' | 'damping' | 'mass'>
-  /** A descendant, vertical NativeScript ScrollView. Other list plugins are not supported. */
-  scrollView?: ScrollView
+  /** Descendant Core ScrollView, or a native list/collection adapter with the same pan axis. */
+  scrollView?: ScrollHandoffSource
   /** First contact, before pan recognition; useful when a touch interrupts a spring. */
   onContactStart?: (event: GestureEvent) => void
   /** Last contact released or cancelled, including a touch that never becomes a pan. */
@@ -151,18 +154,16 @@ function settings(options: GesturesOptions): GestureSettings {
     throw new RangeError(
       'Gesture thresholds and scale limits must be positive and ordered.',
     )
+  const scroll = handoffSource(options.scrollView)
+  if (scroll && result.axis !== (scroll.axis === 'x' ? 1 : 2))
+    throw new TypeError(`Scroll handoff needs a ${scroll.axis}-axis pan.`)
   if (
-    options.scrollView &&
-    (!(options.scrollView instanceof ScrollView) ||
-      options.scrollView.orientation !== 'vertical' ||
-      result.axis !== 2)
+    scroll &&
+    (scroll.axis === 'x'
+      ? pan.bounds?.left === undefined || pan.bounds?.right === undefined
+      : pan.bounds?.top === undefined || pan.bounds?.bottom === undefined)
   )
-    throw new TypeError('Scroll handoff needs a vertical ScrollView and a y-axis pan.')
-  if (
-    options.scrollView &&
-    (pan.bounds?.top === undefined || pan.bounds?.bottom === undefined)
-  )
-    throw new TypeError('Scroll handoff needs explicit top and bottom pan bounds.')
+    throw new TypeError('Scroll handoff needs explicit bounds on its pan axis.')
   return result
 }
 
@@ -176,11 +177,12 @@ export function gestures(
   if (!options || typeof options !== 'object')
     throw new TypeError('Gesture options must be an object.')
   let config = settings(options)
-  if (options.scrollView) {
-    let ancestor = options.scrollView.parent
+  const scroll = handoffSource(options.scrollView)?.view
+  if (scroll) {
+    let ancestor = scroll.parent
     while (ancestor && ancestor !== surface) ancestor = ancestor.parent
     if (ancestor !== surface)
-      throw new TypeError('The ScrollView must be inside the GestureSurface.')
+      throw new TypeError('The scroller must be inside the GestureSurface.')
   }
   const initial = { x: 0, y: 0, scale: 1, rotate: 0, ...options.initial }
   if (Object.values(initial).some((value) => !Number.isFinite(value)))
@@ -235,6 +237,18 @@ export function gestures(
     driver = undefined
     previous?.dispose()
   }
+  let observedItems: Observable | undefined
+  const cancelInput = () => driver?.cancel()
+  const watchItems = () => {
+    cancelInput()
+    observedItems?.off('change', cancelInput)
+    const items = (scroll as typeof scroll & { items?: unknown })?.items
+    observedItems = items instanceof Observable ? items : undefined
+    observedItems?.on('change', cancelInput)
+  }
+  // A new layout contract requires explicit reattachment. Never keep consuming
+  // a contact with stale axis/limits while a plugin rebuilds its native layout.
+  const layoutContractChanged = () => control.dispose()
   const refreshEnabled = () =>
     driver?.enabled(
       !held &&
@@ -248,11 +262,11 @@ export function gestures(
       driver ||
       !surface.isLoaded ||
       !surface.nativeViewProtected ||
-      (options.scrollView && !options.scrollView.nativeViewProtected)
+      (scroll && !scroll.nativeViewProtected)
     )
       return
     try {
-      driver = createGestureDriver(surface, options.scrollView, values, config, callback)
+      driver = createGestureDriver(surface, scroll, values, config, callback)
       refreshEnabled()
     } catch (error) {
       control.dispose()
@@ -340,8 +354,20 @@ export function gestures(
       surface.off('unloaded', detach)
       surface.off('isEnabledChange', refreshEnabled)
       surface.off('isUserInteractionEnabledChange', refreshEnabled)
-      options.scrollView?.off('loaded', attach)
-      options.scrollView?.off('unloaded', detach)
+      scroll?.off('loaded', attach)
+      scroll?.off('unloaded', detach)
+      scroll?.off('itemsChange', watchItems)
+      for (const name of [
+        'orientationChange',
+        'spanCountChange',
+        'reverseLayoutChange',
+        'layoutStyleChange',
+        'colWidthChange',
+        'rowHeightChange',
+      ])
+        scroll?.off(name, layoutContractChanged)
+      observedItems?.off('change', cancelInput)
+      observedItems = undefined
       Application.off(Application.suspendEvent, suspend)
       Application.off(Application.resumeEvent, resume)
       values.forEach((value) => value.dispose())
@@ -367,8 +393,19 @@ export function gestures(
   surface.on('unloaded', detach)
   surface.on('isEnabledChange', refreshEnabled)
   surface.on('isUserInteractionEnabledChange', refreshEnabled)
-  options.scrollView?.on('loaded', attach)
-  options.scrollView?.on('unloaded', detach)
+  scroll?.on('loaded', attach)
+  scroll?.on('unloaded', detach)
+  scroll?.on('itemsChange', watchItems)
+  for (const name of [
+    'orientationChange',
+    'spanCountChange',
+    'reverseLayoutChange',
+    'layoutStyleChange',
+    'colWidthChange',
+    'rowHeightChange',
+  ])
+    scroll?.on(name, layoutContractChanged)
+  watchItems()
   Application.on(Application.suspendEvent, suspend)
   Application.on(Application.resumeEvent, resume)
   try {

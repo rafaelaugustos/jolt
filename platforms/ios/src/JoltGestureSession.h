@@ -6,6 +6,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, readonly) BOOL active;
 - (nullable UIGestureRecognizer *)recognizer:(NSString *)kind;
 + (BOOL)supportsContactEvents;
++ (BOOL)supportsScrollAdapters;
 // Development-only semantic input. Requires the isolated "replay" option.
 + (BOOL)supportsScrollReplay;
 + (BOOL)hasSession:(UIView *)surface;

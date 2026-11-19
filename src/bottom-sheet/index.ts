@@ -10,6 +10,7 @@ import {
 } from '@nativescript/core'
 import { bind, type SpringValueOptions } from '../motion-value.js'
 import { GestureSurface, gestures, type Gestures } from '../gestures/index.js'
+import { handoffSource, type ScrollHandoffSource } from '../scroll-handoff.js'
 import { currentKeyboard, onKeyboard } from '../keyboard.js'
 import {
   releaseStop,
@@ -34,8 +35,8 @@ export interface BottomSheetOptions {
   /** A separate, focusable drag handle inside the panel; receives native accessibility actions. */
   handle: View
   snap: readonly SheetSnap[]
-  /** A descendant vertical ScrollView. Native list plugins need their own integration. */
-  scrollView?: ScrollView
+  /** A descendant vertical ScrollView or a native scrollHandoff adapter. */
+  scrollView?: ScrollHandoffSource
   /** Measured content for the content snap; defaults to scrollView.content. */
   content?: View
   /** A sibling behind the panel, filling the same one-cell GridLayout. */
@@ -121,15 +122,12 @@ export function bottomSheet(
   if (!(options.handle instanceof View) || !descendant(options.handle, panel))
     throw new TypeError('Provide a separate accessibility handle inside the sheet.')
   const handle = options.handle,
-    scroll = options.scrollView
-  if (
-    scroll &&
-    (!(scroll instanceof ScrollView) ||
-      scroll.orientation !== 'vertical' ||
-      !descendant(scroll, panel))
-  )
-    throw new TypeError('Sheet scrolling needs a descendant vertical ScrollView.')
-  const content = options.content ?? scroll?.content
+    scrollAdapter = handoffSource(options.scrollView),
+    scroll = scrollAdapter?.view
+  if (scroll && (scrollAdapter!.axis !== 'y' || !descendant(scroll, panel)))
+    throw new TypeError('Sheet scrolling needs a descendant vertical scroller.')
+  const content =
+    options.content ?? (scroll instanceof ScrollView ? scroll.content : undefined)
   if (content && (!(content instanceof View) || !descendant(content, panel)))
     throw new TypeError('Sheet content must be a descendant of its panel.')
   if (points.includes('content') && !content)
@@ -383,7 +381,7 @@ export function bottomSheet(
       input = gestures(panel, {
         pan: { axis: 'y', bounds: { top: minimum(), bottom: next.closedY } },
         initial: { y: next.closedY },
-        scrollView: scroll,
+        scrollView: options.scrollView,
         spring: options.spring,
         onContactStart() {
           const wasOpen = opened

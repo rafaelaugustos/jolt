@@ -20,6 +20,7 @@ import org.json.JSONObject;
 public final class RealizedReorder implements ScrollInput.Listener, Choreographer.FrameCallback, View.OnAttachStateChangeListener {
     public interface Listener { void onState(int state,int from,int to); }
     private static int activeCount;
+    public static boolean supportsAxes() { return true; }
     public static int activeCount(){return activeCount;}
     private static final class Row {
         final View view;
@@ -30,12 +31,13 @@ public final class RealizedReorder implements ScrollInput.Listener, Choreographe
         final SpringState spring=new SpringState(0,0);
         Row(View view,ImageView preview,Bitmap bitmap,Rect bounds){this.view=view;this.preview=preview;this.bitmap=bitmap;this.bounds=bounds;alpha=view.getAlpha();}
     }
-    private final NestedScrollView scroll;
+    private final ViewGroup scroll;
     private final ViewGroup container;
     private ViewGroup overlayHost;
     private final Listener listener;
     private final float edgeSize,edgeSpeed,slop;
     private final long longPress;
+    private final boolean horizontal, rtl;
     private final GesturePeer peer=new GesturePeer(()->cancel());
     public GesturePeer recognizer(String kind){return kind.equals("longPress")?peer:null;}
     private final Runnable activate=()->peer.request(()->begin());
@@ -47,14 +49,20 @@ public final class RealizedReorder implements ScrollInput.Listener, Choreographe
     private int from,target,width,height,generation;
     private long previousTime;
     private ValueAnimator drop;
-    public RealizedReorder(NestedScrollView scroll,ViewGroup container,String options,Listener listener){
+    public RealizedReorder(ViewGroup scroll,ViewGroup container,String options,Listener listener){
         this.scroll=scroll;this.container=container;this.listener=listener;
         float density=scroll.getResources().getDisplayMetrics().density;
         slop=ViewConfiguration.get(scroll.getContext()).getScaledTouchSlop();
-        try{JSONObject config=new JSONObject(options);edgeSize=(float)config.getDouble("edgeSize")*density;edgeSpeed=(float)config.getDouble("edgeSpeed")*density;longPress=config.getLong("longPress");reduced=config.getBoolean("reducedMotion");}
+        try{JSONObject config=new JSONObject(options);edgeSize=(float)config.getDouble("edgeSize")*density;edgeSpeed=(float)config.getDouble("edgeSpeed")*density;longPress=config.getLong("longPress");reduced=config.getBoolean("reducedMotion");horizontal=config.optBoolean("horizontal",false);rtl=horizontal&&config.optBoolean("rtl",false);}
         catch(Exception error){throw new IllegalArgumentException(error);}
+        if(horizontal ? !(scroll instanceof android.widget.HorizontalScrollView) : !(scroll instanceof NestedScrollView || scroll instanceof android.widget.ScrollView))
+            throw new IllegalArgumentException("Realized reorder needs a ScrollView matching its axis");
         input=ScrollInput.attach(scroll,this);scroll.addOnAttachStateChangeListener(this);
     }
+    private float coordinate(float x,float y){return horizontal?(rtl?-x:x):y;}
+    private float start(Rect r){return horizontal?(rtl?-r.right:r.left):r.top;}
+    private float end(Rect r){return horizontal?(rtl?-r.left:r.right):r.bottom;}
+    private float length(Rect r){return horizontal?r.width():r.height();}
     public void setRows(View[] rows,View[] handles){if(disposed)return;cancel();this.rows=rows.clone();this.handles=handles.clone();}
     private Rect bounds(View row,ViewGroup host){Rect rect=new Rect();row.getDrawingRect(rect);host.offsetDescendantRectToMyCoords(row,rect);return rect;}
     private int rowAt(float x,float y){
@@ -101,8 +109,9 @@ public final class RealizedReorder implements ScrollInput.Listener, Choreographe
         if(!input.claim()){clearCopies();return;}
         for(Row row:copies){overlayHost.getOverlay().add(row.preview);row.view.setAlpha(0);}
         Row dragged=copies.get(index);overlayHost.getOverlay().remove(dragged.preview);overlayHost.getOverlay().add(dragged.preview);dragged.preview.setElevation(12*scroll.getResources().getDisplayMetrics().density);
-        int[] position=new int[2];rows[index].getLocationOnScreen(position);grabOffset=pointerY-position[1];
-        stride=index+1<copies.size()?copies.get(index+1).bounds.top-dragged.bounds.top:dragged.bounds.height()+(index>0?Math.max(0,dragged.bounds.top-copies.get(index-1).bounds.bottom):0);
+        int[] position=new int[2];rows[index].getLocationOnScreen(position);
+        grabOffset=coordinate(pointerX,pointerY)-(coordinate(position[0],position[1])-(rtl?dragged.bounds.width():0));
+        stride=index+1<copies.size()?start(copies.get(index+1).bounds)-start(dragged.bounds):length(dragged.bounds)+(index>0?Math.max(0,start(dragged.bounds)-end(copies.get(index-1).bounds)):0);
         from=target=index;width=scroll.getWidth();height=scroll.getHeight();active=true;settling=false;generation++;activeCount++;remainder=0;
         previousTime=System.nanoTime();emit(1,index);if(!active || disposed)return;
         update(0);Choreographer.getInstance().postFrameCallback(this);
@@ -114,35 +123,37 @@ public final class RealizedReorder implements ScrollInput.Listener, Choreographe
         for(Row row:copies)if(!row.view.isAttachedToWindow() || !ScrollInput.descendant(row.view,container) || !bounds(row.view,container).equals(row.bounds)){finish(false,1);return;}
         double dt=Math.min(.04,Math.max(0,(time-previousTime)/1e9));previousTime=time;
         int[] location=new int[2];scroll.getLocationOnScreen(location);
-        float y=pointerY-location[1],edge=Math.min(edgeSize,scroll.getHeight()/3f),direction=0;
-        if(y<edge)direction=-Math.min(1,(edge-y)/edge);else if(y>scroll.getHeight()-edge)direction=Math.min(1,(y-scroll.getHeight()+edge)/edge);
+        float y=horizontal?pointerX-location[0]:pointerY-location[1],extent=horizontal?scroll.getWidth():scroll.getHeight(),edge=Math.min(edgeSize,extent/3f),direction=0;
+        if(y<edge)direction=-Math.min(1,(edge-y)/edge);else if(y>extent-edge)direction=Math.min(1,(y-extent+edge)/edge);
         float distance=(float)(direction*edgeSpeed*dt)+remainder;int pixels=(int)distance;remainder=distance-pixels;
-        if(pixels!=0)scroll.scrollBy(0,pixels);
+        if(pixels!=0)scroll.scrollBy(horizontal?pixels:0,horizontal?0:pixels);
         update(dt);if(active)Choreographer.getInstance().postFrameCallback(this);
     }
     private void update(double dt){
         if(!active || settling)return;
         int[] origin=new int[2];container.getLocationOnScreen(origin);
-        float top=pointerY-grabOffset-origin[1];int destination=0;
-        for(int i=0;i<copies.size();i++){if(i==from)continue;Row row=copies.get(i);float midpoint=row.bounds.exactCenterY()-(i>from?stride:0);if(top<midpoint)break;destination++;}
+        float top=coordinate(pointerX,pointerY)-grabOffset-coordinate(origin[0],origin[1]);int destination=0;
+        for(int i=0;i<copies.size();i++){if(i==from)continue;Row row=copies.get(i);float midpoint=start(row.bounds)+length(row.bounds)/2-(i>from?stride:0);if(top<midpoint)break;destination++;}
         target=Math.max(0,Math.min(copies.size()-1,destination));
         int[] host=new int[2];overlayHost.getLocationOnScreen(host);
         for(int i=0;i<copies.size();i++){
             Row row=copies.get(i);int[] position=new int[2];row.view.getLocationOnScreen(position);
             float displacement=i>from && i<=target?-stride:i<from && i>=target?stride:0;
             if(reduced){row.spring.position=displacement;row.spring.velocity=0;}else row.spring.advance(displacement,360,34,1,dt);
-            row.preview.setTranslationX(position[0]-host[0]);row.preview.setTranslationY(i==from?pointerY-grabOffset-host[1]:position[1]-host[1]+(float)row.spring.position);
+            float drag=coordinate(pointerX,pointerY)-grabOffset;
+            row.preview.setTranslationX(horizontal?(i==from?(rtl?-drag-row.bounds.width():drag)-host[0]:position[0]-host[0]+(rtl?-1:1)*(float)row.spring.position):position[0]-host[0]);
+            row.preview.setTranslationY(!horizontal?(i==from?drag-host[1]:position[1]-host[1]+(float)row.spring.position):position[1]-host[1]);
         }
     }
     private void drop(){
         if(!active || settling)return;settling=true;Choreographer.getInstance().removeFrameCallback(this);
         Row row=copies.get(from),destination=copies.get(target);
-        float delta=target>from?destination.bounds.bottom-row.bounds.bottom:destination.bounds.top-row.bounds.top;
+        float delta=target>from?end(destination.bounds)-end(row.bounds):start(destination.bounds)-start(row.bounds);
         int[] origin=new int[2],host=new int[2];row.view.getLocationOnScreen(origin);overlayHost.getLocationOnScreen(host);
-        float end=origin[1]-host[1]+delta;
+        float end=horizontal?origin[0]-host[0]+(rtl?-delta:delta):origin[1]-host[1]+delta;
         if(reduced){finish(true,0);return;}
-        int ticket=generation;drop=ValueAnimator.ofFloat(row.preview.getTranslationY(),end);drop.setDuration(180);
-        drop.addUpdateListener(animation->{if(active)row.preview.setTranslationY((float)animation.getAnimatedValue());});
+        int ticket=generation;drop=ValueAnimator.ofFloat(horizontal?row.preview.getTranslationX():row.preview.getTranslationY(),end);drop.setDuration(180);
+        drop.addUpdateListener(animation->{if(active){if(horizontal)row.preview.setTranslationX((float)animation.getAnimatedValue());else row.preview.setTranslationY((float)animation.getAnimatedValue());}});
         drop.addListener(new AnimatorListenerAdapter(){@Override public void onAnimationEnd(Animator animation){if(active && generation==ticket)finish(true,0);}});drop.start();
     }
     private void clearCopies(){

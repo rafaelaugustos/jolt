@@ -5,6 +5,7 @@ export interface NativeScrollSource {
   enabled(value: boolean): void
   observe(value: boolean): void
   refresh(): void
+  profile?(enabled: boolean): void
   snapshot(): { offset: number; updates: number; callbacks: number }
   dispose(): void
 }
@@ -54,6 +55,7 @@ export const createNativeScrollSource: NativeScrollFactory = (
     enabled: (value) => native.setEnabled(value),
     observe: (value) => native.setObserving(value),
     refresh: () => native.refresh(),
+    profile: (value) => native.setProfiling?.(value),
     snapshot: () => JSON.parse(native.snapshot()),
     dispose: () => native.dispose(),
   }

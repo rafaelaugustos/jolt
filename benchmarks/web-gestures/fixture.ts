@@ -94,11 +94,18 @@ function setup(mode = 'drag', config: Record<string, unknown> = {}) {
     surface.innerHTML =
       '<div id="list" style="height:450px;overflow:auto;padding:16px;display:flex;flex-direction:column;gap:10px"></div>'
     const list = document.querySelector<HTMLElement>('#list')!
+    if (config.axis === 'x') {
+      list.style.cssText =
+        'height:180px;width:100%;overflow:auto;padding:16px;display:flex;gap:10px'
+      list.dir = config.rtl ? 'rtl' : 'ltr'
+    }
     order = ['Alpha', 'Bravo', 'Charlie', 'Delta', 'Echo', 'Foxtrot', 'Golf', 'Hotel']
     for (const [i, key] of order.entries()) {
       const row = document.createElement('div')
       row.dataset.key = key
       row.style.cssText = `flex:none;height:${60 + (i % 3) * 20}px;background:#304764;border-radius:10px;padding:10px;display:flex;align-items:center;justify-content:space-between`
+      if (config.axis === 'x')
+        row.style.cssText += `;height:120px;width:${120 + (i % 3) * 25}px;flex-direction:column`
       row.innerHTML = `<span>${key}</span><button data-grip aria-label="Move ${key}">Move</button>`
       list.append(row)
     }

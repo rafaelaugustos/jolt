@@ -12,6 +12,12 @@ sources = %w[App.swift UITests.swift Expansion.swift Advanced.swift Characters.s
   tests = project.new_target(:ui_test_bundle, name + 'UITests', platform, version)
   app.add_file_references(sources.reject { |source| source == sources[1] })
   tests.add_file_references([sources[1]])
+  if platform == :ios
+    tests.add_file_references([project.main_group.new_file(File.expand_path('../gesture-input/NativeGestureInput.m', root))])
+    tests.build_configurations.each do |config|
+      config.build_settings['SWIFT_OBJC_BRIDGING_HEADER'] = File.expand_path('../gesture-input/NativeGestureInput.h', root)
+    end
+  end
   tests.add_dependency(app)
   product = project.new(Xcodeproj::Project::Object::XCSwiftPackageProductDependency)
   product.product_name = 'JoltSwiftUI'

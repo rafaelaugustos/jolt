@@ -6,6 +6,7 @@ import {
   type EventData,
   type ItemEventData,
   type View,
+  type ItemsSource,
 } from '@nativescript/core'
 import { sheetActions as viewActions } from '../bottom-sheet/native.js'
 import type { ReorderAdapter, ReorderKey } from './types.js'
@@ -15,12 +16,33 @@ import { ReorderSurface } from './surface.js'
 /** Flat Core ListView only. Sectioned lists and plugin collection views need another adapter. */
 export function coreListAdapter<T>(list: ListView): ReorderAdapter<T> {
   if (!(list instanceof ListView)) throw new TypeError('Expected a Core ListView.')
-  function validate() {
-    if (list.sectioned || list.stickyHeader || list.showSearch)
-      throw new TypeError(
-        'Reorder supports flat Core lists without built-in headers or search.',
-      )
-  }
+  return recycledListAdapter<T>(list, {
+    validate() {
+      if (list.sectioned || list.stickyHeader || list.showSearch)
+        throw new TypeError(
+          'Reorder supports flat Core lists without built-in headers or search.',
+        )
+    },
+  })
+}
+
+/** Native input is shared; each widget supplies geometry validation and post-commit reveal. */
+export interface RecycledListView extends View {
+  items: unknown[] | ItemsSource
+  refresh(): void
+  scrollToIndex(index: number): void
+  isItemAtIndexVisible(index: number): boolean
+}
+export function recycledListAdapter<T>(
+  list: RecycledListView,
+  port: {
+    validate(): void
+    reveal?(index: number): void
+    claim?(): () => void
+    collection?: boolean
+  },
+): ReorderAdapter<T> {
+  const validate = () => port.validate()
   validate()
   return {
     view: list,
@@ -80,35 +102,49 @@ export function coreListAdapter<T>(list: ListView): ReorderAdapter<T> {
           kind: string,
         ): UIGestureRecognizer | org.rafaelaugusto.jolt.GesturePeer | null
         registerHandle(view: any): void
+        recycle?(view: any): void
         setEnabled(value: boolean): void
         setReducedMotion(value: boolean): void
         cancel(): void
         dispose(): void
       }
-      if (isIOS) {
-        if (typeof JoltReorderSession === 'undefined')
-          throw new Error('Rebuild the native app to use reorder().')
-        native = JoltReorderSession.attachOptionsOnState(
-          list.nativeViewProtected,
-          options,
-          event,
-        )
-      } else {
-        if (
-          !(list.parent instanceof ReorderSurface) ||
-          list.parent.getChildrenCount() !== 1
-        )
-          throw new TypeError(
-            'On Android, make the Core ListView the only child of a ReorderSurface.',
+      const releaseOwnership = port.claim?.() ?? (() => {})
+      try {
+        if (isIOS) {
+          if (typeof JoltReorderSession === 'undefined')
+            throw new Error('Rebuild the native app to use reorder().')
+          if (port.collection && !JoltReorderSession.supportsCollections?.())
+            throw new Error('Rebuild the native app to use CollectionView reorder.')
+          native = JoltReorderSession.attachOptionsOnState(
+            list.nativeViewProtected,
+            options,
+            event,
           )
-        if (typeof org.rafaelaugusto.jolt.ReorderSession === 'undefined')
-          throw new Error('Rebuild the native app to use reorder().')
-        native = new org.rafaelaugusto.jolt.ReorderSession(
-          list.parent.nativeViewProtected,
-          list.nativeViewProtected,
-          options,
-          new org.rafaelaugusto.jolt.ReorderSession.Listener({ onState: event }),
-        )
+        } else {
+          if (
+            !(list.parent instanceof ReorderSurface) ||
+            list.parent.getChildrenCount() !== 1
+          )
+            throw new TypeError(
+              'On Android, make the list the only child of a ReorderSurface.',
+            )
+          if (typeof org.rafaelaugusto.jolt.ReorderSession === 'undefined')
+            throw new Error('Rebuild the native app to use reorder().')
+          if (
+            port.collection &&
+            !org.rafaelaugusto.jolt.ReorderSession.supportsCollections?.()
+          )
+            throw new Error('Rebuild the native app to use CollectionView reorder.')
+          native = new org.rafaelaugusto.jolt.ReorderSession(
+            list.parent.nativeViewProtected,
+            list.nativeViewProtected,
+            options,
+            new org.rafaelaugusto.jolt.ReorderSession.Listener({ onState: event }),
+          )
+        }
+      } catch (error) {
+        releaseOwnership()
+        throw error
       }
       type Row = {
         index: number
@@ -124,6 +160,10 @@ export function coreListAdapter<T>(list: ListView): ReorderAdapter<T> {
         if (key !== undefined) focusKey(key, accessible)
       }
       function reveal(index: number) {
+        if (port.reveal) {
+          port.reveal(index)
+          return
+        }
         // Run once after the app commits and Core rebinds. Estimated iOS heights
         // can move the dropped row outside the viewport during reloadData.
         if (isIOS) {
@@ -178,6 +218,7 @@ export function coreListAdapter<T>(list: ListView): ReorderAdapter<T> {
         const args = data as ItemEventData
         if (!args.view || ended) return
         const view = args.view
+        if (view.nativeViewProtected) native.recycle?.(view.nativeViewProtected)
         let row = rows.get(view)
         if (!row) {
           row = { index: args.index, release() {} }
@@ -238,6 +279,15 @@ export function coreListAdapter<T>(list: ListView): ReorderAdapter<T> {
         }, 0)
       }
       const peers = nativeGestureEndpoints((kind) => native.recognizer(kind))
+      const recycled = (event: EventData) => {
+        const view = (event as ItemEventData).view
+        if (!view) return
+        if (view.nativeViewProtected) native.recycle?.(view.nativeViewProtected)
+        const row = rows.get(view)
+        if (row?.timer !== undefined) clearTimeout(row.timer)
+        row?.release()
+        rows.delete(view)
+      }
       const driver = {
         endpoint: (kind: GestureRecognizerKind = 'longPress') => peers.endpoint(kind),
         cancel: () => native.cancel(),
@@ -248,6 +298,8 @@ export function coreListAdapter<T>(list: ListView): ReorderAdapter<T> {
           ended = true
           if (focusTimer !== undefined) clearTimeout(focusTimer)
           list.off('itemLoading', loaded)
+          list.off('itemRecycling', recycled)
+          list.off('itemDisposing', recycled)
           for (const row of rows.values()) {
             if (row.timer !== undefined) clearTimeout(row.timer)
             row.release()
@@ -255,9 +307,12 @@ export function coreListAdapter<T>(list: ListView): ReorderAdapter<T> {
           rows.clear()
           peers.dispose()
           native.dispose()
+          releaseOwnership()
         },
       }
       list.on('itemLoading', loaded)
+      list.on('itemRecycling', recycled)
+      list.on('itemDisposing', recycled)
       try {
         list.refresh()
       } catch (error) {

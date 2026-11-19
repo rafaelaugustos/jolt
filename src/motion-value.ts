@@ -1967,11 +1967,22 @@ export interface ScrollValueOptions {
 }
 const scrollDiagnostics = new WeakMap<
   object,
-  () => { offset: number; updates: number; callbacks: number }
+  (profile?: boolean) => {
+    offset: number
+    updates: number
+    callbacks: number
+    minimum?: number
+    maximum?: number
+    producerMs?: number[]
+  }
 >()
+const scrollProfileTime = () =>
+  (
+    globalThis as typeof globalThis & { performance?: { now(): number } }
+  ).performance?.now() ?? getDriver().now()
 /** Development audit; counts Jolt callbacks, not events emitted independently by NativeScript Core. */
-export function inspectScrollValue(value: ScrollValue) {
-  return scrollDiagnostics.get(value)?.()
+export function inspectScrollValue(value: ScrollValue, profile?: boolean) {
+  return scrollDiagnostics.get(value)?.(profile)
 }
 
 export function scrollValue(
@@ -2008,6 +2019,10 @@ export function scrollValue(
     background = false
   let updates = 0,
     callbacks = 0
+  let profiling = false,
+    minimum = 0,
+    maximum = 0
+  const producerMs: number[] = []
   const adjusted = (offset: number) => {
     const inset = isIOS ? source?.nativeViewProtected?.adjustedContentInset : undefined
     return offset + (inset ? (axis === 'x' ? inset.left : inset.top) : 0)
@@ -2028,12 +2043,17 @@ export function scrollValue(
   }
   const onScroll = (event: EventData) => {
     if (ended || background) return
+    const started = profiling ? scrollProfileTime() : 0
     callbacks++
     const scroll = event as ScrollEventData,
       offset = adjusted(axis === 'x' ? scroll.scrollX : scroll.scrollY)
     if (Number.isFinite(offset) && offset !== root.raw()) {
       updates++
       root.set(offset)
+      minimum = Math.min(minimum, offset)
+      maximum = Math.max(maximum, offset)
+      if (profiling && producerMs.length < 256)
+        producerMs.push(scrollProfileTime() - started)
     }
   }
   const observe = () => handle?.observe(root.observed)
@@ -2056,6 +2076,7 @@ export function scrollValue(
       () => (root as SpringRoot).notify(),
     )
     observe()
+    if (profiling) handle.profile?.(true)
     ;(root as SpringRoot).notify()
   }
   const suspend = () => {
@@ -2117,10 +2138,24 @@ export function scrollValue(
     refresh: read,
     execution: native ? ('native' as const) : ('javascript' as const),
   })
-  scrollDiagnostics.set(
-    result,
-    () => handle?.snapshot() ?? { offset: root.raw(), updates, callbacks },
-  )
+  scrollDiagnostics.set(result, (profile) => {
+    if (profile !== undefined) {
+      profiling = profile
+      producerMs.length = 0
+      minimum = maximum = root.raw()
+      handle?.profile?.(profile)
+    }
+    return (
+      handle?.snapshot() ?? {
+        offset: root.raw(),
+        updates,
+        callbacks,
+        minimum,
+        maximum,
+        producerMs: [...producerMs],
+      }
+    )
+  })
   try {
     if (scrollView) ref(scrollView)
   } catch (error) {

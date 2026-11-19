@@ -13,3 +13,7 @@ NSString * _Nullable JoltScrollAndLeave(CGPoint start, CGFloat distance, CGPoint
 NSString * _Nullable JoltReaderScroll(CGPoint start, CGFloat distance);
 
 NSString * _Nullable JoltPointerTrace(CGRect region);
+// One uninterrupted real OS contact, optionally reversing before release.
+NSString * _Nullable JoltScrollContact(CGPoint start, CGPoint delta, CGPoint reverse, double hold);
+
+NSString * _Nullable JoltReorderContact(CGPoint start, CGPoint end, CGPoint reverse, double dwell, double reverseDwell);

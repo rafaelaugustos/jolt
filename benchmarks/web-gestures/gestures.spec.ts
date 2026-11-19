@@ -19,6 +19,75 @@ async function mouseDrag(page: Page, selector: string, dx: number, dy = 0) {
   await page.mouse.up()
 }
 const errors = new WeakMap<Page, string[]>()
+test('recycling a DOM target during reorder cancels before a stale key can commit', async ({
+  page,
+}) => {
+  await page.evaluate(() => window.demo.setup('reorder'))
+  const grip = (await page.locator('[data-key="Alpha"] [data-grip]').boundingBox())!
+  await page.mouse.move(grip.x + 10, grip.y + 10)
+  await page.mouse.down()
+  await page.mouse.move(grip.x + 10, grip.y + 100, { steps: 6 })
+  await expect
+    .poll(() => page.evaluate(() => window.demo.reorder.activeKey))
+    .toBe('Alpha')
+  await page.evaluate(() => {
+    const old = document.querySelector<HTMLElement>('[data-key="Alpha"]')!
+    const replacement = old.cloneNode(true) as HTMLElement
+    replacement.style.transform = ''
+    old.replaceWith(replacement)
+    window.demo.reorder.refresh()
+  })
+  await page.mouse.up()
+  await expect
+    .poll(() => page.evaluate(() => window.demo.reorder.activeKey))
+    .toBeUndefined()
+  expect((await snapshot(page)).log.filter((item) => item === 'commit')).toHaveLength(0)
+  await mouseDrag(page, '[data-key="Bravo"] [data-grip]', 0, 110)
+  await expect
+    .poll(() =>
+      snapshot(page).then(
+        (value) => value.log.filter((item) => item === 'commit').length,
+      ),
+    )
+    .toBe(1)
+})
+for (const rtl of [false, true]) {
+  test(`horizontal ${rtl ? 'RTL' : 'LTR'} reorder preserves logical keys and reverses edge scrolling`, async ({
+    page,
+  }) => {
+    await page.evaluate((rtl) => window.demo.setup('reorder', { axis: 'x', rtl }), rtl)
+    await page.evaluate(() => window.demo.frame())
+    await mouseDrag(page, '[data-key="Alpha"] [data-grip]', rtl ? -170 : 170)
+    await expect
+      .poll(() => page.evaluate(() => window.demo.snapshot().order.slice(0, 2)))
+      .toEqual(['Bravo', 'Alpha'])
+    await page.waitForTimeout(450)
+    const grip = (await page.locator('[data-key="Bravo"] [data-grip]').boundingBox())!
+    const list = (await page.locator('#list').boundingBox())!
+    await page.mouse.move(grip.x + grip.width / 2, grip.y + grip.height / 2)
+    await page.mouse.down()
+    await page.mouse.move(
+      rtl ? list.x + 6 : list.x + list.width - 6,
+      grip.y + grip.height / 2,
+      { steps: 6 },
+    )
+    await expect
+      .poll(() => page.locator('#list').evaluate((node) => Math.abs(node.scrollLeft)))
+      .toBeGreaterThan(80)
+    await page.mouse.move(
+      rtl ? list.x + list.width - 6 : list.x + 6,
+      grip.y + grip.height / 2,
+      { steps: 6 },
+    )
+    await expect
+      .poll(() => page.locator('#list').evaluate((node) => Math.abs(node.scrollLeft)))
+      .toBeLessThan(10)
+    await page.keyboard.press('Escape')
+    await page.mouse.up()
+    expect(await page.evaluate(() => window.demo.reorder.activeKey)).toBeUndefined()
+    expect((await snapshot(page)).log.filter((item) => item === 'commit')).toHaveLength(1)
+  })
+}
 test.afterEach(async ({ page }) => {
   expect(errors.get(page) ?? []).toEqual([])
 })

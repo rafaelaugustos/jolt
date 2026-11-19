@@ -14,6 +14,8 @@ native:
   - demo/src/**
   - benchmarks/*.ts
   - benchmarks/motion-contracts/**
+  - benchmarks/collections-scroll/**
+  - benchmarks/gesture-input/**
   - benchmarks/native-ci.py
   - benchmarks/test_native_ci.py
   - benchmarks/native-app/**
@@ -25,6 +27,7 @@ swiftui:
   - Package.swift
   - packages/swiftui/**
   - benchmarks/swiftui-demo/**
+  - benchmarks/gesture-input/**
   - scripts/generate-swiftui-definitions.mjs
   - scripts/swift-package.mjs
 
@@ -34,6 +37,7 @@ web:
   - demo/src/**
   - test/fixtures/**
   - benchmarks/web-*/**
+  - benchmarks/collections-scroll/**
   - benchmarks/values-scroll-lists/**
 
 packages:

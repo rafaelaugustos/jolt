@@ -6,6 +6,7 @@
 - (void)setEnabled:(BOOL)enabled;
 - (void)setObserving:(BOOL)observing;
 - (void)refresh;
+- (void)setProfiling:(BOOL)enabled;
 - (NSString *)snapshot;
 - (void)dispose;
 @end
