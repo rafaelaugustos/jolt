@@ -1,6 +1,6 @@
 # Coleções e continuidade do scroll
 
-**Candidato no código-fonte; não incluído no 0.1.0-rc.15.** Abrange [#495](https://github.com/rafaelaugustos/jolt/issues/495), [#496](https://github.com/rafaelaugustos/jolt/issues/496) e [#510](https://github.com/rafaelaugustos/jolt/issues/510), [#511](https://github.com/rafaelaugustos/jolt/issues/511), [#512](https://github.com/rafaelaugustos/jolt/issues/512), [#513](https://github.com/rafaelaugustos/jolt/issues/513). Recompile o app nativo com a versão que contiver a entrega. SwiftUI continua Beta em iOS 17+ e macOS 14+.
+**Disponível na 0.1.0-rc.16 (Beta).** Abrange [#495](https://github.com/rafaelaugustos/jolt/issues/495), [#496](https://github.com/rafaelaugustos/jolt/issues/496) e [#510](https://github.com/rafaelaugustos/jolt/issues/510), [#511](https://github.com/rafaelaugustos/jolt/issues/511), [#512](https://github.com/rafaelaugustos/jolt/issues/512), [#513](https://github.com/rafaelaugustos/jolt/issues/513). Instale core/plugin nativo na mesma versão e recompile o app nativo após atualizar. SwiftUI continua Beta em iOS 17+ e macOS 14+.
 
 ## Adaptadores de CollectionView {#collections}
 

@@ -11,21 +11,22 @@ type Marker = {
 // Curated capability changes, not page edit timestamps. Review at each release.
 // Beta describes API maturity and does not expire with a release badge.
 const markers: Record<string, Marker> = {
-  'collections-scroll': { status: 'beta', availability: 'source' },
-  'motion-contracts': { status: 'beta', availability: 'source' },
+  'collections-scroll': { status: 'beta', availability: 'published' },
+  'motion-contracts': { status: 'beta', availability: 'published' },
   'values-scroll-lists': { status: 'beta', availability: 'published' },
   'motion-values': {
     status: 'updated',
-    edition: '0.1.0-rc.15',
+    edition: '0.1.0-rc.16',
     availability: 'published',
   },
   'scroll-linked': {
     status: 'updated',
-    edition: '0.1.0-rc.15',
+    edition: '0.1.0-rc.16',
     availability: 'published',
   },
-  layout: { status: 'updated', edition: '0.1.0-rc.15', availability: 'published' },
-  lists: { status: 'updated', edition: '0.1.0-rc.15', availability: 'published' },
+  gestures: { status: 'updated', edition: '0.1.0-rc.16', availability: 'published' },
+  reorder: { status: 'updated', edition: '0.1.0-rc.16', availability: 'published' },
+  lists: { status: 'updated', edition: '0.1.0-rc.16', availability: 'published' },
   'swiftui-motion': { status: 'beta', availability: 'published' },
   'swiftui-advanced': { status: 'beta', availability: 'published' },
   'web-frameworks': { status: 'beta', availability: 'published' },

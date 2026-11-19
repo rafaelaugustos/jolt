@@ -2538,10 +2538,10 @@
     {
       "entry": ".",
       "symbol": "listChanges",
-      "nativeStatus": "pending",
-      "webStatus": "pending",
+      "nativeStatus": "published",
+      "webStatus": "published",
       "counterpart": "listChanges",
-      "contract": "Next-RC source candidate, not published. Keyed Core ListView/explicit DOM adapters or Vue layout groups share lifecycle semantics; fixed-row native limits and bounded static exits apply.",
+      "contract": "Available since RC.15; RC.16 adds an optional CollectionView adapter. Keyed Core ListView/explicit DOM adapters or Vue layout groups share lifecycle semantics; fixed-row native limits and bounded static exits apply.",
       "issues": [499],
       "evidence": [
         "docs/guide/values-scroll-lists.md",
@@ -2553,10 +2553,10 @@
     {
       "entry": "./vue",
       "symbol": "JoltTransitionGroup",
-      "nativeStatus": "pending",
-      "webStatus": "pending",
+      "nativeStatus": "published",
+      "webStatus": "published",
       "counterpart": "JoltTransitionGroup",
-      "contract": "Next-RC source candidate, not published. Keyed Core ListView/explicit DOM adapters or Vue layout groups share lifecycle semantics; fixed-row native limits and bounded static exits apply.",
+      "contract": "Available since RC.15; RC.16 adds an optional CollectionView adapter. Keyed Core ListView/explicit DOM adapters or Vue layout groups share lifecycle semantics; fixed-row native limits and bounded static exits apply.",
       "issues": [498],
       "evidence": [
         "docs/guide/values-scroll-lists.md",
@@ -2568,10 +2568,10 @@
     {
       "entry": "./web/vue",
       "symbol": "JoltTransitionGroup",
-      "nativeStatus": "pending",
-      "webStatus": "pending",
+      "nativeStatus": "published",
+      "webStatus": "published",
       "counterpart": "JoltTransitionGroup",
-      "contract": "Next-RC source candidate, not published. Keyed Core ListView/explicit DOM adapters or Vue layout groups share lifecycle semantics; fixed-row native limits and bounded static exits apply.",
+      "contract": "Available since RC.15; RC.16 adds an optional CollectionView adapter. Keyed Core ListView/explicit DOM adapters or Vue layout groups share lifecycle semantics; fixed-row native limits and bounded static exits apply.",
       "issues": [498],
       "evidence": [
         "docs/guide/values-scroll-lists.md",
@@ -2583,10 +2583,10 @@
     {
       "entry": ".",
       "symbol": "gestureRelations",
-      "nativeStatus": "pending",
-      "webStatus": "pending",
+      "nativeStatus": "published",
+      "webStatus": "published",
       "counterpart": "gestureRelations",
-      "contract": "Unpublished source candidate: setup-time simultaneous, waitFor and preemptive block between mounted idle Jolt recognizers. Native decisions stay in UIKit/Android; Web uses Pointer Events and pre-contact touch-action. Cycles reject; disposal cancels input and removes links. See motion-contracts for channels and navigation limits.",
+      "contract": "Available in RC.16 (Beta): setup-time simultaneous, waitFor and preemptive block between mounted idle Jolt recognizers. Native decisions stay in UIKit/Android; Web uses Pointer Events and pre-contact touch-action. Cycles reject; disposal cancels input and removes links. See motion-contracts for channels and navigation limits.",
       "issues": [497],
       "evidence": [
         "src/core/gesture-relations.ts",
@@ -2599,10 +2599,10 @@
     {
       "entry": "./gestures",
       "symbol": "gestureRelations",
-      "nativeStatus": "pending",
-      "webStatus": "pending",
+      "nativeStatus": "published",
+      "webStatus": "published",
       "counterpart": "gestureRelations",
-      "contract": "Unpublished source candidate: setup-time simultaneous, waitFor and preemptive block between mounted idle Jolt recognizers. Native decisions stay in UIKit/Android; Web uses Pointer Events and pre-contact touch-action. Cycles reject; disposal cancels input and removes links. See motion-contracts for channels and navigation limits.",
+      "contract": "Available in RC.16 (Beta): setup-time simultaneous, waitFor and preemptive block between mounted idle Jolt recognizers. Native decisions stay in UIKit/Android; Web uses Pointer Events and pre-contact touch-action. Cycles reject; disposal cancels input and removes links. See motion-contracts for channels and navigation limits.",
       "issues": [497],
       "evidence": [
         "src/core/gesture-relations.ts",
@@ -2615,10 +2615,10 @@
     {
       "entry": "./web",
       "symbol": "gestureRelations",
-      "nativeStatus": "pending",
-      "webStatus": "pending",
+      "nativeStatus": "published",
+      "webStatus": "published",
       "counterpart": "gestureRelations",
-      "contract": "Unpublished source candidate: setup-time simultaneous, waitFor and preemptive block between mounted idle Jolt recognizers. Native decisions stay in UIKit/Android; Web uses Pointer Events and pre-contact touch-action. Cycles reject; disposal cancels input and removes links. See motion-contracts for channels and navigation limits.",
+      "contract": "Available in RC.16 (Beta): setup-time simultaneous, waitFor and preemptive block between mounted idle Jolt recognizers. Native decisions stay in UIKit/Android; Web uses Pointer Events and pre-contact touch-action. Cycles reject; disposal cancels input and removes links. See motion-contracts for channels and navigation limits.",
       "issues": [497],
       "evidence": [
         "src/core/gesture-relations.ts",
@@ -2631,40 +2631,40 @@
     {
       "entry": ".",
       "symbol": "nativeGestureRecognizer",
-      "nativeStatus": "pending",
+      "nativeStatus": "published",
       "webStatus": "platform-specific",
       "counterpart": null,
-      "contract": "Unpublished native-only optional endpoint for an app-owned UIKit recognizer or Android Jolt GesturePeer. Disposing removes Jolt links without destroying the app recognizer; no arbitrary Android detector/OS navigation adapter. Web applications coordinate Jolt pointer controllers.",
+      "contract": "RC.16 native-only optional endpoint for an app-owned UIKit recognizer or Android Jolt GesturePeer. Disposing removes Jolt links without destroying the app recognizer; no arbitrary Android detector/OS navigation adapter. Web applications coordinate Jolt pointer controllers.",
       "issues": [497],
       "evidence": ["src/gesture-relations-native.ts", "docs/guide/motion-contracts.md"]
     },
     {
       "entry": ".",
       "symbol": "collectionViewListAdapter",
-      "nativeStatus": "pending",
+      "nativeStatus": "published",
       "webStatus": "platform-specific",
       "counterpart": "listChanges",
-      "contract": "Source candidate: optional community CollectionView 6.1.x native vertical one-span adapter. Web reuses its explicit rows/render/anchor/recycling adapter; no shared virtualizer.",
+      "contract": "Available in RC.16 (Beta): optional community CollectionView 6.1.x native vertical one-span adapter. Web reuses its explicit rows/render/anchor/recycling adapter; no shared virtualizer.",
       "issues": [511],
       "evidence": ["src/collection-view.ts", "benchmarks/collections-scroll/README.md"]
     },
     {
       "entry": "./reorder",
       "symbol": "collectionViewReorderAdapter",
-      "nativeStatus": "pending",
+      "nativeStatus": "published",
       "webStatus": "platform-specific",
       "counterpart": "reorder",
-      "contract": "Source candidate: vertical one-span UICollectionView/RecyclerView input, native edge scrolling and recycling. Web reorder cancels a contact when its realized keys or DOM targets change; pin the realized window for continuous drag.",
+      "contract": "Available in RC.16 (Beta): vertical one-span UICollectionView/RecyclerView input, native edge scrolling and recycling. Web reorder cancels a contact when its realized keys or DOM targets change; pin the realized window for continuous drag.",
       "issues": [512],
       "evidence": ["src/collection-view.ts", "benchmarks/collections-scroll/README.md"]
     },
     {
       "entry": "./gestures",
       "symbol": "scrollHandoff",
-      "nativeStatus": "pending",
+      "nativeStatus": "published",
       "webStatus": "platform-specific",
       "counterpart": "gestures",
-      "contract": "Source candidate: native Core ListView, linear CollectionView and horizontal Core ScrollView port. Web keeps existing scrollView input with browser ownership and scheduling.",
+      "contract": "Available in RC.16 (Beta): native Core ListView, linear CollectionView and horizontal Core ScrollView port. Web keeps existing scrollView input with browser ownership and scheduling.",
       "issues": [496],
       "evidence": ["src/scroll-handoff.ts", "benchmarks/collections-scroll/README.md"]
     }
@@ -2942,7 +2942,7 @@
     {
       "id": "rc15-values-scroll-lists",
       "issues": [494, 495, 498, 499, 500, 501],
-      "limit": "Available in 0.1.0-rc.15 (Beta): combined scalar programs, native scroll, static exits, keyed flat fixed-height Core ListView and explicit Web adapters, SwiftUI scroll header/ranges. #494 physical allocation/frame measurement pending; emulator results do not establish CPU/PSS improvement. CollectionView transitions remain deferred. #495 full scroll matrix and matched cost, and #498/#499 full native screen-reader acceptance remain open.",
+      "limit": "Available in 0.1.0-rc.15 (Beta): combined scalar programs, native scroll, static exits, keyed flat fixed-height Core ListView and explicit Web adapters, SwiftUI scroll header/ranges. #494 physical allocation/frame measurement pending; emulator results do not establish CPU/PSS improvement. RC.16 adds CollectionView changes/reorder and completes the documented #495 matrix and producer-only timing; #498/#499 full native screen-reader acceptance remains open.",
       "evidence": [
         "docs/guide/values-scroll-lists.md",
         "benchmarks/values-scroll-lists/web.spec.ts",
@@ -2952,8 +2952,8 @@
     {
       "id": "motion-contracts-first-six",
       "issues": [497, 502, 503, 504, 505, 508],
-      "status": "pending",
-      "limit": "Unpublished source candidate after RC.15; no version bump. NativeScript iOS/Android and Web recognition relations; Web paused/hidden derivative propagation matches native. SwiftUI construction-time timeline velocity, public custom-grip edge scrolling, bounded continuous particles and compatible SVG path morph/style/trim reuse existing Web counterparts. Validated on dedicated iOS simulator/Android emulator, native macOS and Chromium; Firefox/WebKit mouse/pause cases pass, trusted multitouch Chromium-only. No new accessibility or hardware/performance acceptance.",
+      "status": "published-with-limits",
+      "limit": "Available in RC.16 (Beta). NativeScript iOS/Android and Web recognition relations; Web paused/hidden derivative propagation matches native. SwiftUI construction-time timeline velocity, public custom-grip edge scrolling, bounded continuous particles and compatible SVG path morph/style/trim reuse existing Web counterparts. Validated on dedicated iOS simulator/Android emulator, native macOS and Chromium; Firefox/WebKit mouse/pause cases pass, trusted multitouch Chromium-only. No new accessibility or hardware/performance acceptance.",
       "evidence": [
         "benchmarks/motion-contracts/README.md",
         "benchmarks/motion-contracts/NativeTests.swift",
@@ -2966,12 +2966,13 @@
     {
       "id": "collections-scroll-source-candidate",
       "issues": [495, 496, 510, 511, 512, 513],
-      "limit": "Source candidate after RC.15: native CollectionView adapters, continuous scroll ownership, SwiftUI sheet continuity and horizontal/RTL realized reorder. Simulator/emulator and browser acceptance; physical performance and accessibility expansion excluded. Producer-only measurements do not include later graph evaluation/rendering. Web virtualization remains application-owned and a recycled drag target cancels contact.",
+      "limit": "Available in RC.16 (Beta): native CollectionView adapters, continuous scroll ownership, SwiftUI sheet continuity and horizontal/RTL realized reorder. Simulator/emulator and browser acceptance; physical performance and accessibility expansion excluded. Producer-only measurements do not include later graph evaluation/rendering. Web virtualization remains application-owned and a recycled drag target cancels contact.",
       "evidence": [
         "docs/guide/collections-scroll.md",
         "benchmarks/collections-scroll/README.md",
         "benchmarks/web-gestures/gestures.spec.ts"
-      ]
+      ],
+      "status": "published-with-limits"
     }
   ]
 }

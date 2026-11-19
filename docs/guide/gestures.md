@@ -1,6 +1,6 @@
 # Native gestures and scroll handoff
 
-The published 0.1.0-rc.15 behavior is described below. For the unpublished continuity and gesture additions, see [motion contracts](./motion-contracts).
+Available in **0.1.0-rc.16**. See [motion contracts](./motion-contracts) for gesture/velocity and SwiftUI additions, and [collections and scroll](./collections-scroll) for continuous handoff, CollectionView and horizontal/RTL reorder.
 
 Available since **0.1.0-beta.16**, in the core package. Rebuild the native app after upgrading. No optional native-property plugin is needed.
 
@@ -86,7 +86,7 @@ Dragging up consumes the panel's remaining travel before scrolling its content. 
 
 <Clip name="gesture-handoff-android" caption="The same in-page handoff on an Android emulator using NativeScript's NestedScrollView implementation. No finger lift is needed at the panel/content boundary." />
 
-This integration was tested with NativeScript core **9.1.3**, iOS runtime **9.1.0** and Android runtime **9.1.1**. It supports the vertical core ScrollView; it does not promise handoff for ListView, RecyclerView plugins, third-party list implementations or horizontal inner scrolling. Android checks that the native scroll implements the required nested-scroll protocol. A different list needs its own adapter and native tests.
+The original vertical Core ScrollView path was tested with NativeScript Core 9.1.3, iOS runtime 9.1.0 and Android runtime 9.1.1. RC.16 adds explicit [Core ListView, linear CollectionView and horizontal Core ScrollView handoff](./collections-scroll#handoff). Use the documented adapter and limits for each container; arbitrary third-party lists are not implied.
 
 ## Movement and ownership
 

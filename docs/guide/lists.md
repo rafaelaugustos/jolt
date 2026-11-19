@@ -1,5 +1,7 @@
 # List rows
 
+Available in **0.1.0-rc.16**. See [motion contracts](./motion-contracts) for gesture/velocity and SwiftUI additions, and [collections and scroll](./collections-scroll) for continuous handoff, CollectionView and horizontal/RTL reorder.
+
 RC.15 (Beta): see [combined values, native scroll, layout exits and keyed lists](./values-scroll-lists) for the additions and platform limits.
 
 Play an entrance on each row of a `ListView` as it scrolls into view:

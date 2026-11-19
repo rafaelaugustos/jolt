@@ -1,5 +1,7 @@
 # Reorder a list
 
+Available in **0.1.0-rc.16**. See [motion contracts](./motion-contracts) for gesture/velocity and SwiftUI additions, and [collections and scroll](./collections-scroll) for continuous handoff, CollectionView and horizontal/RTL reorder.
+
 RC.13 fixes Web row geometry after FLIP followed by a text-height change and adds [measured SwiftUI rows](./swiftui-geometry#realized-rows-with-measured-heights).
 
 Hold a row handle, move it through a list, and let go. Neighbours make room while the list scrolls near its edges. The lifted row stays in a native snapshot even after its original cell leaves the recycled viewport.

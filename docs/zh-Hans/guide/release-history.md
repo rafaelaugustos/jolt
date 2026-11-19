@@ -1,5 +1,15 @@
 # 版本历史
 
+## 0.1.0-rc.16: 手势连续性、集合与滚动 {#rc-16}
+
+RC.16 通过 [PR #509](https://github.com/rafaelaugustos/jolt/pull/509) 和 [PR #514](https://github.com/rafaelaugustos/jolt/pull/514) 带来[手势协调、速度连续性与 SwiftUI 扩展](./motion-contracts)，以及 [CollectionView 更新/排序、水平/RTL 排序和连续滚动交接](./collections-scroll)。请安装相同 `0.1.0-rc.16` 版本的 npm 核心包与原生插件，并重新编译 NativeScript 应用；Swift Package Manager 使用 [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) 的 `v0.1.0-rc.16`。新增功能、Web 和 SwiftUI 仍为实验性。
+
+Android 实体设备分配/帧耗时（#494）、实体指针配件（#492）与原生 VoiceOver/TalkBack 完整遍历/焦点（#498/#499）仍待验证。RC.16 完成 #495 文档范围内的水平/RTL/回弹/CollectionView 矩阵及仅生产端计时；测量不包含后续图求值与渲染。CollectionView 更新/排序支持单列垂直布局。分区、网格和跨列表移动仍不在适配器范围内；Web 虚拟化由应用管理。模拟器证据不能证明实体设备性能或更低的应用 CPU/PSS。
+
+<Clip name="collection-motion-ios" caption="iOS 模拟器中的 NativeScript：CollectionView 按键更新、锚点保留及回收行排序。原速实际交互；不代表实体设备性能。" />
+
+<Clip name="horizontal-reorder-web" caption="macOS 上的 Chromium：水平 RTL 排序、边缘滚动以及已实现行变化后的取消。Web 虚拟化仍由应用管理。" />
+
 ## 0.1.0-rc.15: 组合值、滚动与按键列表 {#rc-15}
 
 RC.15 通过 [PR #506](https://github.com/rafaelaugustos/jolt/pull/506) 新增[组合运动值、原生滚动绑定、布局退场、按键更新列表和 SwiftUI 标题栏](./values-scroll-lists)。文档将 109 个链接整理为 16 个主题。请安装相同版本的 npm 核心包与原生插件，并重新编译 NativeScript 应用；Swift Package Manager 使用 [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) 的 `v0.1.0-rc.15`。新增功能、Web 和 SwiftUI 仍为实验性。

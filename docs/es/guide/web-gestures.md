@@ -1,6 +1,6 @@
 # Gestos, zoom y scroll Web
 
-A continuación se describe el comportamiento publicado en 0.1.0-rc.15. Las adiciones aún no publicadas de continuidad y gestos están en [contratos de movimiento](./motion-contracts).
+Disponible en **0.1.0-rc.16**. Consulte [contratos de movimiento](./motion-contracts) para gestos/velocidad y novedades SwiftUI, y [colecciones y scroll](./collections-scroll) para transferencia continua, CollectionView y reordenación horizontal/RTL.
 
 Funciones experimentales disponibles desde **0.1.0-rc.9**, seguidas en #340–#345. Las seis capacidades comparten el runtime del documento y sus ámbitos. La entrada Web no depende de NativeScript ni de frameworks. Los vídeos nativos son referencias conservadas, no grabaciones de esta implementación Web.
 

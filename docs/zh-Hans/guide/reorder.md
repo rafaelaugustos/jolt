@@ -1,5 +1,7 @@
 # 列表排序 {#reorder-a-list}
 
+已包含在 **0.1.0-rc.16** 中。手势/速度与 SwiftUI 扩展见[动效约定](./motion-contracts)；连续交接、CollectionView 与水平/RTL 排序见[集合与滚动](./collections-scroll)。
+
 RC.13 修复 Web 在 FLIP 后文本行高变化时的几何状态，并添加 [SwiftUI 实测行高](./swiftui-geometry)。
 
 按住行手柄，将其移动到列表中，然后松开。当列表滚动到边缘附近时，邻居会腾出空间。即使其原始单元格离开回收的视口，提升的行仍保留在原生快照中。

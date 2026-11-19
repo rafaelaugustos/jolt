@@ -2,6 +2,8 @@
 
 RC.15 implementation/acceptance report for Jolt #494, #495, #498, #499, #500 and #501, delivered by PR #506. The release contains the documented tested subset; the remaining acceptance below stays open. This is not a performance comparison with Reanimated.
 
+RC.16 follow-up: [collections and scroll acceptance](../collections-scroll/README.md) completes the documented #495 matrix and matched producer timing, and adds the separate CollectionView changes/reorder adapters. The table below records RC.15 delivery; physical Android measurements and full native screen-reader acceptance remain pending.
+
 ## Delivery plan and evidence
 
 | Issue | Implementation                                                                                                                             | Acceptance evidence                                                                                                                                                                                        | Remaining acceptance                                                                                                                                                  |

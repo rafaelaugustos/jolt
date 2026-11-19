@@ -65,7 +65,8 @@ try {
     await page.waitForTimeout(1400)
     if (mobile) await page.locator('.VPBackdrop').tap({ position: { x: 370, y: 400 } })
     for (const [path, label] of [
-      ['values-scroll-lists', 'Beta'],
+      ['collections-scroll', 'Beta'],
+      ['motion-contracts', 'Beta'],
       ['motion-values', 'Updated'],
       ['scroll-linked', 'Updated'],
       ['swiftui-geometry', 'Beta'],

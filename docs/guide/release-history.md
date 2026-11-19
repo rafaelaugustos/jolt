@@ -1,5 +1,15 @@
 # Release history
 
+## 0.1.0-rc.16: Gesture continuity, collections and scroll {#rc-16}
+
+RC.16 combines [gesture coordination, velocity continuity and SwiftUI motion additions](./motion-contracts) with [CollectionView changes/reorder, horizontal/RTL reorder and continuous scroll handoff](./collections-scroll), from [PR #509](https://github.com/rafaelaugustos/jolt/pull/509) and [PR #514](https://github.com/rafaelaugustos/jolt/pull/514). Install matching `0.1.0-rc.16` core/native npm packages and rebuild NativeScript apps; use `v0.1.0-rc.16` of [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) for Swift Package Manager. The new capabilities, Web and SwiftUI remain experimental.
+
+Physical Android allocation/frame-time measurements (#494), physical pointer acceptance (#492) and full native VoiceOver/TalkBack traversal/focus (#498/#499) remain open. RC.16 completes the documented #495 horizontal/RTL/bounce/CollectionView matrix and producer-only timing; those measurements exclude later graph evaluation/rendering. CollectionView changes/reorder support one vertical span. Sections, grids and cross-list moves remain outside the adapters; Web virtualization stays application-owned. Simulator/emulator evidence does not establish physical-device performance or lower application CPU/PSS.
+
+<Clip name="collection-motion-ios" caption="NativeScript on the iOS simulator: keyed CollectionView changes, anchor preservation and reorder through recycled rows. Original-speed interaction; no physical-device performance claim." />
+
+<Clip name="horizontal-reorder-web" caption="Chromium on macOS: horizontal RTL reorder, edge scrolling and cancellation after the realized rows change. Browser virtualization remains application-owned." />
+
 ## 0.1.0-rc.15: Combined values, scroll and keyed lists {#rc-15}
 
 RC.15 adds [combined motion values, native scroll bindings, layout exits, keyed list updates and SwiftUI scroll headers](./values-scroll-lists), from [PR #506](https://github.com/rafaelaugustos/jolt/pull/506). The documentation groups its 109 links into 16 topics. Install matching npm core/native packages and rebuild NativeScript apps; use `v0.1.0-rc.15` of [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) for Swift Package Manager. The new capabilities, Web and SwiftUI remain experimental.

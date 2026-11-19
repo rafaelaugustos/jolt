@@ -1,10 +1,10 @@
 # SwiftUI: movimiento derivado y gráficos retenidos
 
-A continuación se describe el comportamiento publicado en 0.1.0-rc.15. Las adiciones aún no publicadas de continuidad y gestos están en [contratos de movimiento](./motion-contracts).
+Disponible en **0.1.0-rc.16**. Consulte [contratos de movimiento](./motion-contracts) para gestos/velocidad y novedades SwiftUI, y [colecciones y scroll](./collections-scroll) para transferencia continua, CollectionView y reordenación horizontal/RTL.
 
 RC.15 (Beta): consulte [valores combinados, scroll nativo, salidas y listas por clave](./values-scroll-lists) para las adiciones y sus límites.
 
-Disponible en **0.1.0-rc.15 (Beta)** para iOS 17+ y macOS 14+, sin NativeScript ni JavaScript. Instale el producto `JoltSwiftUI` desde la etiqueta `v0.1.0-rc.15` del repositorio de paquete [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift). Consulte [instalación](./swiftui), [ciclo de vida](./swiftui-motion) e [interacción/geometría](./swiftui-geometry) para los límites.
+Disponible en **0.1.0-rc.16 (Beta)** para iOS 17+ y macOS 14+, sin NativeScript ni JavaScript. Instale el producto `JoltSwiftUI` desde la etiqueta `v0.1.0-rc.16` del repositorio de paquete [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift). Consulte [instalación](./swiftui), [ciclo de vida](./swiftui-motion) e [interacción/geometría](./swiftui-geometry) para los límites.
 
 JoltNumericMap acepta 2–1024 pares finitos con entradas estrictamente monótonas; invierte entradas descendentes. Clamp es el valor por defecto; clamp:false extrapola extremos. sample devuelve valor y pendiente, usando derivada izquierda en nodos internos. JoltMappedValue toma prestado el escalar y posee su observación: pausa congela, reanudación actualiza y dispose desconecta. Overflow marca valid=false y conserva la última salida finita. Sin reloj adicional. El binding admite x/y, scale/scaleX/scaleY, rotate y opacity; con movimiento reducido mantiene transformaciones decorativas en identidad.
 

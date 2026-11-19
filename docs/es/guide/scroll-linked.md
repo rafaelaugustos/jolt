@@ -1,5 +1,7 @@
 # Animaciones vinculadas al desplazamiento {#scroll-linked-animations}
 
+Disponible en **0.1.0-rc.16**. Consulte [contratos de movimiento](./motion-contracts) para gestos/velocidad y novedades SwiftUI, y [colecciones y scroll](./collections-scroll) para transferencia continua, CollectionView y reordenación horizontal/RTL.
+
 RC.15 (Beta): consulte [valores combinados, scroll nativo, salidas y listas por clave](./values-scroll-lists) para las adiciones y sus límites.
 
 Crea una animación una vez, luego deja que un `ScrollView` elija su fotograma:

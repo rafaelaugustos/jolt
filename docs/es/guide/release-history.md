@@ -1,5 +1,15 @@
 # Historial de versiones
 
+## 0.1.0-rc.16: Continuidad de gestos, colecciones y scroll {#rc-16}
+
+RC.16 reúne [coordinación de gestos, continuidad de velocidad y nuevas funciones SwiftUI](./motion-contracts) con [cambios/reordenación de CollectionView, reordenación horizontal/RTL y transferencia continua de scroll](./collections-scroll), de los [PR #509](https://github.com/rafaelaugustos/jolt/pull/509) y [#514](https://github.com/rafaelaugustos/jolt/pull/514). Instale core/plugin nativo npm en la misma versión `0.1.0-rc.16` y recompile apps NativeScript; use `v0.1.0-rc.16` de [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) para Swift Package Manager. Las nuevas capacidades, Web y SwiftUI siguen siendo experimentales.
+
+Siguen pendientes las mediciones de asignaciones/tiempo por frame en Android físico (#494), los accesorios de puntero físicos (#492) y la navegación/foco completos con VoiceOver/TalkBack nativos (#498/#499). RC.16 completa la matriz documentada horizontal/RTL/bounce/CollectionView y los tiempos solo del productor de #495; esas mediciones excluyen la evaluación posterior del grafo y el renderizado. Cambios/reordenación de CollectionView admiten una columna vertical. Secciones, grids y movimientos entre listas quedan fuera de los adaptadores; la virtualización Web pertenece a la aplicación. La evidencia de simulador/emulador no demuestra rendimiento físico ni menor CPU/PSS.
+
+<Clip name="collection-motion-ios" caption="NativeScript en el simulador iOS: cambios por clave de CollectionView, conservación del ancla y reordenación entre filas recicladas. Interacción a velocidad original; sin afirmación de rendimiento en dispositivo físico." />
+
+<Clip name="horizontal-reorder-web" caption="Chromium en macOS: reordenación horizontal RTL, scroll en los bordes y cancelación tras cambiar las filas realizadas. La virtualización Web sigue bajo responsabilidad de la aplicación." />
+
 ## 0.1.0-rc.15: Valores combinados, scroll y listas por clave {#rc-15}
 
 RC.15 incorpora [valores de movimiento combinados, bindings de scroll nativo, salidas de layout, listas por clave y encabezados SwiftUI](./values-scroll-lists), del [PR #506](https://github.com/rafaelaugustos/jolt/pull/506). La documentación organiza sus 109 enlaces en 16 temas. Instale core/plugin nativo en la misma versión y recompile apps NativeScript; use `v0.1.0-rc.15` de [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) para Swift Package Manager. Las nuevas capacidades, Web y SwiftUI siguen siendo experimentales.

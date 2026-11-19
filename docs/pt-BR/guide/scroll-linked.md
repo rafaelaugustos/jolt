@@ -1,5 +1,7 @@
 # Animações ligadas ao scroll
 
+Disponível na **0.1.0-rc.16**. Consulte [contratos de movimento](./motion-contracts) para gestos/velocidade e adições SwiftUI, e [coleções e scroll](./collections-scroll) para transferência contínua, CollectionView e reordenação horizontal/RTL.
+
 RC.15 (Beta): veja [valores combinados, scroll nativo, saídas e listas por chave](./values-scroll-lists) para as adições e os limites por plataforma.
 
 Crie a animação uma vez e deixe um `ScrollView` escolher o frame:

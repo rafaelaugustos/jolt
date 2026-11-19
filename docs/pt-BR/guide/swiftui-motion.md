@@ -1,8 +1,8 @@
 # SwiftUI: valores, interação e composição
 
-O comportamento publicado em 0.1.0-rc.15 está descrito abaixo. As adições ainda não publicadas de continuidade e gestos estão em [contratos de movimento](./motion-contracts).
+Disponível na **0.1.0-rc.16**. Consulte [contratos de movimento](./motion-contracts) para gestos/velocidade e adições SwiftUI, e [coleções e scroll](./collections-scroll) para transferência contínua, CollectionView e reordenação horizontal/RTL.
 
-Disponível na **0.1.0-rc.15 (Beta)** para iOS 17+ e macOS 14+, sem NativeScript ou JavaScript. Instale o produto `JoltSwiftUI` pela tag `v0.1.0-rc.15` do repositório de pacote [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift). Consulte [instalação](./swiftui), [ciclo de vida](./swiftui-motion) e [interação/geometria](./swiftui-geometry) para os limites.
+Disponível na **0.1.0-rc.16 (Beta)** para iOS 17+ e macOS 14+, sem NativeScript ou JavaScript. Instale o produto `JoltSwiftUI` pela tag `v0.1.0-rc.16` do repositório de pacote [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift). Consulte [instalação](./swiftui), [ciclo de vida](./swiftui-motion) e [interação/geometria](./swiftui-geometry) para os limites.
 
 JoltScope retém os recursos que possui. Aplique .joltScope(scope) em um único limite de view para suspender fora da tela ou com a cena inativa e retomar depois. A suspensão preserva a pausa manual. O modelo controla a destruição: dispose() destrói os recursos; reset() limpa e permite reutilizar o scope. Cada recurso tem um proprietário. Bindings e seguidores apenas usam valores emprestados: destruir um seguidor não destrói a origem. Mantenha os proprietários em @StateObject, nunca dentro de body.
 

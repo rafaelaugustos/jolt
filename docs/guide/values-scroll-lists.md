@@ -2,7 +2,7 @@
 
 **Available in 0.1.0-rc.15 (Beta).** Rebuild native applications after upgrading. The recordings below show actual interaction on the labeled platforms; simulators/emulators are not physical-device performance evidence.
 
-Validation remains open: physical Android allocation/frame-time measurements (#494); the complete horizontal/RTL/bounce/third-party CollectionView scroll matrix and matched per-event cost (#495); and full native VoiceOver/TalkBack traversal and focus acceptance (#498/#499). Those issues remain open. Core list transitions require flat fixed-height rows; CollectionView transitions, sections, grids and cross-list moves are outside this first adapter. Simulator/emulator evidence does not establish lower application CPU/PSS or superiority over Reanimated.
+Physical Android allocation/frame-time measurements (#494), physical pointer acceptance (#492) and full native VoiceOver/TalkBack traversal/focus (#498/#499) remain open. RC.16 completes the documented #495 horizontal/RTL/bounce/CollectionView matrix and producer-only timing; those measurements exclude later graph evaluation/rendering. CollectionView changes/reorder support one vertical span. Sections, grids and cross-list moves remain outside the adapters; Web virtualization stays application-owned. Simulator/emulator evidence does not establish physical-device performance or lower application CPU/PSS.
 
 ## Combine numeric values
 

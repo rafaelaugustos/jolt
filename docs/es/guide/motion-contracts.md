@@ -1,6 +1,6 @@
 # Continuidad del movimiento y relaciones entre gestos
 
-**Candidato de código, no incluido en 0.1.0-rc.15.** Este lote cubre [#497](https://github.com/rafaelaugustos/jolt/issues/497), [#502](https://github.com/rafaelaugustos/jolt/issues/502), [#503](https://github.com/rafaelaugustos/jolt/issues/503), [#504](https://github.com/rafaelaugustos/jolt/issues/504), [#505](https://github.com/rafaelaugustos/jolt/issues/505) y [#508](https://github.com/rafaelaugustos/jolt/issues/508). No publica paquetes ni cambia la versión. SwiftUI sigue en Beta para iOS 17+ y macOS 14+.
+**Disponible en 0.1.0-rc.16 (Beta).** Este lote cubre [#497](https://github.com/rafaelaugustos/jolt/issues/497), [#502](https://github.com/rafaelaugustos/jolt/issues/502), [#503](https://github.com/rafaelaugustos/jolt/issues/503), [#504](https://github.com/rafaelaugustos/jolt/issues/504), [#505](https://github.com/rafaelaugustos/jolt/issues/505) y [#508](https://github.com/rafaelaugustos/jolt/issues/508). Instale core/plugin nativo en la misma versión y recompile la aplicación nativa tras actualizar. SwiftUI sigue en Beta para iOS 17+ y macOS 14+.
 
 ## Relaciones entre controladores {#gesture-relationships}
 

@@ -1,6 +1,6 @@
 # Motion continuity and gesture relationships
 
-**Source candidate, not included in 0.1.0-rc.15.** This batch covers [#497](https://github.com/rafaelaugustos/jolt/issues/497), [#502](https://github.com/rafaelaugustos/jolt/issues/502), [#503](https://github.com/rafaelaugustos/jolt/issues/503), [#504](https://github.com/rafaelaugustos/jolt/issues/504), [#505](https://github.com/rafaelaugustos/jolt/issues/505) and [#508](https://github.com/rafaelaugustos/jolt/issues/508). It does not publish a package or change the version. SwiftUI remains Beta on iOS 17+ and macOS 14+.
+**Available in 0.1.0-rc.16 (Beta).** This batch covers [#497](https://github.com/rafaelaugustos/jolt/issues/497), [#502](https://github.com/rafaelaugustos/jolt/issues/502), [#503](https://github.com/rafaelaugustos/jolt/issues/503), [#504](https://github.com/rafaelaugustos/jolt/issues/504), [#505](https://github.com/rafaelaugustos/jolt/issues/505) and [#508](https://github.com/rafaelaugustos/jolt/issues/508). Install matching core/native versions and rebuild the native app after upgrading. SwiftUI remains Beta on iOS 17+ and macOS 14+.
 
 ## Relationships between controllers {#gesture-relationships}
 

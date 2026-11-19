@@ -1,5 +1,7 @@
 # 滚动联动动画 {#scroll-linked-animations}
 
+已包含在 **0.1.0-rc.16** 中。手势/速度与 SwiftUI 扩展见[动效约定](./motion-contracts)；连续交接、CollectionView 与水平/RTL 排序见[集合与滚动](./collections-scroll)。
+
 RC.15（测试版）：新增功能和平台限制请见[组合值、原生滚动、退场与按键列表](./values-scroll-lists)。
 
 构建一次动画，然后让 `ScrollView` 选择其框架：

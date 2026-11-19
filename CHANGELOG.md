@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+## 0.1.0-rc.16 (2026-11-19)
+
+- Publish matching core/native npm packages and the matching `jolt-swift` tag with the twelve issues from #509 and #514. Rebuild NativeScript apps after upgrading. New capabilities, Web and SwiftUI remain experimental.
+- Add setup-time simultaneous, wait-for and block relations between Jolt gesture controllers on NativeScript and Web, with cycle rejection, native recognition decisions and disposal (#497). OS navigation and arbitrary Android detectors remain outside this contract.
+- Add SwiftUI custom-grip reorder edge scrolling (#502), bounded continuous particles (#503), retained SVG styles/trim and compatible path morphing (#504), and construction-time spring velocity inheritance/override for timelines (#505). Reuse the existing Web equivalents.
+- Make paused, hidden and stopped Web spring velocity and derived graphs report zero while preserving momentum for resume, matching native behavior (#508).
+- Complete horizontal/RTL/bounce and actual CollectionView scroll-source acceptance, with matched five-property producer timing (#495). Measurements exclude later graph evaluation/rendering and do not establish end-to-end frame cost or physical-device performance.
+- Add continuous scroll handoff for Core ListView, linear CollectionView and horizontal Core ScrollView, including a bottom-sheet descriptor (#496), plus continuous SwiftUI sheet/content ownership transfer (#510). The final consumer owns release velocity; native cancellation releases pending scroll leases.
+- Add optional community CollectionView 6.1.3 adapters for keyed list changes/anchoring (#511) and recycled reorder with native edge scrolling (#512). Support one vertical span; grids, sections and cross-list moves remain outside the adapters.
+- Add horizontal/RTL realized native reorder and correct Web RTL edge behavior (#513). Web cancels active contacts when realized keys, DOM targets or direction change; applications own virtualization and must pin the realized window for a continuous drag.
+- Include 19 reviewed native/browser recordings in four documentation languages. Validate 1,884 TypeScript tests, 142 Swift tests, native baseline/negative controls, browser and packed-framework consumers, and standalone iOS/macOS SwiftUI UI scenarios. All 11 checks passed on each merged feature PR.
+- Keep physical Android allocation/frame-time work (#494), physical pointer acceptance (#492) and full native screen-reader traversal/focus (#498/#499) separate. Existing reduced-motion and accessibility alternatives remain; no new accessibility acceptance is claimed.
+
 ## 0.1.0-rc.15 (2026-11-13)
 
 - Publish matching core/native npm packages and the matching `jolt-swift` tag from #506. Rebuild NativeScript apps after upgrading. The new capabilities, Web and SwiftUI remain experimental.
