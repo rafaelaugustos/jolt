@@ -72,7 +72,15 @@ public final class GestureSession {
     boolean accepts(View target) { return enabled && !disposed && target == scroll; }
     int scrollAxis() { return axis; }
     boolean atStart() { return axis==1?!scroll.canScrollHorizontally(-1):!scroll.canScrollVertically(-1); }
-    void childConsumed(int dx,int dy) { if((axis==1?dx:dy)!=0)panelOwnsVelocity=false; }
+    void childConsumed(int dx,int dy) {
+        if((axis==1?dx:dy)!=0) {
+            panelOwnsVelocity=false;
+            if(active) {
+                LiveSpring panel=axis==1?x:y;
+                panel.holdInput(panel.getPosition(),0);
+            }
+        }
+    }
     private static double clamp(double value, double min, double max) { return Math.max(min, Math.min(max, value)); }
     private void emit(int state) { if (!disposed && listener != null) listener.onState(state, velocityX, velocityY); }
     private void begin() {
@@ -232,7 +240,9 @@ public final class GestureSession {
             remaining -= consume(remaining, !scroll.canScrollVertically(-1));
             int before = scroll.getScrollY();
             scroll.scrollBy(0, remaining);
-            remaining -= scroll.getScrollY() - before;
+            int consumed = scroll.getScrollY() - before;
+            childConsumed(0, consumed);
+            remaining -= consumed;
             consume(remaining, true);
         } else if (phase == 3 || phase == 4) finish(phase == 4);
     }

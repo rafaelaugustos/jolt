@@ -4,6 +4,8 @@ Completes the handoff case from #63 after the interrupted spring and cancelled d
 
 The fixture checks scroll-to-top before sheet collapse, sheet expansion before upward content scroll, same-contact reversal, held velocity at the seam, a 288 ms gap, pointer membership rebasing, cancellation with ignored stale motion, suspension/resume, bounds, a fresh contact and final rest. Twenty 0.1 DIP steps detect per-sample Android pixel rounding drift. Canonical position tolerances are 1 DIP (0.5 DIP for fractional accumulation); velocity tolerance is 0.1 DIP/s at the ownership checkpoints.
 
+The #496 contract assigns velocity to the final consumer when one delta moves both surfaces. Expanding the sheet and then scrolling content leaves zero sheet velocity; draining content and then moving the sheet transfers velocity to the sheet. The independent oracle checks both directions and the held contact. Android replay reports actual child consumption through the same ownership hook as native nested scrolling.
+
 iOS routes the same **consumeScrollDelta** method as its recognizer. Android calls the production **consume** method around the actual child scroll, matching the pre/child/post nested-scroll sequence. These hooks require an isolated replay-only session; normal controllers reject them. The native adapter retains real live-value nodes and a native binding, reads iOS presentation layers / Android translation getters and actual content offset, then disposes the session, binding, delegate wrapper and nodes. Its resource audit requires the node count to return to baseline.
 
 This is a held-contact adapter, not a free-running live-spring clock. Release holds position; fling, automatic snap selection, keyboard timing and full bottom-sheet recipe behavior remain in the existing real-input tests. Raw touch capture observes Core events and numeric window coordinates, not recognizer decisions or user content. The preview freezes the headless contract's oracle during capture; native replay never regenerates expected values.
@@ -34,5 +36,7 @@ Files in app Documents (also external app files on Android): **jolt-handoff-trac
 ## Português
 
 O handoff da #63 agora passa pelo contrato independente e pela política nativa de consumo. Os mesmos gestos reais são gravados e reproduzidos nos simuladores. O controle negativo altera o offset esperado da lista e precisa falhar. A captura não guarda texto das notas nem handles nativos; posições usam DIP e velocidade usa DIP/s.
+
+No contrato da #496, a velocidade fica com quem consumiu o movimento por último. Se um delta expande o painel e depois rola o conteúdo, a velocidade do painel fica em zero. Na direção inversa, esgotar a rolagem e mover o painel transfere a velocidade para ele. O oráculo independente verifica as duas direções; o replay Android usa o mesmo registro de consumo do filho que a rolagem nativa.
 
 O teste usa o grupo existente do CI, sem workflow novo. O adaptador segura a posição ao soltar e não controla springs retidos em movimento livre. Snap automático, fling, teclado e arbitragem do reconhecedor continuam nos testes de SO da receita completa. As tolerâncias menores para passos fracionários detectam a perda acumulada de pixels no Android.

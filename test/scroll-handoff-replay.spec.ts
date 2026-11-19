@@ -22,6 +22,17 @@ describe('scroll to sheet replay contract', () => {
     expect(
       report.observations.find((o) => o.at === 32 && o.id === 'sheet')?.observed,
     ).toEqual({ position: 20, velocity: 250, settled: false })
+    // Expansion and content scrolling share a delta; the content consumes last.
+    // Holding the contact must not restore stale panel velocity either.
+    for (const at of [80, 368, 642])
+      expect(
+        report.observations.find((o) => o.at === at && o.id === 'sheet')?.observed
+          .velocity,
+      ).toBe(0)
+    expect(
+      report.observations.find((o) => o.at === 658 && o.id === 'sheet')?.observed
+        .velocity,
+    ).toBe(200)
     expect(
       report.observations.find((o) => o.at === 384 && o.id === 'sheet')?.observed
         .position,

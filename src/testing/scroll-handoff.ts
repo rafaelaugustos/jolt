@@ -100,7 +100,8 @@ export function scrollHandoffTraceGraph(
       velocity = 0
       return
     }
-    const before = y
+    const before = y,
+      beforeOffset = offset
     if (delta > 0) {
       const content = Math.min(offset, delta)
       offset -= content
@@ -110,7 +111,9 @@ export function scrollHandoffTraceGraph(
       y -= panel
       offset = Math.min(config.scroll.max, offset - delta - panel)
     }
-    velocity = y === before ? 0 : speed
+    // One delta can move both surfaces. Only the final consumer owns velocity:
+    // content follows expansion, while the sheet follows draining content.
+    velocity = y !== before && (delta > 0 || offset === beforeOffset) ? speed : 0
   })
   return {
     input(event) {
