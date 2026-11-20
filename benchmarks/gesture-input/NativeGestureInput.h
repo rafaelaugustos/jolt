@@ -9,6 +9,7 @@ NSString * _Nullable JoltNavigationHold(CGPoint start, CGFloat distance, NSInteg
 NSString * _Nullable JoltModalHold(CGPoint start, CGFloat distance, NSInteger orientation);
 NSString * _Nullable JoltPhotoInterrupt(CGPoint center);
 NSString * _Nullable JoltNativeTap(CGPoint point);
+NSString * _Nullable JoltReaderDoubleTap(CGPoint point);
 NSString * _Nullable JoltScrollAndLeave(CGPoint start, CGFloat distance, CGPoint back);
 NSString * _Nullable JoltReaderScroll(CGPoint start, CGFloat distance);
 

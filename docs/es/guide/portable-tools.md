@@ -43,7 +43,7 @@ Las muestras son sintéticas: 2–10000 entradas copiadas con tiempos relativos 
 
 Replay desconecta solo su sensor de los eventos de dispositivo. Se pausa sin consumidores, por pausa de fuente, segundo plano/visibilidad o Reducir movimiento. El modo manual usa advanceTo dentro de la duración. El handle ofrece pause/play/stop/dispose y finished: true al completar, false al cancelar. Entradas inválidas conservan el replay anterior. Destruir la fuente lo cancela. Finalizar o parar reanuda adquisición normal según permiso y demanda.
 
-snapshot().sampleSource distingue replay, device-event y none incluso para valores retenidos. Replay nunca concede permisos; available permanece false con entrada sintética. API presente, emulador y replay no demuestran datos físicos; #385 sigue abierta. El test debe poseer y destruir sus suscripciones, valores derivados, bindings y fuente mediante scope o limpieza explícita.
+snapshot().sampleSource distingue replay, device-event y none incluso para valores retenidos. Replay nunca concede permisos; available permanece false con entrada sintética. API presente y replay no demuestran datos físicos. #385 tiene aceptación emulada aprobada con Chrome real y sensores virtuales de Android; la precisión y entrega físicas siguen sin verificarse. El test debe poseer y destruir sus suscripciones, valores derivados, bindings y fuente mediante scope o limpieza explícita.
 
 <Clip name="web-tools" caption="Chromium en macOS: muestras sintéticas mueven un elemento DOM real; pausa/reanudación, observaciones CSS y marcadores de sustitución. Sin medición física ni de GPU." />
 

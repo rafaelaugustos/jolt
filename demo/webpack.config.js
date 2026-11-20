@@ -98,6 +98,21 @@ module.exports = (env) => {
       .set('@nativescript/core', resolve(__dirname, 'node_modules/@nativescript/core'))
       .set('nativescript-vue', resolve(__dirname, 'node_modules/nativescript-vue'))
 
+    if (env.acceptanceMetrics) {
+      if (!env.production || env.hmr)
+        throw new Error('Acceptance metrics require production JavaScript without HMR.')
+      config
+        .entry('bundle')
+        .clear()
+        .add('@nativescript/core/globals/index')
+        .add('@nativescript/core/bundle-entry-points')
+        .add(resolve(__dirname, '../benchmarks/acceptance-closure/native-metrics.ts'))
+      if (env.android)
+        config
+          .entry('bundle')
+          .add('@nativescript/core/ui/frame')
+          .add('@nativescript/core/ui/frame/activity')
+    }
     if (
       env.bindingBenchmark ||
       env.benchmark ||

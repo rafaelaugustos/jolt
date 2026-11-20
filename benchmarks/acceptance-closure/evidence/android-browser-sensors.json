@@ -1,0 +1,775 @@
+{
+  "platform": "Android API 36 emulator, actual Chrome and OS virtual sensors",
+  "source": "platform DeviceMotionEvent, no DOM event injection or CDP sensor overrides",
+  "physicalHardware": false,
+  "limitations": "Emulator delivery and units/lifecycle only; no physical accuracy, hardware rate, battery or performance claim.",
+  "initial": {
+    "secure": true,
+    "ua": "Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Mobile Safari/537.36",
+    "initial": [
+      {
+        "unit": "m/s²",
+        "status": "permission-required",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [
+          0,
+          0,
+          0
+        ],
+        "sampleSource": "none",
+        "backend": "device-motion"
+      },
+      {
+        "unit": "m/s²",
+        "status": "permission-required",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [
+          0,
+          0,
+          0
+        ],
+        "sampleSource": "none",
+        "backend": "device-motion"
+      },
+      {
+        "unit": "rad/s",
+        "status": "permission-required",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [
+          0,
+          0,
+          0
+        ],
+        "sampleSource": "none",
+        "backend": "device-motion"
+      },
+      {
+        "unit": "µT",
+        "status": "unavailable",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [
+          0,
+          0,
+          0
+        ],
+        "reason": "unsupported-kind",
+        "sampleSource": "none",
+        "backend": "none"
+      }
+    ]
+  },
+  "states": [
+    {
+      "name": "platform-delivery",
+      "raw": {
+        "count": 7,
+        "trusted": true,
+        "last": {
+          "acceleration": {
+            "x": 1,
+            "y": -7.800000000000001,
+            "z": 9.700000000000001
+          },
+          "total": {
+            "x": 1,
+            "y": 2,
+            "z": 9.8
+          },
+          "rotation": {
+            "alpha": 22.900000000000002,
+            "beta": -11.5,
+            "gamma": 45.800000000000004
+          },
+          "interval": 16
+        }
+      },
+      "sensors": [
+        {
+          "kind": "acceleration",
+          "unit": "m/s²",
+          "status": "active",
+          "available": true,
+          "timestamp": 338,
+          "samples": 7,
+          "values": [
+            1,
+            2,
+            9.8
+          ],
+          "sampleSource": "device-event",
+          "backend": "device-motion"
+        },
+        {
+          "kind": "linearAcceleration",
+          "unit": "m/s²",
+          "status": "active",
+          "available": true,
+          "timestamp": 338,
+          "samples": 6,
+          "values": [
+            1,
+            -7.800000000000001,
+            9.700000000000001
+          ],
+          "sampleSource": "device-event",
+          "backend": "device-motion"
+        },
+        {
+          "kind": "gyroscope",
+          "unit": "rad/s",
+          "status": "active",
+          "available": true,
+          "timestamp": 338,
+          "samples": 6,
+          "values": [
+            -0.20071286397934787,
+            0.799360797413403,
+            0.3996803987067015
+          ],
+          "sampleSource": "device-event",
+          "backend": "device-motion"
+        },
+        {
+          "kind": "magneticField",
+          "unit": "µT",
+          "status": "unavailable",
+          "available": false,
+          "timestamp": null,
+          "samples": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "reason": "unsupported-kind",
+          "sampleSource": "none",
+          "backend": "none"
+        }
+      ]
+    },
+    {
+      "name": "paused",
+      "raw": {
+        "count": 7,
+        "trusted": true,
+        "last": {
+          "acceleration": {
+            "x": 1,
+            "y": -7.800000000000001,
+            "z": 9.700000000000001
+          },
+          "total": {
+            "x": 1,
+            "y": 2,
+            "z": 9.8
+          },
+          "rotation": {
+            "alpha": 22.900000000000002,
+            "beta": -11.5,
+            "gamma": 45.800000000000004
+          },
+          "interval": 16
+        }
+      },
+      "sensors": [
+        {
+          "kind": "acceleration",
+          "unit": "m/s²",
+          "status": "paused",
+          "available": true,
+          "timestamp": null,
+          "samples": 7,
+          "values": [
+            1,
+            2,
+            9.8
+          ],
+          "sampleSource": "device-event",
+          "backend": "device-motion"
+        },
+        {
+          "kind": "linearAcceleration",
+          "unit": "m/s²",
+          "status": "paused",
+          "available": true,
+          "timestamp": null,
+          "samples": 6,
+          "values": [
+            1,
+            -7.800000000000001,
+            9.700000000000001
+          ],
+          "sampleSource": "device-event",
+          "backend": "device-motion"
+        },
+        {
+          "kind": "gyroscope",
+          "unit": "rad/s",
+          "status": "paused",
+          "available": true,
+          "timestamp": null,
+          "samples": 6,
+          "values": [
+            -0.20071286397934787,
+            0.799360797413403,
+            0.3996803987067015
+          ],
+          "sampleSource": "device-event",
+          "backend": "device-motion"
+        },
+        {
+          "kind": "magneticField",
+          "unit": "µT",
+          "status": "unavailable",
+          "available": false,
+          "timestamp": null,
+          "samples": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "reason": "unsupported-kind",
+          "sampleSource": "none",
+          "backend": "none"
+        }
+      ]
+    },
+    {
+      "name": "paused-input",
+      "raw": {
+        "count": 32,
+        "trusted": true,
+        "last": {
+          "acceleration": {
+            "x": -2.9000000000000004,
+            "y": -8.8,
+            "z": 7.7
+          },
+          "total": {
+            "x": -3,
+            "y": 1,
+            "z": 8
+          },
+          "rotation": {
+            "alpha": 22.900000000000002,
+            "beta": -11.5,
+            "gamma": 45.800000000000004
+          },
+          "interval": 16
+        }
+      },
+      "sensors": [
+        {
+          "kind": "acceleration",
+          "unit": "m/s²",
+          "status": "paused",
+          "available": true,
+          "timestamp": null,
+          "samples": 7,
+          "values": [
+            1,
+            2,
+            9.8
+          ],
+          "sampleSource": "device-event",
+          "backend": "device-motion"
+        },
+        {
+          "kind": "linearAcceleration",
+          "unit": "m/s²",
+          "status": "paused",
+          "available": true,
+          "timestamp": null,
+          "samples": 6,
+          "values": [
+            1,
+            -7.800000000000001,
+            9.700000000000001
+          ],
+          "sampleSource": "device-event",
+          "backend": "device-motion"
+        },
+        {
+          "kind": "gyroscope",
+          "unit": "rad/s",
+          "status": "paused",
+          "available": true,
+          "timestamp": null,
+          "samples": 6,
+          "values": [
+            -0.20071286397934787,
+            0.799360797413403,
+            0.3996803987067015
+          ],
+          "sampleSource": "device-event",
+          "backend": "device-motion"
+        },
+        {
+          "kind": "magneticField",
+          "unit": "µT",
+          "status": "unavailable",
+          "available": false,
+          "timestamp": null,
+          "samples": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "reason": "unsupported-kind",
+          "sampleSource": "none",
+          "backend": "none"
+        }
+      ]
+    },
+    {
+      "name": "resumed",
+      "raw": {
+        "count": 36,
+        "trusted": true,
+        "last": {
+          "acceleration": {
+            "x": -2.9000000000000004,
+            "y": -8.8,
+            "z": 7.6000000000000005
+          },
+          "total": {
+            "x": -3,
+            "y": 1,
+            "z": 8
+          },
+          "rotation": {
+            "alpha": 22.900000000000002,
+            "beta": -11.5,
+            "gamma": 45.800000000000004
+          },
+          "interval": 16
+        }
+      },
+      "sensors": [
+        {
+          "kind": "acceleration",
+          "unit": "m/s²",
+          "status": "active",
+          "available": true,
+          "timestamp": 821.6000000000931,
+          "samples": 11,
+          "values": [
+            -3,
+            1,
+            8
+          ],
+          "sampleSource": "device-event",
+          "backend": "device-motion"
+        },
+        {
+          "kind": "linearAcceleration",
+          "unit": "m/s²",
+          "status": "active",
+          "available": true,
+          "timestamp": 821.6000000000931,
+          "samples": 10,
+          "values": [
+            -2.9000000000000004,
+            -8.8,
+            7.6000000000000005
+          ],
+          "sampleSource": "device-event",
+          "backend": "device-motion"
+        },
+        {
+          "kind": "gyroscope",
+          "unit": "rad/s",
+          "status": "active",
+          "available": true,
+          "timestamp": 821.6000000000931,
+          "samples": 10,
+          "values": [
+            -0.20071286397934787,
+            0.799360797413403,
+            0.3996803987067015
+          ],
+          "sampleSource": "device-event",
+          "backend": "device-motion"
+        },
+        {
+          "kind": "magneticField",
+          "unit": "µT",
+          "status": "unavailable",
+          "available": false,
+          "timestamp": null,
+          "samples": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "reason": "unsupported-kind",
+          "sampleSource": "none",
+          "backend": "none"
+        }
+      ]
+    },
+    {
+      "name": "background",
+      "raw": {
+        "count": 42,
+        "trusted": true,
+        "last": {
+          "acceleration": {
+            "x": -2.8000000000000003,
+            "y": -8.8,
+            "z": 7.5
+          },
+          "total": {
+            "x": -3,
+            "y": 1,
+            "z": 8
+          },
+          "rotation": {
+            "alpha": 22.900000000000002,
+            "beta": -11.5,
+            "gamma": 45.800000000000004
+          },
+          "interval": 16
+        }
+      },
+      "sensors": [
+        {
+          "kind": "acceleration",
+          "unit": "m/s²",
+          "status": "active",
+          "available": true,
+          "timestamp": 921.1000000000931,
+          "samples": 17,
+          "values": [
+            -3,
+            1,
+            8
+          ],
+          "sampleSource": "device-event",
+          "backend": "device-motion"
+        },
+        {
+          "kind": "linearAcceleration",
+          "unit": "m/s²",
+          "status": "active",
+          "available": true,
+          "timestamp": 921.1000000000931,
+          "samples": 16,
+          "values": [
+            -2.8000000000000003,
+            -8.8,
+            7.5
+          ],
+          "sampleSource": "device-event",
+          "backend": "device-motion"
+        },
+        {
+          "kind": "gyroscope",
+          "unit": "rad/s",
+          "status": "active",
+          "available": true,
+          "timestamp": 921.1000000000931,
+          "samples": 16,
+          "values": [
+            -0.20071286397934787,
+            0.799360797413403,
+            0.3996803987067015
+          ],
+          "sampleSource": "device-event",
+          "backend": "device-motion"
+        },
+        {
+          "kind": "magneticField",
+          "unit": "µT",
+          "status": "unavailable",
+          "available": false,
+          "timestamp": null,
+          "samples": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "reason": "unsupported-kind",
+          "sampleSource": "none",
+          "backend": "none"
+        }
+      ]
+    },
+    {
+      "name": "background-held",
+      "raw": {
+        "count": 42,
+        "trusted": true,
+        "last": {
+          "acceleration": {
+            "x": -2.8000000000000003,
+            "y": -8.8,
+            "z": 7.5
+          },
+          "total": {
+            "x": -3,
+            "y": 1,
+            "z": 8
+          },
+          "rotation": {
+            "alpha": 22.900000000000002,
+            "beta": -11.5,
+            "gamma": 45.800000000000004
+          },
+          "interval": 16
+        }
+      },
+      "sensors": [
+        {
+          "kind": "acceleration",
+          "unit": "m/s²",
+          "status": "active",
+          "available": true,
+          "timestamp": 921.1000000000931,
+          "samples": 17,
+          "values": [
+            -3,
+            1,
+            8
+          ],
+          "sampleSource": "device-event",
+          "backend": "device-motion"
+        },
+        {
+          "kind": "linearAcceleration",
+          "unit": "m/s²",
+          "status": "active",
+          "available": true,
+          "timestamp": 921.1000000000931,
+          "samples": 16,
+          "values": [
+            -2.8000000000000003,
+            -8.8,
+            7.5
+          ],
+          "sampleSource": "device-event",
+          "backend": "device-motion"
+        },
+        {
+          "kind": "gyroscope",
+          "unit": "rad/s",
+          "status": "active",
+          "available": true,
+          "timestamp": 921.1000000000931,
+          "samples": 16,
+          "values": [
+            -0.20071286397934787,
+            0.799360797413403,
+            0.3996803987067015
+          ],
+          "sampleSource": "device-event",
+          "backend": "device-motion"
+        },
+        {
+          "kind": "magneticField",
+          "unit": "µT",
+          "status": "unavailable",
+          "available": false,
+          "timestamp": null,
+          "samples": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "reason": "unsupported-kind",
+          "sampleSource": "none",
+          "backend": "none"
+        }
+      ]
+    },
+    {
+      "name": "foreground",
+      "raw": {
+        "count": 46,
+        "trusted": true,
+        "last": {
+          "acceleration": {
+            "x": 0.4,
+            "y": -0.1,
+            "z": -1.1
+          },
+          "total": {
+            "x": -3,
+            "y": 1,
+            "z": 8
+          },
+          "rotation": {
+            "alpha": 22.900000000000002,
+            "beta": -11.5,
+            "gamma": 45.800000000000004
+          },
+          "interval": 16
+        }
+      },
+      "sensors": [
+        {
+          "kind": "acceleration",
+          "unit": "m/s²",
+          "status": "active",
+          "available": true,
+          "timestamp": 2374.2999999998137,
+          "samples": 21,
+          "values": [
+            -3,
+            1,
+            8
+          ],
+          "sampleSource": "device-event",
+          "backend": "device-motion"
+        },
+        {
+          "kind": "linearAcceleration",
+          "unit": "m/s²",
+          "status": "active",
+          "available": true,
+          "timestamp": 2374.2999999998137,
+          "samples": 20,
+          "values": [
+            0.4,
+            -0.1,
+            -1.1
+          ],
+          "sampleSource": "device-event",
+          "backend": "device-motion"
+        },
+        {
+          "kind": "gyroscope",
+          "unit": "rad/s",
+          "status": "active",
+          "available": true,
+          "timestamp": 2374.2999999998137,
+          "samples": 20,
+          "values": [
+            -0.20071286397934787,
+            0.799360797413403,
+            0.3996803987067015
+          ],
+          "sampleSource": "device-event",
+          "backend": "device-motion"
+        },
+        {
+          "kind": "magneticField",
+          "unit": "µT",
+          "status": "unavailable",
+          "available": false,
+          "timestamp": null,
+          "samples": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "reason": "unsupported-kind",
+          "sampleSource": "none",
+          "backend": "none"
+        }
+      ]
+    },
+    {
+      "name": "disposed",
+      "raw": {
+        "count": 47,
+        "trusted": true,
+        "last": {
+          "acceleration": {
+            "x": 0.4,
+            "y": -0.1,
+            "z": -1.1
+          },
+          "total": {
+            "x": -3,
+            "y": 1,
+            "z": 8
+          },
+          "rotation": {
+            "alpha": 22.900000000000002,
+            "beta": -11.5,
+            "gamma": 45.800000000000004
+          },
+          "interval": 16
+        }
+      },
+      "sensors": [
+        {
+          "kind": "acceleration",
+          "unit": "m/s²",
+          "status": "disposed",
+          "available": false,
+          "timestamp": null,
+          "samples": 22,
+          "values": [
+            -3,
+            1,
+            8
+          ],
+          "sampleSource": "device-event",
+          "backend": "device-motion"
+        },
+        {
+          "kind": "linearAcceleration",
+          "unit": "m/s²",
+          "status": "disposed",
+          "available": false,
+          "timestamp": null,
+          "samples": 21,
+          "values": [
+            0.4,
+            -0.1,
+            -1.1
+          ],
+          "sampleSource": "device-event",
+          "backend": "device-motion"
+        },
+        {
+          "kind": "gyroscope",
+          "unit": "rad/s",
+          "status": "disposed",
+          "available": false,
+          "timestamp": null,
+          "samples": 21,
+          "values": [
+            -0.20071286397934787,
+            0.799360797413403,
+            0.3996803987067015
+          ],
+          "sampleSource": "device-event",
+          "backend": "device-motion"
+        },
+        {
+          "kind": "magneticField",
+          "unit": "µT",
+          "status": "disposed",
+          "available": false,
+          "timestamp": null,
+          "samples": 0,
+          "values": [
+            0,
+            0,
+            0
+          ],
+          "reason": "unsupported-kind",
+          "sampleSource": "none",
+          "backend": "none"
+        }
+      ]
+    }
+  ]
+}

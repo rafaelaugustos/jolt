@@ -77,3 +77,13 @@ Reutilize `listChanges` Web, seu adaptador explícito para virtualizadores, `scr
 <Clip name="swiftui-sheet-continuity-macos" caption="App nativo macOS: Entrada real: transferência contínua entre painel e conteúdo, botões e remontagem. UI em inglês; velocidade original." />
 
 <Clip name="horizontal-reorder-web" caption="Chromium no macOS: mouse real mostra commit LTR/RTL, reversão nas bordas e cancelamento por Escape. UI em inglês." />
+
+## Aceite com leitores de tela nativos {#native-reader-acceptance}
+
+CollectionView agora compartilha a captura/restauração de foco por chave do Core ListView. A correção é posterior à RC.16 e ainda não está no pacote RC.16 publicado. A fixture com 200 linhas verifica movimento, inserção, interrupção, foco externo, movimento reduzido e descarte. A cobertura se limita ao adaptador documentado de uma coluna.
+
+[Relatório](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/acceptance-closure).
+
+<Clip :autoplay="false" name="collection-focus-voiceover-ios" caption="Simulador iOS 27 com VoiceOver real e interação XCTest. Foco visível e asserções de navegação; gravação sem áudio. Não comprova comportamento em aparelho físico. Foco por chave do CollectionView durante atualizações." />
+
+<Clip :autoplay="false" name="collection-focus-talkback-android" caption="Emulador Android API 36 com TalkBack real e interação por toques nativos. Foco visível e asserções de navegação; gravação sem áudio. Não comprova comportamento em aparelho físico. Foco por chave do CollectionView durante atualizações." />

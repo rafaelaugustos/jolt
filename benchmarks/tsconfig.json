@@ -11,6 +11,7 @@
     "*.ts",
     "motion-contracts/native.ts",
     "collections-scroll/native.ts",
+    "acceptance-closure/native-reader.ts",
     "../src/android-plugin.d.ts",
     "../src/ios-plugin.d.ts",
     "../demo/src/sensor-interval-audit.ts",

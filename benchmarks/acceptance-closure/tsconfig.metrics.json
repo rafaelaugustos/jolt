@@ -1,0 +1,8 @@
+{
+  "extends": "../tsconfig.json",
+  "include": [
+    "native-metrics.ts",
+    "../../src/android-plugin.d.ts",
+    "../../src/ios-plugin.d.ts"
+  ]
+}

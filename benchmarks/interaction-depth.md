@@ -1,5 +1,7 @@
 # RC.12 interaction/depth validation
 
+> Follow-up (20 November 2026): the [RC.16 acceptance audit](acceptance-closure/README.md) adds approved emulator overhead measurements for #415. Historical physical results below remain unchanged.
+
 Candidate branch `feat/rc12-interaction-depth`, based on `d4a63ecfffa8d99afec998072a497bbcc5c5ba31`. Not merged or published by this report. Owning issues: #399, #415/#383, #402, #380, #381, #382. Source/APK identities and raw reports are retained in [results/interaction-depth](results/interaction-depth).
 
 ## Acceptance scope

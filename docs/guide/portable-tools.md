@@ -43,7 +43,7 @@ Samples are explicitly synthetic: 2–10000 copied entries, strictly increasing 
 
 Replay detaches only its own sensor from device events. It pauses with missing demand, source pause, background/visibility or Reduced Motion; manual mode requires advanceTo within its duration. The handle also offers pause/play/stop/dispose and finished (true for completion, false for cancellation). Invalid input leaves a previous replay intact. Source disposal cancels replay. On completion or stop, ordinary permission/demand-based acquisition resumes.
 
-snapshot().sampleSource distinguishes replay, device-event and none, including retained last values. Replay never grants permission and available stays false for synthetic input. Browser API presence, emulator events and replay do not prove physical sensor delivery; #385 remains open. Test code must own its subscriptions, mapped values, bindings and source, and dispose them through its scope or explicit cleanup.
+snapshot().sampleSource distinguishes replay, device-event and none, including retained last values. Replay never grants permission and available stays false for synthetic input. Browser API presence and replay do not prove physical sensor delivery. #385 has approved emulated acceptance through actual Chrome and Android virtual OS sensors; physical accuracy and delivery remain unverified. Test code must own its subscriptions, mapped values, bindings and source, and dispose them through its scope or explicit cleanup.
 
 <Clip name="web-tools" caption="Chromium on macOS: synthetic sensor samples move a real DOM element; pause/resume, explicit CSS observations and replacement markers are exercised. The plot labels its observation source; no physical sensor or GPU measurement." />
 

@@ -1,6 +1,6 @@
 # RC.12 portable foundations: acceptance and measurements
 
-This branch implements #400, #401, #412, #413, #414 and #416. It is review work for RC.12, not a release or a claim that RC.11.1 contains these APIs. Native and browser acceptance are recorded separately. The existing performance investigations #405/#406 remain deferred.
+PR #421 implemented #400, #401, #412, #413, #414 and #416 and shipped in RC.12. The measurements below record that delivery, not a new measurement of RC.16. See the [RC.16 acceptance follow-up](acceptance-closure/README.md) for the current #414/#416 source and recording review. Native and browser acceptance are recorded separately. The existing performance investigations #405/#406 remain deferred.
 
 The measured benefit depends on the workload. On physical Android, the batch drawing updates fewer native objects and updates geometry faster, but consumes more CPU than the multi-host baseline. Renderer activity avoids extra rendering after playback ends when compared with a guessed stop timer. Property groups provide coordinated ownership/cancellation; their three-property measurements do not establish a CPU or latency improvement.
 

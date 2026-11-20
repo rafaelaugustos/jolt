@@ -43,7 +43,7 @@ source.dispose()
 
 重播只断开自己的 sensor 与设备事件的连接。在无消费者、源暂停、后台/页面隐藏或减少动态效果时暂停。手动模式需要在时长范围内调用 advanceTo。handle 还提供 pause/play/stop/dispose 和 finished，完成为 true、取消为 false。无效输入保留原有重播；销毁 source 取消重播。结束或停止后按原权限和需求恢复正常采集。
 
-snapshot().sampleSource 区分 replay、device-event 和 none，也标记保留的最后样本。重播不授予权限，合成输入的 available 始终为 false。API 存在、模拟器事件或重播不证明真实硬件数据，#385 仍未完成。测试应通过 scope 或显式清理管理订阅、派生值、bindings 和 source。
+snapshot().sampleSource 区分 replay、device-event 和 none，也标记保留的最后样本。重播不授予权限，合成输入的 available 始终为 false。API 存在或重播不证明真实硬件数据。#385 已获准使用真实 Chrome 与 Android 虚拟系统传感器完成模拟器验收；实体精度及交付仍未验证。测试应通过 scope 或显式清理管理订阅、派生值、bindings 和 source。
 
 <Clip name="web-tools" caption="macOS Chromium：合成传感器样本驱动真实 DOM 元素，演示暂停/继续、显式 CSS 观测和替换标记。不代表物理传感器或 GPU 测量。" />
 

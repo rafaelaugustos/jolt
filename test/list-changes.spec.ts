@@ -128,6 +128,26 @@ function scene() {
   }
 }
 describe('keyed list update coordinator', () => {
+  it('restores captured focus after native motion cleanup, including an interrupted commit', async () => {
+    const s = scene(),
+      restored = vi.fn(() => {
+        expect(s.moves.every((move) => move.dispose.mock.calls.length === 1)).toBe(true)
+        expect(s.copies.every((copy) => copy.dispose.mock.calls.length === 1)).toBe(true)
+      })
+    s.host.captureFocus = vi.fn(() => restored)
+    const first = s.controller.update(s.items.filter((row) => row.id !== 12))
+    s.layout()
+    expect(restored).not.toHaveBeenCalled()
+    first.stop()
+    expect(await first).toBe(false)
+    expect(restored).toHaveBeenCalledOnce()
+    const next = s.controller.update([{ id: -1 }, ...s.items])
+    s.layout()
+    expect(await next).toBe(true)
+    expect(restored).toHaveBeenCalledTimes(2)
+    s.controller.dispose()
+    expect(restored).toHaveBeenCalledTimes(2)
+  })
   it('preserves a visible key on insertion above 200 rows without animating off-screen rows', async () => {
     const s = scene(),
       animation = s.controller.update([{ id: -1 }, ...s.items])

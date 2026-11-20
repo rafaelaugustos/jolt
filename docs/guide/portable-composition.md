@@ -1,6 +1,6 @@
 # Portable composition
 
-Available in `0.1.0-rc.12.1`, from [PR #428](https://github.com/rafaelaugustos/jolt/pull/428) (#424–#427, #386 and #385). Existing native contracts share definitions, policy and lifecycle with browser adapters. Install matching package versions and rebuild native apps. Web APIs remain experimental; physical browser sensor delivery and accuracy remain pending in #385.
+Available in `0.1.0-rc.12.1`, from [PR #428](https://github.com/rafaelaugustos/jolt/pull/428) (#424–#427, #386 and #385). Existing native contracts share definitions, policy and lifecycle with browser adapters. Install matching package versions and rebuild native apps. Web APIs remain experimental. #385 now has approved emulated acceptance; physical delivery and accuracy remain unverified.
 
 ## Retained ownership {#lifecycle}
 
@@ -163,7 +163,7 @@ All six canonical names are accepted. `rotation` is relative radians plus quater
 
 A secure context, browser/device support and applicable permission policy are required. Permission prompts occur only in explicit `requestPermission()` calls from user input. Availability requires a complete finite sample for that kind; null/partial values do not become zeros. Missing APIs, denial and no-data timeouts remain visible in `snapshot()`. Sources share one listener per hardware event/document and run only while demanded, visible and unpaused. Interface coordinates remap on screen rotation; device coordinates remain canonical. `interval` throttles delivered readings (5–1000 ms or `auto`), not the hardware rate. Event timestamps are browser monotonic timestamps, not native hardware timestamps.
 
-This round validates real browser rendering with **injected events**, plus the native simulator preview. Real browser sensor delivery and accuracy on a physical device remain pending in #385. See the [Device Orientation and Motion specification](https://www.w3.org/TR/orientation-event/) and [Magnetometer availability limits](https://www.w3.org/TR/magnetometer/).
+The original recordings below use **injected events** and the native simulator preview. The later [acceptance report](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/acceptance-closure) adds trusted Chrome events delivered through Android virtual OS sensors, with maintainer-approved emulated acceptance for #385. Neither run establishes physical accuracy or hardware delivery.
 
 ```ts
 const sensor = scope.sensor('gyroscope', { coordinates: 'interface', interval: 50 })

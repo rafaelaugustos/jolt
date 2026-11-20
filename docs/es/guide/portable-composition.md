@@ -1,6 +1,6 @@
 # Composición portable
 
-Disponible en `0.1.0-rc.12.1`, mediante [PR #428](https://github.com/rafaelaugustos/jolt/pull/428) (#424–#427, #386 y #385). Los contratos nativos existentes comparten definiciones, políticas y ciclo de vida con adaptadores de navegador. Instala paquetes de la misma versión y recompila las apps nativas. Las APIs Web siguen experimentales; la entrega y precisión de sensores en un navegador físico siguen pendientes en #385.
+Disponible en `0.1.0-rc.12.1`, mediante [PR #428](https://github.com/rafaelaugustos/jolt/pull/428) (#424–#427, #386 y #385). Los contratos nativos existentes comparten definiciones, políticas y ciclo de vida con adaptadores de navegador. Instala paquetes de la misma versión y recompila las apps nativas. Las APIs Web siguen experimentales. #385 ahora tiene aceptación emulada aprobada; la entrega y precisión físicas siguen sin verificarse.
 
 ## Recursos retenidos {#lifecycle}
 
@@ -163,7 +163,7 @@ Se aceptan los seis nombres canónicos. `rotation` proporciona radianes relativo
 
 Se requiere contexto seguro, soporte del navegador/dispositivo y política de permisos compatible. Solo `requestPermission()` explícito desde una acción del usuario solicita permiso. Disponibilidad exige una muestra finita completa de ese tipo: valores nulos/parciales no se convierten en ceros. API ausente, denegación y timeout sin datos aparecen en `snapshot()`. Las fuentes comparten un listener por evento/documento y solo funcionan con demanda, visibles y sin pausa. Coordenadas de interfaz cambian con la orientación de pantalla; las del dispositivo siguen canónicas. `interval` limita lecturas entregadas (5–1000 ms o `auto`), no la frecuencia del hardware. Timestamps son monotónicos del navegador, no del hardware nativo.
 
-Esta ronda valida renderización real del navegador con **eventos inyectados** y la vista previa nativa en simulador. La entrega real de sensores del navegador y su precisión en un dispositivo físico siguen pendientes en #385. Consulta [Device Orientation and Motion](https://www.w3.org/TR/orientation-event/) y los [límites de Magnetometer](https://www.w3.org/TR/magnetometer/).
+Las grabaciones originales usan **eventos inyectados** y la vista previa nativa en simulador. El [informe posterior](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/acceptance-closure) añade eventos de confianza de Chrome mediante sensores virtuales de Android, con aceptación emulada aprobada para #385. Ninguna prueba demuestra precisión o entrega físicas.
 
 ```ts
 const sensor = scope.sensor('gyroscope', { coordinates: 'interface', interval: 50 })

@@ -2,7 +2,7 @@
 
 RC.16 通过 [PR #509](https://github.com/rafaelaugustos/jolt/pull/509) 和 [PR #514](https://github.com/rafaelaugustos/jolt/pull/514) 带来[手势协调、速度连续性与 SwiftUI 扩展](./motion-contracts)，以及 [CollectionView 更新/排序、水平/RTL 排序和连续滚动交接](./collections-scroll)。请安装相同 `0.1.0-rc.16` 版本的 npm 核心包与原生插件，并重新编译 NativeScript 应用；Swift Package Manager 使用 [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) 的 `v0.1.0-rc.16`。新增功能、Web 和 SwiftUI 仍为实验性。
 
-Android 实体设备分配/帧耗时（#494）、实体指针配件（#492）与原生 VoiceOver/TalkBack 完整遍历/焦点（#498/#499）仍待验证。RC.16 完成 #495 文档范围内的水平/RTL/回弹/CollectionView 矩阵及仅生产端计时；测量不包含后续图求值与渲染。CollectionView 更新/排序支持单列垂直布局。分区、网格和跨列表移动仍不在适配器范围内；Web 虚拟化由应用管理。模拟器证据不能证明实体设备性能或更低的应用 CPU/PSS。
+2026 年 11 月 20 日，维护者批准 #385、#415 和 #494 使用模拟器验收。iOS 27 模拟器中的真实 VoiceOver 与 Android API 36 模拟器中的真实 TalkBack 均通过退出遍历及 Core ListView/CollectionView 按键保留焦点的检查（#498/#499）。原生焦点修复是 RC.16 之后的源码更新，尚未包含在已发布的 RC.16 软件包中。实体指针验收（#492）仍独立跟踪。CollectionView 更新/排序仅支持单列垂直布局；分区、网格、跨列表移动不在适配器范围内，Web 虚拟化仍由应用负责。这些测试不证明实体设备精度、帧耗时或更低的应用 CPU/PSS。 [报告](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/acceptance-closure).
 
 RC.14 通过 PR #488 在 Web、NativeScript 和 SwiftUI 上添加[拖柄、移动中的位置、带内边距的目标和重新锚定](./interaction-depth)，并为 SwiftUI 带来[三维旋转与阴影](./swiftui-motion)、[闪光、加载器、揭示、渐变与模糊](./swiftui-advanced)、[文字入场与滚动数字](./swiftui-text)以及[macOS 上按窗口判断的活动状态](./swiftui)。PR #491 修复了 Android 上立即 set 替换路径的问题（#479），并补齐 #412/#413 中[指针](./portable-foundations)与 SwiftUI 组的缺口。Web 与 SwiftUI 仍为实验性 API。安装匹配的 npm 版本并重新编译 NativeScript 应用；Swift Package Manager 使用 [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) 的标签 `v0.1.0-rc.14`。四种语言的指南均包含已审阅的原生/浏览器录像。实体指针配件仍未验证（#492）：指针证据来自模拟器、仿真器和注入输入。
 
@@ -10,11 +10,11 @@ RC.13 包含 PR #436 的 39 项任务：[iOS 17+/macOS 14+ 独立 SwiftUI](./swi
 
 RC.12.1 新增 [Web 保留资源与 Vue shape 所有权、行为协调、渐变文字、2D rig、共用辅助函数及有效减少动态效果偏好观察](./portable-composition)。浏览器向量适配器共用采集机制并采用与原生兼容的单位；磁场输入明确报告不可用。请安装版本一致的软件包并重新构建原生应用。Web API 仍为实验性功能。
 
-实体设备浏览器的传感器交付和精度验证仍在 #385 中跟踪。验收使用模拟器和明确标注的浏览器注入读数。发布不证明新的性能优势，也不证明应用 JavaScript 阻塞时仍可播放。
+#385 采用维护者批准的模拟器验收：Chrome 157 接收来自 Android API 36 虚拟系统传感器的可信运动事件，并验证单位、权限、暂停/恢复、后台/前台及销毁。该路径不同于合成 DOM 回放。实体传感器的精度、频率及交付仍未验证。
 
 RC.12 新增[指针存在状态、协调属性组、渲染活动与有界绘图](./portable-foundations)，以及[放置目标、可选音频提示、检查/重放与 Web 路径、3D 旋转和阴影](./interaction-depth)。请安装版本一致的软件包并重新构建原生应用。Web 入口仍为实验性功能。
 
-实体指针配件、iPhone 静音开关及较新 Android 设备上的检查器与性能验证仍待完成。旧手机仅提供兼容性证据。延迟/PSS（#405、#406）仍作为技术债务跟踪；发布不证明性能优势，也不解决应用 JavaScript 阻塞。
+实体指针配件及 iPhone 静音开关仍待验收。#415 已采用获批的模拟器检查器开销测量；旧手机仍仅提供历史兼容性证据。延迟/PSS（#405、#406）仍是技术债务。这些结果不证明性能优势，也不证明应用 JavaScript 阻塞时仍可播放。
 
 **当前版本：0.1.0-rc.16。**包含[原生框架适配器](./frameworks)、[新增传感器来源](./device-sensors#vector-sources)、[移动键盘修复](./mobile-web)、[元素相对 Web 滚动区间](./web-support#element-range)、[原生着色器输入与 iOS 本地视频纹理](./image-effects)，以及 [Android 播放改进](./android-performance)。[安装版本一致的软件包](./install)并重新构建原生应用。Web API 仍为实验性功能。
 

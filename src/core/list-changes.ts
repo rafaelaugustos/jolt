@@ -35,6 +35,8 @@ export interface ListChangeHost<T, K, Target> {
   layout(callback: () => void): () => void
   /** Freeze the first visible key and local offset, with nearest-index fallback. */
   anchor(keys: readonly K[]): (next: readonly K[]) => void
+  /** Optional native reader capture. Restore after motion/cleanup, including cancellation. */
+  captureFocus?(): () => void
   capture(target: Target, budget: number): ListChangeCopy | undefined
   move(
     target: Target,
@@ -114,6 +116,7 @@ export function createListChanges<T, K extends ReorderKey, Target>(
       const previousKeys = itemKeys(host.items(), options.key),
         oldKeySet = new Set(previousKeys)
       const before = new Map(host.rows().map((row) => [row.key, row]))
+      const restoreFocus = host.captureFocus?.()
       const restoreAnchor = host.anchor(previousKeys)
       // Read the displayed positions before cancelling the previous inverse transforms.
       stop()
@@ -136,6 +139,7 @@ export function createListChanges<T, K extends ReorderKey, Target>(
         for (const copy of copies.values()) copy.dispose()
         copies.clear()
         before.clear()
+        restoreFocus?.()
         if (operation === handle) operation = undefined
         if (error !== undefined) reject(error)
         else resolve(complete)
