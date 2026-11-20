@@ -6,18 +6,18 @@ npm install @rafaelaugusto/jolt@next
 
 RC.6 包含[Web 连续动画](./web-dynamic)：数值、跟随弹簧及拖动/吸附，以及[数值映射、几何刷新和垂直滚动](./web-support)。Web API 仍为实验性功能。
 
-**候选版本 0.1.0-rc.16** 通过 `next` 标签发布。原生 0.1.0 的功能范围已冻结，目前正在验证兼容性并准备正式版。NativeScript 消费者要求 `@nativescript/core` 8.9 或更高版本。Jolt 不依赖特定框架：它接收视图或包含视图的元素，因此可用于 NativeScript-Vue、Angular、Svelte 或纯 NativeScript。NativeScript-Vue 应用还可以从 `@rafaelaugusto/jolt/vue` 导入[指令和过渡组件](./vue)。
+**候选版本 0.1.0-rc.17** 通过 `next` 标签发布。原生 0.1.0 的功能范围已冻结，目前正在验证兼容性并准备正式版。NativeScript 消费者要求 `@nativescript/core` 8.9 或更高版本。Jolt 不依赖特定框架：它接收视图或包含视图的元素，因此可用于 NativeScript-Vue、Angular、Svelte 或纯 NativeScript。NativeScript-Vue 应用还可以从 `@rafaelaugusto/jolt/vue` 导入[指令和过渡组件](./vue)。
 
 Jolt 包含 iOS 和 Android 原生辅助代码。安装或升级 Jolt 后，请重新编译原生应用；仅更新 JavaScript 无法安装原生代码。
 
-当前候选版本为 **0.1.0-rc.16**。如需固定版本，请使用 `npm install @rafaelaugusto/jolt@0.1.0-rc.16`。使用[外部原生属性适配器](./native-properties)时，还需安装对应版本的 `@rafaelaugusto/jolt-native@0.1.0-rc.16`，然后重新编译原生应用。
+当前候选版本为 **0.1.0-rc.17**。如需固定版本，请使用 `npm install @rafaelaugusto/jolt@0.1.0-rc.17`。使用[外部原生属性适配器](./native-properties)时，还需安装对应版本的 `@rafaelaugusto/jolt-native@0.1.0-rc.17`，然后重新编译原生应用。
 
 ## 实验性 Web 入口 {#experimental-web-candidate}
 
 从 **0.1.0-rc.5** 起，包中包含实验性 `/web` 和 `/web/vue` 入口。可直接安装已发布的候选版本；仅在使用 Vue DOM 适配器时添加 Vue。根入口和 `/vue` 仍用于原生环境。
 
 ```sh
-npm install @rafaelaugusto/jolt@0.1.0-rc.16
+npm install @rafaelaugusto/jolt@0.1.0-rc.17
 # 仅供可选 Vue DOM 适配器使用：
 npm install vue@^3.5.0
 ```
@@ -92,7 +92,7 @@ ns run ios         # or: ns run android
 
 ## 框架版本兼容性 {#framework-versions}
 
-**RC.16 之后的源码修复，尚未发布。** 软件包的可选 peer 范围现在允许 Solid `^1.9.18 || ^2.0.0` 与 Svelte `^4.2.20 || ^5.0.0`。这是安装范围：未使用的框架绑定不应阻止命令式 NativeScript 应用安装 Jolt。绑定兼容性见下表。
+**RC.17 已包含此修复。** 软件包的可选 peer 范围现在允许 Solid `^1.9.18 || ^2.0.0` 与 Svelte `^4.2.20 || ^5.0.0`。这是安装范围：未使用的框架绑定不应阻止命令式 NativeScript 应用安装 Jolt。绑定兼容性见下表。
 
 | 消费者                         | 已测试组合                                                                                                         | 支持入口                                                    |
 | ------------------------------ | ------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------- |
@@ -106,4 +106,4 @@ Solid 2 改变了 effect 契约。`/solid` 与 `/web/solid` 会在创建绑定�
 
 干净的打包测试使用正常 npm 解析，检查命令式类型并生成 iOS/Android 生产 bundle，确认未使用的 Jolt 框架绑定没有进入 bundle。这不证明新 renderer 的运行时验收。已有录像保留原来的版本及平台标签。参见[软件包验收报告](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/native-peers.md)。
 
-在含修复的软件包发布之前，RC.16 应用保留已有的定向 overrides。Mavis 根应用负责 `@rafaelaugusto/jolt` 下的 `solid-js` 与 `svelte` overrides；升级到包含 [#517](https://github.com/rafaelaugustos/jolt/issues/517) 的已验证版本后，只移除这两个映射。独立的 Svelte Native/Core override 不由本修复解决。Override 不证明绑定兼容；测试不使用 `--force` 或 `--legacy-peer-deps`。
+仍使用 RC.16 的应用应保留已有的定向 overrides。RC.17 已包含此修复。Mavis 根应用负责 `@rafaelaugusto/jolt` 下的 `solid-js` 与 `svelte` overrides；升级到包含 [#517](https://github.com/rafaelaugustos/jolt/issues/517) 的已验证版本后，只移除这两个映射。独立的 Svelte Native/Core override 不由本修复解决。Override 不证明绑定兼容；测试不使用 `--force` 或 `--legacy-peer-deps`。

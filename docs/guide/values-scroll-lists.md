@@ -2,7 +2,7 @@
 
 **Available in 0.1.0-rc.15 (Beta).** Rebuild native applications after upgrading. The recordings below show actual interaction on the labeled platforms; simulators/emulators are not physical-device performance evidence.
 
-On 20 November 2026, the maintainer accepted emulator evidence for #385, #415 and #494. Actual VoiceOver on the iOS 27 simulator and TalkBack on the Android API 36 emulator pass exit traversal and keyed Core ListView/CollectionView focus (#498/#499). The native focus correction is a source follow-up to RC.16 and is not included in the published RC.16 packages. Physical pointer acceptance (#492) remains separate. CollectionView changes/reorder support one vertical span; sections, grids and cross-list moves remain outside the adapters, and Web virtualization stays application-owned. These runs do not establish physical-device accuracy, frame pacing or lower application CPU/PSS. [Report](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/acceptance-closure).
+On 20 November 2026, the maintainer accepted emulator evidence for #385, #415 and #494. Actual VoiceOver on the iOS 27 simulator and TalkBack on the Android API 36 emulator pass exit traversal and keyed Core ListView/CollectionView focus (#498/#499). The native focus correction is included in RC.17; published RC.16 artifacts are unchanged. Physical pointer acceptance (#492) remains separate. CollectionView changes/reorder support one vertical span; sections, grids and cross-list moves remain outside the adapters, and Web virtualization stays application-owned. These runs do not establish physical-device accuracy, frame pacing or lower application CPU/PSS. [Report](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/acceptance-closure).
 
 ## Combine numeric values
 
@@ -140,7 +140,7 @@ The [acceptance follow-up](https://github.com/rafaelaugustos/jolt/tree/main/benc
 
 ## Native screen-reader acceptance {#native-reader-acceptance}
 
-The source follow-up preserves the logical row key and descendant focus through interrupted updates. iOS restores accessibility focus after motion and cleanup settle; Android restores after layout. Keyboard focus keeps its existing timing. Removing a focused key or moving focus outside the list does not force a jump. Unload, suspension and disposal invalidate pending restoration. The 200-row fixtures exercise moves, insertion, interruption, outside focus, reduced motion and disposal; exit traversal also checks inaccessible leaving copies, cancellation and reinsertion. The existing Web equivalent passes its three-engine lifecycle/focus tests.
+RC.17 preserves the logical row key and descendant focus through interrupted updates. iOS restores accessibility focus after motion and cleanup settle; Android restores after layout. Keyboard focus keeps its existing timing. Removing a focused key or moving focus outside the list does not force a jump. Unload, suspension and disposal invalidate pending restoration. The 200-row fixtures exercise moves, insertion, interruption, outside focus, reduced motion and disposal; exit traversal also checks inaccessible leaving copies, cancellation and reinsertion. The existing Web equivalent passes its three-engine lifecycle/focus tests.
 
 [Report](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/acceptance-closure).
 

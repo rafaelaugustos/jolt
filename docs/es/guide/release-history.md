@@ -1,5 +1,15 @@
 # Historial de versiones
 
+## 0.1.0-rc.17: Foco de lectores nativos e instalación con frameworks {#rc-17}
+
+RC.17 publica las [correcciones de foco por clave en listas nativas](./values-scroll-lists#native-reader-acceptance) del [PR #518](https://github.com/rafaelaugustos/jolt/pull/518) y la [instalación imperativa con Solid 2 y Svelte Native 4](./install#framework-versions) del [PR #520](https://github.com/rafaelaugustos/jolt/pull/520). Instale core/plugin nativo npm en la misma versión `0.1.0-rc.17` y recompile apps NativeScript; Swift Package Manager usa `v0.1.0-rc.17` de [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift). Los bindings Solid siguen en Solid 1; Web y SwiftUI siguen siendo experimentales.
+
+La navegación con VoiceOver y TalkBack reales cubre salidas y actualizaciones por clave de Core ListView/CollectionView, interrupción, foco externo, movimiento reducido y descarte. El mantenedor aprobó aceptación emulada para #385, #415 y #494; la precisión de sensores, los tiempos de frames y el rendimiento en dispositivos físicos siguen sin validar. La aceptación de punteros físicos (#492) sigue separada. [Evidencia y límites](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/acceptance-closure).
+
+<Clip name="collection-focus-voiceover-ios" caption="Simulador iOS 27: interacción real con VoiceOver conserva el foco por clave de CollectionView durante reciclaje, interrupción y limpieza. Grabación sin audio; el informe contiene las aserciones de voz. Sin afirmación de rendimiento físico." />
+
+<Clip name="list-focus-talkback-android" caption="Emulador Android API 36: interacción real con TalkBack cubre foco por clave de Core ListView, actualizaciones interrumpidas, foco externo y descarte. Grabación sin audio; el informe contiene la evidencia de navegación." />
+
 ## 0.1.0-rc.16: Continuidad de gestos, colecciones y scroll {#rc-16}
 
 RC.16 reúne [coordinación de gestos, continuidad de velocidad y nuevas funciones SwiftUI](./motion-contracts) con [cambios/reordenación de CollectionView, reordenación horizontal/RTL y transferencia continua de scroll](./collections-scroll), de los [PR #509](https://github.com/rafaelaugustos/jolt/pull/509) y [#514](https://github.com/rafaelaugustos/jolt/pull/514). Instale core/plugin nativo npm en la misma versión `0.1.0-rc.16` y recompile apps NativeScript; use `v0.1.0-rc.16` de [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) para Swift Package Manager. Las nuevas capacidades, Web y SwiftUI siguen siendo experimentales.

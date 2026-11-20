@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+## 0.1.0-rc.17 (2026-11-20)
+
+- Publish matching core/native npm packages and the matching `jolt-swift` tag with #518 and #520. Rebuild NativeScript apps after upgrading; Web and SwiftUI remain experimental.
+- Preserve logical native reader focus by row key and descendant across interrupted Core ListView and CollectionView updates. Restore iOS focus after actual motion completion/cleanup and Android focus after layout; invalidate pending work on unload, suspension and disposal (#499).
+- Complete actual VoiceOver/TalkBack exit traversal, cancellation, reinsertion, keyed focus, outside-focus, reduced-motion and disposal acceptance on iOS 27 simulator and Android API 36 emulator (#498/#499). Include six reviewed native recordings in four documentation languages.
+- Accept the maintainer-approved emulated sensor route (#385), inspector off/on measurements (#415) and shared arithmetic graph driving 16 native views (#494). Physical sensor accuracy, frame pacing and device performance remain unverified. Reconcile #414/#416 with their existing RC.12 implementation and historical evidence; physical pointer acceptance (#492) remains separate.
+- Allow normal imperative native installation with Solid `^1.9.18 || ^2.0.0` and Svelte `^4.2.20 || ^5.0.0` (#517). Validate clean maintained Solid Native 2 and stable Svelte Native 4 consumers, types and iOS/Android bundles without Jolt peer overrides. Native Svelte actions retain their Svelte 4 contract; Solid bindings remain on Solid 1 and reject Solid 2 before allocating resources.
+- Document exact renderer/Core versions and temporary application-owned overrides. After upgrading to RC.17 and validating its native apps, Mavis can remove its two Jolt peer mappings; its separate Svelte Native/Core override is unchanged.
+
 ## 0.1.0-rc.16 (2026-11-19)
 
 - Publish matching core/native npm packages and the matching `jolt-swift` tag with the twelve issues from #509 and #514. Rebuild NativeScript apps after upgrading. New capabilities, Web and SwiftUI remain experimental.

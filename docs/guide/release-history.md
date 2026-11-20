@@ -1,5 +1,15 @@
 # Release history
 
+## 0.1.0-rc.17: Native reader focus and framework installation {#rc-17}
+
+RC.17 publishes [keyed native list focus corrections](./values-scroll-lists#native-reader-acceptance) from [PR #518](https://github.com/rafaelaugustos/jolt/pull/518) and [imperative installation with Solid 2 and Svelte Native 4](./install#framework-versions) from [PR #520](https://github.com/rafaelaugustos/jolt/pull/520). Install matching `0.1.0-rc.17` core/native npm packages and rebuild NativeScript apps; Swift Package Manager uses `v0.1.0-rc.17` of [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift). Solid bindings remain on Solid 1; Web and SwiftUI remain experimental.
+
+Actual VoiceOver and TalkBack traversal covers exits and keyed Core ListView/CollectionView updates, interruption, outside focus, reduced motion and disposal. The maintainer approved emulator acceptance for #385, #415 and #494; physical sensor accuracy, frame pacing and device performance remain unverified. Physical pointer acceptance (#492) remains separate. [Evidence and limits](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/acceptance-closure).
+
+<Clip name="collection-focus-voiceover-ios" caption="iOS 27 simulator: actual VoiceOver interaction retains keyed CollectionView focus through recycled updates, interruption and cleanup. Silent recording; speech assertions are in the report. No physical-device performance claim." />
+
+<Clip name="list-focus-talkback-android" caption="Android API 36 emulator: actual TalkBack interaction covers keyed Core ListView focus, interrupted updates, outside focus and disposal. Silent recording; navigation evidence is in the report." />
+
 ## 0.1.0-rc.16: Gesture continuity, collections and scroll {#rc-16}
 
 RC.16 combines [gesture coordination, velocity continuity and SwiftUI motion additions](./motion-contracts) with [CollectionView changes/reorder, horizontal/RTL reorder and continuous scroll handoff](./collections-scroll), from [PR #509](https://github.com/rafaelaugustos/jolt/pull/509) and [PR #514](https://github.com/rafaelaugustos/jolt/pull/514). Install matching `0.1.0-rc.16` core/native npm packages and rebuild NativeScript apps; use `v0.1.0-rc.16` of [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) for Swift Package Manager. The new capabilities, Web and SwiftUI remain experimental.

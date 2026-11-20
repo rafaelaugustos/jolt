@@ -1,5 +1,15 @@
 # 版本历史
 
+## 0.1.0-rc.17: 原生读屏焦点与框架安装 {#rc-17}
+
+RC.17 发布 [PR #518](https://github.com/rafaelaugustos/jolt/pull/518) 的[原生列表按键保留焦点修复](./values-scroll-lists#native-reader-acceptance)，以及 [PR #520](https://github.com/rafaelaugustos/jolt/pull/520) 的 [Solid 2 与 Svelte Native 4 命令式安装支持](./install#framework-versions)。请安装相同 `0.1.0-rc.17` 版本的 npm 核心包与原生插件，并重新编译 NativeScript 应用；Swift Package Manager 使用 [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) 的 `v0.1.0-rc.17`。Solid 绑定仍使用 Solid 1；Web 与 SwiftUI 仍为实验性。
+
+真实 VoiceOver 与 TalkBack 导航覆盖退出副本及 Core ListView/CollectionView 按键更新、中断、外部焦点、减少动态效果和销毁。维护者批准 #385、#415 和 #494 使用模拟器验收；实体传感器精度、帧耗时和设备性能仍未验证。实体指针验收（#492）仍单独跟踪。[证据与限制](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/acceptance-closure)。
+
+<Clip name="collection-focus-voiceover-ios" caption="iOS 27 模拟器：真实 VoiceOver 交互在 CollectionView 回收更新、中断和清理时保留按键焦点。无声录像；报告包含语音断言。不声明实体设备性能。" />
+
+<Clip name="list-focus-talkback-android" caption="Android API 36 模拟器：真实 TalkBack 交互覆盖 Core ListView 按键焦点、中断更新、外部焦点和销毁。无声录像；导航证据见报告。" />
+
 ## 0.1.0-rc.16: 手势连续性、集合与滚动 {#rc-16}
 
 RC.16 通过 [PR #509](https://github.com/rafaelaugustos/jolt/pull/509) 和 [PR #514](https://github.com/rafaelaugustos/jolt/pull/514) 带来[手势协调、速度连续性与 SwiftUI 扩展](./motion-contracts)，以及 [CollectionView 更新/排序、水平/RTL 排序和连续滚动交接](./collections-scroll)。请安装相同 `0.1.0-rc.16` 版本的 npm 核心包与原生插件，并重新编译 NativeScript 应用；Swift Package Manager 使用 [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) 的 `v0.1.0-rc.16`。新增功能、Web 和 SwiftUI 仍为实验性。

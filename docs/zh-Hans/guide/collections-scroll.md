@@ -80,7 +80,7 @@ const links = gestureRelations([{ gesture: panel, other: sorting, relation: 'wai
 
 ## 原生屏幕阅读器验收 {#native-reader-acceptance}
 
-CollectionView 现在与 Core ListView 共用按键捕获/恢复原生焦点的实现。该修复是 RC.16 之后的源码更新，尚未包含在已发布的 RC.16 软件包中。200 行测试覆盖移动、插入、中断、外部焦点、减少动态效果及销毁；仅覆盖文档所述的单列适配器。
+CollectionView 现在与 Core ListView 共用按键捕获/恢复原生焦点的实现。该修复已包含在 RC.17 中；已发布的 RC.16 软件包保持不变。200 行测试覆盖移动、插入、中断、外部焦点、减少动态效果及销毁；仅覆盖文档所述的单列适配器。
 
 [报告](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/acceptance-closure).
 

@@ -80,7 +80,7 @@ Reuse Web `listChanges`, its explicit virtualizer adapter, `scrollValue` and nes
 
 ## Native screen-reader acceptance {#native-reader-acceptance}
 
-CollectionView now shares the native keyed-focus capture/restoration used by Core ListView. The correction is a source follow-up, not part of the published RC.16 package. The 200-row fixture checks moves, insertion, interruption, outside focus, reduced motion and disposal. Only the documented single-column adapter is covered.
+CollectionView now shares the native keyed-focus capture/restoration used by Core ListView. The correction is included in RC.17; the published RC.16 package is unchanged. The 200-row fixture checks moves, insertion, interruption, outside focus, reduced motion and disposal. Only the documented single-column adapter is covered.
 
 [Report](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/acceptance-closure).
 
