@@ -1,6 +1,6 @@
 # Composição portável
 
-Disponível em `0.1.0-rc.12.1`, pelo [PR #428](https://github.com/rafaelaugustos/jolt/pull/428) (#424–#427, #386 e #385). Os contratos nativos existentes compartilham definições, políticas e ciclo de vida com adaptadores de navegador. Instale os pacotes na mesma versão e recompile os apps nativos. As APIs Web continuam experimentais; entrega e precisão de sensores no navegador físico seguem pendentes na #385.
+Disponível em `0.1.0-rc.12.1`, pelo [PR #428](https://github.com/rafaelaugustos/jolt/pull/428) (#424–#427, #386 e #385). Os contratos nativos existentes compartilham definições, políticas e ciclo de vida com adaptadores de navegador. Instale os pacotes na mesma versão e recompile os apps nativos. As APIs Web continuam experimentais. A #385 agora tem aceite emulado aprovado; entrega e precisão físicas continuam sem validação.
 
 ## Recursos retidos {#lifecycle}
 
@@ -163,7 +163,7 @@ Os seis nomes canônicos são aceitos. `rotation` fornece radianos relativos e q
 
 É necessário contexto seguro, suporte do navegador/dispositivo e política de permissão compatível. A solicitação de permissão ocorre apenas em `requestPermission()` explícito por ação do usuário. Disponibilidade exige uma amostra finita completa daquele tipo; valores nulos/parciais não viram zeros. API ausente, negação e timeout sem dados aparecem em `snapshot()`. As fontes compartilham um listener por evento/documento e só executam com demanda, visibilidade e sem pausa. Coordenadas de interface se ajustam à rotação da tela; coordenadas do dispositivo permanecem canônicas. `interval` limita leituras entregues (5–1000 ms ou `auto`), não a taxa do hardware. Timestamps são monotônicos do navegador, não timestamps nativos do sensor.
 
-Esta rodada valida renderização real no navegador com **eventos injetados** e a prévia nativa no simulador. Entrega e precisão dos sensores no navegador em aparelho físico permanecem pendentes em #385. Consulte [Device Orientation and Motion](https://www.w3.org/TR/orientation-event/) e os [limites de disponibilidade de Magnetometer](https://www.w3.org/TR/magnetometer/).
+As gravações originais abaixo usam **eventos injetados** e a prévia nativa em simulador. O [relatório posterior](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/acceptance-closure) acrescenta eventos confiáveis do Chrome entregues pelos sensores virtuais do Android, com aceite emulado aprovado para #385. Nenhum desses testes comprova precisão ou entrega em hardware físico.
 
 ```ts
 const sensor = scope.sensor('gyroscope', { coordinates: 'interface', interval: 50 })

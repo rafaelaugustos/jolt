@@ -2,7 +2,7 @@
 
 **已包含在 0.1.0-rc.15（测试版）。** 更新后请重新编译原生应用。以下视频来自所标注平台的实际交互；模拟器不能作为实体设备性能证明。
 
-Android 实体设备分配/帧耗时（#494）、实体指针配件（#492）与原生 VoiceOver/TalkBack 完整遍历/焦点（#498/#499）仍待验证。RC.16 完成 #495 文档范围内的水平/RTL/回弹/CollectionView 矩阵及仅生产端计时；测量不包含后续图求值与渲染。CollectionView 更新/排序支持单列垂直布局。分区、网格和跨列表移动仍不在适配器范围内；Web 虚拟化由应用管理。模拟器证据不能证明实体设备性能或更低的应用 CPU/PSS。
+2026 年 11 月 20 日，维护者批准 #385、#415 和 #494 使用模拟器验收。iOS 27 模拟器中的真实 VoiceOver 与 Android API 36 模拟器中的真实 TalkBack 均通过退出遍历及 Core ListView/CollectionView 按键保留焦点的检查（#498/#499）。原生焦点修复是 RC.16 之后的源码更新，尚未包含在已发布的 RC.16 软件包中。实体指针验收（#492）仍独立跟踪。CollectionView 更新/排序仅支持单列垂直布局；分区、网格、跨列表移动不在适配器范围内，Web 虚拟化仍由应用负责。这些测试不证明实体设备精度、帧耗时或更低的应用 CPU/PSS。 [报告](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/acceptance-closure).
 
 ## 组合数值
 
@@ -111,6 +111,20 @@ let controller = try JoltScrollHeaderController(
 <Clip name="swiftui-values-scroll-ios" caption="独立 SwiftUI，iOS 27 模拟器：组合值、程序滚动、按键插入保留锚点、固定标题栏和减少动态效果，无 NativeScript。" />
 <Clip name="swiftui-values-scroll-macos" caption="真实 macOS SwiftUI 应用：通过 NSScrollView 展示相同的组合值、标题栏、锚点和减少动态效果契约。" />
 
-NativeScript/Web 继续使用已有 `scrollHeader()`，本次不复制这些 API。参见[验证及限制](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/values-scroll-lists)。#494 的物理设备内存分配/帧耗时测量仍待完成；没有 CPU/PSS 降低或优于 Reanimated 的结论。
+[后续报告](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/acceptance-closure)记录了共享图绑定 16 个原生视图的五次实测，所有终点值均通过验证。维护者批准 #494 使用模拟器证据；这不证明实体帧耗时、总分配成本或优于 Reanimated 的 CPU/PSS。
 
 <Clip name="list-changes-playground-web" caption="Chromium 文档实际 playground：按键列表滚动，上方插入保持锚点，然后删除、反转并中断更新。" />
+
+## 原生屏幕阅读器验收 {#native-reader-acceptance}
+
+修复在中断更新期间保留逻辑行键及其后代焦点。iOS 在运动与清理完成后恢复辅助功能焦点；Android 在布局后恢复。键盘焦点保留原有时序。删除聚焦键或将焦点移至列表外不会强制跳转。卸载、挂起及销毁会使待恢复请求失效。200 行测试覆盖移动、插入、中断、外部焦点、减少动态效果及销毁；退出遍历还检查不可访问的离场副本、取消及重新插入。已有 Web 等效实现在三个浏览器引擎中通过生命周期及焦点测试。
+
+[报告](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/acceptance-closure).
+
+<Clip :autoplay="false" name="layout-exits-voiceover-ios" caption="iOS 27 模拟器，使用真实 VoiceOver 与 XCTest 交互。可见焦点及遍历断言；无声录像。不证明实体设备行为。 退出副本、取消、重新插入及清理。" />
+
+<Clip :autoplay="false" name="layout-exits-talkback-android" caption="Android API 36 模拟器，使用真实 TalkBack 与原生触摸交互。可见焦点及遍历断言；无声录像。不证明实体设备行为。 退出副本、取消、重新插入及清理。" />
+
+<Clip :autoplay="false" name="list-focus-voiceover-ios" caption="iOS 27 模拟器，使用真实 VoiceOver 与 XCTest 交互。可见焦点及遍历断言；无声录像。不证明实体设备行为。 Core ListView 更新期间按键保留焦点。" />
+
+<Clip :autoplay="false" name="list-focus-talkback-android" caption="Android API 36 模拟器，使用真实 TalkBack 与原生触摸交互。可见焦点及遍历断言；无声录像。不证明实体设备行为。 Core ListView 更新期间按键保留焦点。" />

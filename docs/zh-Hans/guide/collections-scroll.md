@@ -77,3 +77,13 @@ const links = gestureRelations([{ gesture: panel, other: sorting, relation: 'wai
 <Clip name="swiftui-sheet-continuity-macos" caption="macOS 原生应用: 真实输入：面板与内容连续交接、操作按钮及重新挂载。英文界面，原速。" />
 
 <Clip name="horizontal-reorder-web" caption="macOS 上的 Chromium：真实鼠标输入展示 LTR/RTL 提交、边缘反向和 Escape 取消。英文界面。" />
+
+## 原生屏幕阅读器验收 {#native-reader-acceptance}
+
+CollectionView 现在与 Core ListView 共用按键捕获/恢复原生焦点的实现。该修复是 RC.16 之后的源码更新，尚未包含在已发布的 RC.16 软件包中。200 行测试覆盖移动、插入、中断、外部焦点、减少动态效果及销毁；仅覆盖文档所述的单列适配器。
+
+[报告](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/acceptance-closure).
+
+<Clip :autoplay="false" name="collection-focus-voiceover-ios" caption="iOS 27 模拟器，使用真实 VoiceOver 与 XCTest 交互。可见焦点及遍历断言；无声录像。不证明实体设备行为。 CollectionView 更新期间按键保留焦点。" />
+
+<Clip :autoplay="false" name="collection-focus-talkback-android" caption="Android API 36 模拟器，使用真实 TalkBack 与原生触摸交互。可见焦点及遍历断言；无声录像。不证明实体设备行为。 CollectionView 更新期间按键保留焦点。" />

@@ -2,7 +2,7 @@
 
 Available in `0.1.0-rc.12`. The examples use explicit owners; dispose the scope on unmount. Browser imports remain optional and SSR-safe; create runtimes and resolve targets only after mounting.
 
-The old Android is used for compatibility only. Further physical performance acceptance is deferred until a newer phone is available, at the maintainer’s request; these recordings and exploratory measurements do not establish a CPU/PSS advantage.
+The original Android recordings remain compatibility evidence. The [acceptance follow-up](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/acceptance-closure) adds five measured repetitions per inspector variant on Android API 36, accepted by the maintainer as emulated evidence for #415. Physical performance remains unmeasured; these results do not establish a CPU/PSS advantage.
 
 ## Drop zones
 

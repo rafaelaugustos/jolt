@@ -2,7 +2,7 @@
 
 Disponível em `0.1.0-rc.12`. As seis capacidades têm contratos nativos e Web explícitos. Destrua o scope ao desmontar; importe as entradas Web opcionais sem acessar o DOM durante SSR e crie o runtime após montar.
 
-O Android antigo serve para compatibilidade. A pedido do mantenedor, novas medições físicas de desempenho ficam para um celular mais recente; estes vídeos e dados exploratórios não comprovam vantagem de CPU/PSS.
+As gravações originais do Android permanecem como evidência de compatibilidade. O [relatório posterior](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/acceptance-closure) acrescenta cinco repetições medidas por variante do inspector no Android API 36, aceitas pelo mantenedor como evidência emulada para #415. O desempenho físico continua sem medição; não há conclusão de vantagem em CPU/PSS.
 
 ## Drop zones
 

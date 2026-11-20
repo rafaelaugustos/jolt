@@ -77,3 +77,13 @@ Reuse Web `listChanges`, its explicit virtualizer adapter, `scrollValue` and nes
 <Clip name="swiftui-sheet-continuity-macos" caption="Native macOS app: Actual input: continuous sheet/content handoff, action buttons and remount. English UI; original speed." />
 
 <Clip name="horizontal-reorder-web" caption="Chromium on macOS: real mouse input shows LTR/RTL commit, edge reversal and Escape cancellation. English UI." />
+
+## Native screen-reader acceptance {#native-reader-acceptance}
+
+CollectionView now shares the native keyed-focus capture/restoration used by Core ListView. The correction is a source follow-up, not part of the published RC.16 package. The 200-row fixture checks moves, insertion, interruption, outside focus, reduced motion and disposal. Only the documented single-column adapter is covered.
+
+[Report](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/acceptance-closure).
+
+<Clip :autoplay="false" name="collection-focus-voiceover-ios" caption="iOS 27 simulator with actual VoiceOver and XCTest interaction. Visible focus and traversal assertions; silent recording. No physical-device claim. CollectionView keyed focus across updates." />
+
+<Clip :autoplay="false" name="collection-focus-talkback-android" caption="Android API 36 emulator with actual TalkBack and native touch interaction. Visible focus and traversal assertions; silent recording. No physical-device claim. CollectionView keyed focus across updates." />

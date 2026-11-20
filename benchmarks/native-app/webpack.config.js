@@ -20,6 +20,7 @@ module.exports = (env) => {
       .set('@nativescript/core', resolve(__dirname, 'node_modules/@nativescript/core'))
     config.plugin('jolt-native-ci').use(require('webpack').DefinePlugin, [
       {
+        __JOLT_READER_ACCEPTANCE__: JSON.stringify(!!env.readerAcceptance),
         __JOLT_VALUES_LAB__: JSON.stringify(!!env.valuesLab),
         __JOLT_MOTION_CONTRACTS__: JSON.stringify(!!env.motionContracts),
         __JOLT_COLLECTIONS_SCROLL__: JSON.stringify(!!env.collectionsScroll),

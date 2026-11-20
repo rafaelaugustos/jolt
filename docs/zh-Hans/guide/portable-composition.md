@@ -1,6 +1,6 @@
 # 跨平台组合
 
-这些 API 已包含在 `0.1.0-rc.12.1` 中，来自 [PR #428](https://github.com/rafaelaugustos/jolt/pull/428)（#424–#427、#386 和 #385）。现有原生契约与浏览器适配器共用定义、策略和生命周期。请安装版本一致的软件包并重新构建原生应用。Web API 仍为实验性功能；实体设备浏览器的传感器交付和精度验证仍在 #385 中跟踪。
+这些 API 已包含在 `0.1.0-rc.12.1` 中，来自 [PR #428](https://github.com/rafaelaugustos/jolt/pull/428)（#424–#427、#386 和 #385）。现有原生契约与浏览器适配器共用定义、策略和生命周期。请安装版本一致的软件包并重新构建原生应用。Web API 仍为实验性功能。#385 已获准采用模拟器验收；实体交付及精度仍未验证。
 
 ## 保留资源的生命周期 {#lifecycle}
 
@@ -163,7 +163,7 @@ scope.animate(
 
 需要安全上下文、浏览器/设备支持及允许的权限策略。仅由用户操作直接调用 `requestPermission()` 时请求权限。可用性要求该类型的完整有限采样；缺失或部分值不会转换为零。API 缺失、拒绝权限和无数据超时可从 `snapshot()` 获取。每个文档的同一硬件事件共用一个监听器，仅在有需求、可见且未暂停时采集。界面坐标随屏幕旋转重新映射；设备坐标保持标准方向。`interval` 限制交付频率（5–1000 ms 或 `auto`），不是硬件采样率。时间戳是浏览器单调时间，不是原生硬件时间。
 
-本轮验证了**注入事件**驱动的真实浏览器渲染，以及原生模拟器预览。物理设备上浏览器真实传感器交付和精度仍在 #385 中待验证。参考 [Device Orientation and Motion 规范](https://www.w3.org/TR/orientation-event/) 和 [Magnetometer 可用性限制](https://www.w3.org/TR/magnetometer/)。
+下方原始录像使用**注入事件**及原生模拟器预览。[后续验收报告](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/acceptance-closure)补充了 Android 虚拟系统传感器向 Chrome 交付可信事件的证据，维护者批准 #385 使用此模拟器验收。两次测试都不证明实体精度或硬件交付。
 
 ```ts
 const sensor = scope.sensor('gyroscope', { coordinates: 'interface', interval: 50 })

@@ -56,6 +56,19 @@ NSString *JoltNativeTap(CGPoint point) {
     NSError *error=nil;return [record synthesizeWithError:&error]?nil:error.localizedDescription?:@"XCTest event synthesis failed";
 }
 
+// Two hardware contact paths in one record, without XCTest's idle wait between
+// taps. VoiceOver interprets the gesture; this never invokes an app action.
+NSString *JoltReaderDoubleTap(CGPoint point) {
+    Class paths=NSClassFromString(@"XCPointerEventPath"), records=NSClassFromString(@"XCSynthesizedEventRecord");
+    if(!paths || !records)return @"XCTest pointer-path interfaces are unavailable";
+    id record=[[records alloc]initWithName:@"Jolt VoiceOver double tap" interfaceOrientation:UIInterfaceOrientationPortrait];
+    for(int i=0;i<2;i++) {
+        id path=[[paths alloc]initForTouchAtPoint:point offset:i*.16];
+        [path liftUpAtOffset:i*.16+.06];[record addPointerEventPath:path];
+    }
+    NSError *error=nil;return [record synthesizeWithError:&error]?nil:error.localizedDescription?:@"XCTest event synthesis failed";
+}
+
 // VoiceOver's three-finger scroll, through real OS contact paths. No app scroll
 // or accessibility-focus action is called by this test helper.
 NSString *JoltReaderScroll(CGPoint start, CGFloat distance) {

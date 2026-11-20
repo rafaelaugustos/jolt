@@ -1,4 +1,4 @@
-import { isIOS, type View } from '@nativescript/core'
+import { Application, isIOS, type View } from '@nativescript/core'
 /** Preserve semantic row identity, including a descendant path, across native cell recycling. */
 export function captureListFocus<K>(
   list: View,
@@ -8,6 +8,7 @@ export function captureListFocus<K>(
   const accessible = isIOS ? UIAccessibilityFocusedElement(null) : undefined
   type Saved = { key: K; path: number[]; accessibility: boolean; native: any }
   let saved: Saved | undefined
+  let restoredNative: any
   function find(
     native: any,
     path: number[],
@@ -34,10 +35,13 @@ export function captureListFocus<K>(
       break
     }
   }
-  return (next: readonly { key: K; target: View }[]) => {
+  const restore = (next: readonly { key: K; target: View }[]) => {
     if (!saved || !list.isLoaded) return
     const row = next.find((row) => row.key === saved!.key)
-    if (!row) return // Removed/off-screen keys do not steal focus from the current control.
+    if (!row) {
+      saved = undefined // Removed/off-screen keys do not force a focus jump.
+      return
+    }
     let native = row.target.nativeViewProtected
     for (const index of saved.path) {
       const count = isIOS
@@ -56,9 +60,15 @@ export function captureListFocus<K>(
           current !== saved.native &&
           current instanceof UIView &&
           !current.isDescendantOfView(host)
-        )
+        ) {
+          saved = undefined
           return
+        }
         UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, native)
+        // Posting is asynchronous. Keep one logical identity while the controller
+        // lives, so an immediate next reload cannot capture a stale recycled key.
+        restoredNative = native
+        return
       } else {
         const responder = (view: UIView): UIView | undefined => {
           if (view.isFirstResponder) return view
@@ -97,5 +107,66 @@ export function captureListFocus<K>(
       native.requestFocus()
     }
     saved = undefined
+  }
+  return Object.assign(restore, {
+    accessibility: !!saved?.accessibility,
+    isCurrent: () => {
+      if (!saved || !isIOS) return false
+      const current = UIAccessibilityFocusedElement(null)
+      if (restoredNative && current === restoredNative) {
+        saved.native = restoredNative
+        restoredNative = undefined
+      }
+      return current === saved.native
+    },
+  })
+}
+
+/** iOS updates its accessibility cache while recycled rows move. Restore once
+ * after motion settles, and carry the original key through superseding updates
+ * while the reader still points at the same recycled native element. */
+export function listFocusAfterMotion<K>(
+  list: View,
+  rows: () => readonly { key: K; target: View }[],
+) {
+  let pending: ReturnType<typeof captureListFocus<K>> | undefined
+  let generation = 0
+  let moving = false
+  return {
+    capture() {
+      const current = UIAccessibilityFocusedElement(null)
+      const interrupted =
+        moving &&
+        pending &&
+        current instanceof UIView &&
+        current.isDescendantOfView(list.nativeViewProtected)
+      if (!pending?.isCurrent() && !interrupted) {
+        const next = captureListFocus(list, rows())
+        pending = next.accessibility ? next : undefined
+      }
+      const token = ++generation
+      moving = true
+      return () => {
+        if (token !== generation) return
+        if (!pending) {
+          moving = false
+          return
+        }
+        NSOperationQueue.mainQueue.addOperationWithBlock(() => {
+          if (token !== generation) return
+          moving = false
+          if (!list.isLoaded || Application.suspended) {
+            pending = undefined
+            return
+          }
+          pending?.(rows())
+        })
+      }
+    },
+    dispose() {
+      generation++
+      moving = false
+      pending = undefined
+    },
   }
 }

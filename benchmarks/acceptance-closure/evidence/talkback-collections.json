@@ -1,0 +1,1445 @@
+{
+  "session": 1795149862001,
+  "platform": "android-emulator",
+  "events": [
+    {
+      "name": "cleanup",
+      "time": 1795149862099,
+      "flights": 0,
+      "focus": null
+    },
+    {
+      "name": "exits-ready",
+      "time": 1795149862121,
+      "flights": 0,
+      "focus": null
+    },
+    {
+      "name": "exit-start",
+      "time": 1795149880692,
+      "flights": 1,
+      "focus": {
+        "label": "Remove Bravo",
+        "id": "exit-remove"
+      }
+    },
+    {
+      "name": "exit-cancel-before",
+      "time": 1795149893004,
+      "flights": 1,
+      "focus": {
+        "label": "Cancel exit",
+        "id": "exit-cancel"
+      }
+    },
+    {
+      "name": "exit-cancel",
+      "time": 1795149893009,
+      "flights": 0,
+      "focus": {
+        "label": "Cancel exit",
+        "id": "exit-cancel"
+      }
+    },
+    {
+      "name": "exit-settled",
+      "time": 1795149893010,
+      "flights": 0,
+      "focus": {
+        "label": "Cancel exit",
+        "id": "exit-cancel"
+      },
+      "done": false
+    },
+    {
+      "name": "exits-ready",
+      "time": 1795149896909,
+      "flights": 0,
+      "focus": {
+        "label": "Reset cards",
+        "id": "exit-reset"
+      }
+    },
+    {
+      "name": "exit-start",
+      "time": 1795149900862,
+      "flights": 1,
+      "focus": {
+        "label": "Remove Bravo",
+        "id": "exit-remove"
+      }
+    },
+    {
+      "name": "exit-reinsert",
+      "time": 1795149904789,
+      "flights": 0,
+      "focus": {
+        "label": "Reinsert Bravo",
+        "id": "exit-reinsert"
+      }
+    },
+    {
+      "name": "exits-ready",
+      "time": 1795149914092,
+      "flights": 0,
+      "focus": {
+        "label": "Reduced removal",
+        "id": "exit-reduced"
+      }
+    },
+    {
+      "name": "exit-start",
+      "time": 1795149914093,
+      "flights": 0,
+      "focus": {
+        "label": "Reduced removal",
+        "id": "exit-reduced"
+      }
+    },
+    {
+      "name": "exit-reduced",
+      "time": 1795149914093,
+      "flights": 0,
+      "focus": {
+        "label": "Reduced removal",
+        "id": "exit-reduced"
+      }
+    },
+    {
+      "name": "exit-settled",
+      "time": 1795149914093,
+      "flights": 0,
+      "focus": {
+        "label": "Reduced removal",
+        "id": "exit-reduced"
+      },
+      "done": false
+    },
+    {
+      "name": "cleanup",
+      "time": 1795149923409,
+      "flights": 0,
+      "focus": {
+        "label": "Dispose scene",
+        "id": "reader-dispose"
+      }
+    },
+    {
+      "name": "exit-settled",
+      "time": 1795149923409,
+      "flights": 0,
+      "focus": {
+        "label": "Dispose scene",
+        "id": "reader-dispose"
+      },
+      "done": false
+    },
+    {
+      "name": "cleanup",
+      "time": 1795149929413,
+      "flights": 0,
+      "focus": {
+        "label": "List focus",
+        "id": "reader-lists"
+      }
+    },
+    {
+      "name": "lists-ready",
+      "time": 1795149929456,
+      "flights": 0,
+      "focus": {
+        "label": "List focus",
+        "id": "reader-lists"
+      },
+      "count": 200,
+      "collection": false
+    },
+    {
+      "name": "list-move-armed",
+      "time": 1795149933793,
+      "flights": 0,
+      "focus": {
+        "label": "Arm move",
+        "id": "list-move"
+      }
+    },
+    {
+      "name": "list-move-before",
+      "time": 1795149941798,
+      "flights": 0,
+      "focus": {
+        "label": "Row 1",
+        "id": "reader-row-1"
+      },
+      "keys": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "name": "focus-diagnostic",
+      "time": 1795149941800,
+      "flights": 0,
+      "focus": {
+        "label": "Row 1",
+        "id": "reader-row-1"
+      },
+      "stage": "capture",
+      "keys": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "saved": {
+        "key": 1,
+        "path": [
+          0
+        ],
+        "accessibility": true
+      }
+    },
+    {
+      "name": "list-move-start",
+      "time": 1795149941802,
+      "flights": 0,
+      "focus": {
+        "label": "",
+        "id": ""
+      },
+      "keys": [
+        0,
+        2,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "name": "focus-diagnostic",
+      "time": 1795149941833,
+      "flights": 0,
+      "focus": {
+        "label": "",
+        "id": ""
+      },
+      "stage": "restore",
+      "keys": [
+        0,
+        2,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "saved": true
+    },
+    {
+      "name": "list-move-settled",
+      "time": 1795149943047,
+      "flights": 0,
+      "focus": {
+        "label": "Row 1",
+        "id": "reader-row-1"
+      },
+      "done": true
+    },
+    {
+      "name": "list-insert-armed",
+      "time": 1795149953685,
+      "flights": 0,
+      "focus": {
+        "label": "Arm insert",
+        "id": "list-insert"
+      }
+    },
+    {
+      "name": "list-insert-before",
+      "time": 1795149961690,
+      "flights": 0,
+      "focus": {
+        "label": "Row 3",
+        "id": "reader-row-3"
+      },
+      "keys": [
+        0,
+        2,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "name": "focus-diagnostic",
+      "time": 1795149961692,
+      "flights": 0,
+      "focus": {
+        "label": "Row 3",
+        "id": "reader-row-3"
+      },
+      "stage": "capture",
+      "keys": [
+        0,
+        2,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "saved": {
+        "key": 3,
+        "path": [
+          0
+        ],
+        "accessibility": true
+      }
+    },
+    {
+      "name": "list-insert-start",
+      "time": 1795149961693,
+      "flights": 0,
+      "focus": {
+        "label": "",
+        "id": ""
+      },
+      "keys": [
+        -1,
+        0,
+        2,
+        1,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "name": "focus-diagnostic",
+      "time": 1795149961716,
+      "flights": 0,
+      "focus": {
+        "label": "",
+        "id": ""
+      },
+      "stage": "restore",
+      "keys": [
+        0,
+        2,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "saved": true
+    },
+    {
+      "name": "list-insert-settled",
+      "time": 1795149961717,
+      "flights": 0,
+      "focus": {
+        "label": "Row 3",
+        "id": "reader-row-3"
+      },
+      "done": true
+    },
+    {
+      "name": "list-interrupt-armed",
+      "time": 1795149973691,
+      "flights": 0,
+      "focus": {
+        "label": "Arm interrupt",
+        "id": "list-interrupt"
+      }
+    },
+    {
+      "name": "list-move-before",
+      "time": 1795149981696,
+      "flights": 0,
+      "focus": {
+        "label": "Row 2",
+        "id": "reader-row-2"
+      },
+      "keys": [
+        -1,
+        0,
+        2,
+        1,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "name": "focus-diagnostic",
+      "time": 1795149981697,
+      "flights": 0,
+      "focus": {
+        "label": "Row 2",
+        "id": "reader-row-2"
+      },
+      "stage": "capture",
+      "keys": [
+        0,
+        2,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "saved": {
+        "key": 2,
+        "path": [
+          0
+        ],
+        "accessibility": true
+      }
+    },
+    {
+      "name": "list-move-start",
+      "time": 1795149981699,
+      "flights": 0,
+      "focus": {
+        "label": "",
+        "id": ""
+      },
+      "keys": [
+        -1,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "name": "focus-diagnostic",
+      "time": 1795149981731,
+      "flights": 0,
+      "focus": {
+        "label": "",
+        "id": ""
+      },
+      "stage": "restore",
+      "keys": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "saved": true
+    },
+    {
+      "name": "list-move-before",
+      "time": 1795149982072,
+      "flights": 0,
+      "focus": {
+        "label": "Row 2",
+        "id": "reader-row-2"
+      },
+      "keys": [
+        -1,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "name": "focus-diagnostic",
+      "time": 1795149982073,
+      "flights": 0,
+      "focus": {
+        "label": "Row 2",
+        "id": "reader-row-2"
+      },
+      "stage": "capture",
+      "keys": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "saved": {
+        "key": 2,
+        "path": [
+          0
+        ],
+        "accessibility": true
+      }
+    },
+    {
+      "name": "list-move-start",
+      "time": 1795149982077,
+      "flights": 0,
+      "focus": {
+        "label": "",
+        "id": ""
+      },
+      "keys": [
+        -1,
+        0,
+        2,
+        1,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "name": "list-move-settled",
+      "time": 1795149982078,
+      "flights": 0,
+      "focus": {
+        "label": "",
+        "id": ""
+      },
+      "done": false
+    },
+    {
+      "name": "focus-diagnostic",
+      "time": 1795149982099,
+      "flights": 0,
+      "focus": {
+        "label": "",
+        "id": ""
+      },
+      "stage": "restore",
+      "keys": [
+        0,
+        2,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "saved": true
+    },
+    {
+      "name": "list-move-settled",
+      "time": 1795149983314,
+      "flights": 0,
+      "focus": {
+        "label": "Row 2",
+        "id": "reader-row-2"
+      },
+      "done": true
+    },
+    {
+      "name": "list-move-armed",
+      "time": 1795149991689,
+      "flights": 0,
+      "focus": {
+        "label": "Arm move",
+        "id": "list-move"
+      }
+    },
+    {
+      "name": "list-move-before",
+      "time": 1795149999694,
+      "flights": 0,
+      "focus": {
+        "label": "Outside anchor",
+        "id": "outside-anchor"
+      },
+      "keys": [
+        -1,
+        0,
+        2,
+        1,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "name": "focus-diagnostic",
+      "time": 1795149999696,
+      "flights": 0,
+      "focus": {
+        "label": "Outside anchor",
+        "id": "outside-anchor"
+      },
+      "stage": "capture",
+      "keys": [
+        0,
+        2,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ]
+    },
+    {
+      "name": "list-move-start",
+      "time": 1795149999697,
+      "flights": 0,
+      "focus": {
+        "label": "Outside anchor",
+        "id": "outside-anchor"
+      },
+      "keys": [
+        -1,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "name": "focus-diagnostic",
+      "time": 1795149999714,
+      "flights": 0,
+      "focus": {
+        "label": "Outside anchor",
+        "id": "outside-anchor"
+      },
+      "stage": "restore",
+      "keys": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "saved": false
+    },
+    {
+      "name": "list-move-settled",
+      "time": 1795150000930,
+      "flights": 0,
+      "focus": {
+        "label": "Outside anchor",
+        "id": "outside-anchor"
+      },
+      "done": true
+    },
+    {
+      "name": "list-reduced-armed",
+      "time": 1795150009673,
+      "flights": 0,
+      "focus": {
+        "label": "Reduced move",
+        "id": "list-reduced"
+      }
+    },
+    {
+      "name": "list-move-before",
+      "time": 1795150017675,
+      "flights": 0,
+      "focus": {
+        "label": "Row 1",
+        "id": "reader-row-1"
+      },
+      "keys": [
+        -1,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "name": "focus-diagnostic",
+      "time": 1795150017676,
+      "flights": 0,
+      "focus": {
+        "label": "Row 1",
+        "id": "reader-row-1"
+      },
+      "stage": "capture",
+      "keys": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "saved": {
+        "key": 1,
+        "path": [
+          0
+        ],
+        "accessibility": true
+      }
+    },
+    {
+      "name": "list-move-start",
+      "time": 1795150017678,
+      "flights": 0,
+      "focus": {
+        "label": "",
+        "id": ""
+      },
+      "keys": [
+        -1,
+        0,
+        2,
+        1,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "name": "focus-diagnostic",
+      "time": 1795150017698,
+      "flights": 0,
+      "focus": {
+        "label": "",
+        "id": ""
+      },
+      "stage": "restore",
+      "keys": [
+        0,
+        2,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "saved": true
+    },
+    {
+      "name": "list-move-settled",
+      "time": 1795150017699,
+      "flights": 0,
+      "focus": {
+        "label": "Row 1",
+        "id": "reader-row-1"
+      },
+      "done": true
+    },
+    {
+      "name": "cleanup",
+      "time": 1795150027653,
+      "flights": 0,
+      "focus": {
+        "label": "Dispose scene",
+        "id": "reader-dispose"
+      }
+    },
+    {
+      "name": "cleanup",
+      "time": 1795150035502,
+      "flights": 0,
+      "focus": {
+        "label": "Collection focus",
+        "id": "reader-collections"
+      }
+    },
+    {
+      "name": "lists-ready",
+      "time": 1795150035519,
+      "flights": 0,
+      "focus": {
+        "label": "Collection focus",
+        "id": "reader-collections"
+      },
+      "count": 200,
+      "collection": true
+    },
+    {
+      "name": "list-move-armed",
+      "time": 1795150039883,
+      "flights": 0,
+      "focus": {
+        "label": "Arm move",
+        "id": "list-move"
+      }
+    },
+    {
+      "name": "list-move-before",
+      "time": 1795150047888,
+      "flights": 0,
+      "focus": {
+        "label": "Row 1",
+        "id": "reader-row-1"
+      },
+      "keys": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "name": "focus-diagnostic",
+      "time": 1795150047893,
+      "flights": 0,
+      "focus": {
+        "label": "Row 1",
+        "id": "reader-row-1"
+      },
+      "stage": "capture",
+      "keys": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "saved": {
+        "key": 1,
+        "path": [
+          0
+        ],
+        "accessibility": true
+      }
+    },
+    {
+      "name": "list-move-start",
+      "time": 1795150047897,
+      "flights": 0,
+      "focus": {
+        "label": "Row 1",
+        "id": "reader-row-1"
+      },
+      "keys": [
+        0,
+        2,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "name": "focus-diagnostic",
+      "time": 1795150047921,
+      "flights": 0,
+      "focus": null,
+      "stage": "restore",
+      "keys": [
+        0,
+        2,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "saved": true
+    },
+    {
+      "name": "list-move-settled",
+      "time": 1795150049130,
+      "flights": 0,
+      "focus": {
+        "label": "Row 1",
+        "id": "reader-row-1"
+      },
+      "done": true
+    },
+    {
+      "name": "list-insert-armed",
+      "time": 1795150059749,
+      "flights": 0,
+      "focus": {
+        "label": "Arm insert",
+        "id": "list-insert"
+      }
+    },
+    {
+      "name": "list-insert-before",
+      "time": 1795150067752,
+      "flights": 0,
+      "focus": {
+        "label": "Row 3",
+        "id": "reader-row-3"
+      },
+      "keys": [
+        0,
+        2,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "name": "focus-diagnostic",
+      "time": 1795150067754,
+      "flights": 0,
+      "focus": {
+        "label": "Row 3",
+        "id": "reader-row-3"
+      },
+      "stage": "capture",
+      "keys": [
+        0,
+        2,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "saved": {
+        "key": 3,
+        "path": [
+          0
+        ],
+        "accessibility": true
+      }
+    },
+    {
+      "name": "list-insert-start",
+      "time": 1795150067754,
+      "flights": 0,
+      "focus": {
+        "label": "Row 3",
+        "id": "reader-row-3"
+      },
+      "keys": [
+        -1,
+        0,
+        2,
+        1,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "name": "focus-diagnostic",
+      "time": 1795150067783,
+      "flights": 0,
+      "focus": null,
+      "stage": "restore",
+      "keys": [
+        0,
+        2,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "saved": true
+    },
+    {
+      "name": "list-insert-settled",
+      "time": 1795150067784,
+      "flights": 0,
+      "focus": {
+        "label": "Row 3",
+        "id": "reader-row-3"
+      },
+      "done": true
+    },
+    {
+      "name": "list-interrupt-armed",
+      "time": 1795150079638,
+      "flights": 0,
+      "focus": {
+        "label": "Arm interrupt",
+        "id": "list-interrupt"
+      }
+    },
+    {
+      "name": "list-move-before",
+      "time": 1795150087643,
+      "flights": 0,
+      "focus": {
+        "label": "Row 2",
+        "id": "reader-row-2"
+      },
+      "keys": [
+        -1,
+        0,
+        2,
+        1,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "name": "focus-diagnostic",
+      "time": 1795150087645,
+      "flights": 0,
+      "focus": {
+        "label": "Row 2",
+        "id": "reader-row-2"
+      },
+      "stage": "capture",
+      "keys": [
+        0,
+        2,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "saved": {
+        "key": 2,
+        "path": [
+          0
+        ],
+        "accessibility": true
+      }
+    },
+    {
+      "name": "list-move-start",
+      "time": 1795150087645,
+      "flights": 0,
+      "focus": {
+        "label": "Row 2",
+        "id": "reader-row-2"
+      },
+      "keys": [
+        -1,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "name": "focus-diagnostic",
+      "time": 1795150087665,
+      "flights": 0,
+      "focus": null,
+      "stage": "restore",
+      "keys": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "saved": true
+    },
+    {
+      "name": "list-move-before",
+      "time": 1795150087997,
+      "flights": 0,
+      "focus": {
+        "label": "Row 2",
+        "id": "reader-row-2"
+      },
+      "keys": [
+        -1,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "name": "focus-diagnostic",
+      "time": 1795150087998,
+      "flights": 0,
+      "focus": {
+        "label": "Row 2",
+        "id": "reader-row-2"
+      },
+      "stage": "capture",
+      "keys": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "saved": {
+        "key": 2,
+        "path": [
+          0
+        ],
+        "accessibility": true
+      }
+    },
+    {
+      "name": "list-move-start",
+      "time": 1795150088000,
+      "flights": 0,
+      "focus": {
+        "label": "Row 2",
+        "id": "reader-row-2"
+      },
+      "keys": [
+        -1,
+        0,
+        2,
+        1,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "name": "list-move-settled",
+      "time": 1795150088000,
+      "flights": 0,
+      "focus": {
+        "label": "Row 2",
+        "id": "reader-row-2"
+      },
+      "done": false
+    },
+    {
+      "name": "focus-diagnostic",
+      "time": 1795150088033,
+      "flights": 0,
+      "focus": null,
+      "stage": "restore",
+      "keys": [
+        0,
+        2,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "saved": true
+    },
+    {
+      "name": "list-move-settled",
+      "time": 1795150089247,
+      "flights": 0,
+      "focus": {
+        "label": "Row 2",
+        "id": "reader-row-2"
+      },
+      "done": true
+    },
+    {
+      "name": "list-move-armed",
+      "time": 1795150097660,
+      "flights": 0,
+      "focus": {
+        "label": "Arm move",
+        "id": "list-move"
+      }
+    },
+    {
+      "name": "list-move-before",
+      "time": 1795150105663,
+      "flights": 0,
+      "focus": {
+        "label": "Outside anchor",
+        "id": "outside-anchor"
+      },
+      "keys": [
+        -1,
+        0,
+        2,
+        1,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "name": "focus-diagnostic",
+      "time": 1795150105665,
+      "flights": 0,
+      "focus": {
+        "label": "Outside anchor",
+        "id": "outside-anchor"
+      },
+      "stage": "capture",
+      "keys": [
+        0,
+        2,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    {
+      "name": "list-move-start",
+      "time": 1795150105666,
+      "flights": 0,
+      "focus": {
+        "label": "Outside anchor",
+        "id": "outside-anchor"
+      },
+      "keys": [
+        -1,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "name": "focus-diagnostic",
+      "time": 1795150105698,
+      "flights": 0,
+      "focus": {
+        "label": "Outside anchor",
+        "id": "outside-anchor"
+      },
+      "stage": "restore",
+      "keys": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "saved": false
+    },
+    {
+      "name": "list-move-settled",
+      "time": 1795150106913,
+      "flights": 0,
+      "focus": {
+        "label": "Outside anchor",
+        "id": "outside-anchor"
+      },
+      "done": true
+    },
+    {
+      "name": "list-reduced-armed",
+      "time": 1795150115695,
+      "flights": 0,
+      "focus": {
+        "label": "Reduced move",
+        "id": "list-reduced"
+      }
+    },
+    {
+      "name": "list-move-before",
+      "time": 1795150123700,
+      "flights": 0,
+      "focus": {
+        "label": "Row 1",
+        "id": "reader-row-1"
+      },
+      "keys": [
+        -1,
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "name": "focus-diagnostic",
+      "time": 1795150123702,
+      "flights": 0,
+      "focus": {
+        "label": "Row 1",
+        "id": "reader-row-1"
+      },
+      "stage": "capture",
+      "keys": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "saved": {
+        "key": 1,
+        "path": [
+          0
+        ],
+        "accessibility": true
+      }
+    },
+    {
+      "name": "list-move-start",
+      "time": 1795150123702,
+      "flights": 0,
+      "focus": {
+        "label": "Row 1",
+        "id": "reader-row-1"
+      },
+      "keys": [
+        -1,
+        0,
+        2,
+        1,
+        3,
+        4,
+        5,
+        6
+      ]
+    },
+    {
+      "name": "focus-diagnostic",
+      "time": 1795150123731,
+      "flights": 0,
+      "focus": null,
+      "stage": "restore",
+      "keys": [
+        0,
+        2,
+        1,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "saved": true
+    },
+    {
+      "name": "list-move-settled",
+      "time": 1795150123733,
+      "flights": 0,
+      "focus": {
+        "label": "Row 1",
+        "id": "reader-row-1"
+      },
+      "done": true
+    },
+    {
+      "name": "cleanup",
+      "time": 1795150133673,
+      "flights": 0,
+      "focus": {
+        "label": "Dispose scene",
+        "id": "reader-dispose"
+      }
+    }
+  ]
+}

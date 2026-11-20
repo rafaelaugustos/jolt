@@ -2,7 +2,7 @@
 
 **Disponible en 0.1.0-rc.15 (Beta).** Recompile las aplicaciones nativas tras actualizar. Los vídeos muestran interacción real en las plataformas indicadas; simuladores/emuladores no prueban rendimiento en un dispositivo físico.
 
-Siguen pendientes las mediciones de asignaciones/tiempo por frame en Android físico (#494), los accesorios de puntero físicos (#492) y la navegación/foco completos con VoiceOver/TalkBack nativos (#498/#499). RC.16 completa la matriz documentada horizontal/RTL/bounce/CollectionView y los tiempos solo del productor de #495; esas mediciones excluyen la evaluación posterior del grafo y el renderizado. Cambios/reordenación de CollectionView admiten una columna vertical. Secciones, grids y movimientos entre listas quedan fuera de los adaptadores; la virtualización Web pertenece a la aplicación. La evidencia de simulador/emulador no demuestra rendimiento físico ni menor CPU/PSS.
+El 20 de noviembre de 2026, el mantenedor aceptó evidencia emulada para #385, #415 y #494. VoiceOver real en el simulador iOS 27 y TalkBack real en el emulador Android API 36 superan la navegación de salidas y el foco por clave de Core ListView/CollectionView (#498/#499). La corrección de foco es posterior a RC.16 y todavía no está en los paquetes RC.16 publicados. La aceptación de punteros físicos (#492) sigue separada. CollectionView admite una columna vertical; secciones, grids y movimientos entre listas quedan fuera, y la virtualización Web pertenece a la aplicación. Estas pruebas no demuestran precisión, tiempos de frames ni menor CPU/PSS en dispositivos físicos. [Informe](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/acceptance-closure).
 
 ## Valores numéricos
 
@@ -110,6 +110,20 @@ let controller = try JoltScrollHeaderController(
 <Clip name="swiftui-values-scroll-ios" caption="SwiftUI independiente en simulador iOS 27: valores, scroll programático, inserción con ancla, encabezado y movimiento reducido, sin NativeScript." />
 <Clip name="swiftui-values-scroll-macos" caption="Aplicación SwiftUI real en macOS: valores, encabezado, ancla y movimiento reducido mediante NSScrollView." />
 
-NativeScript/Web conservan sus controladores `scrollHeader()` existentes. Consulte [validación y límites](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/values-scroll-lists). La medición física de asignaciones/frame de #494 sigue pendiente; no afirmamos reducción de CPU/PSS ni ventaja frente a Reanimated.
+El [informe posterior](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/acceptance-closure) registra cinco repeticiones medidas de un grafo compartido ligado a 16 vistas nativas, con todos los valores finales verificados. El mantenedor aceptó evidencia emulada para #494; no se demuestra tiempo por frame físico, coste total de asignación ni ventaja de CPU/PSS frente a Reanimated.
 
 <Clip name="list-changes-playground-web" caption="Chromium, playground real de la documentación: scroll por clave, inserción conservando el ancla, eliminación, inversión e interrupción." />
+
+## Aceptación con lectores de pantalla nativos {#native-reader-acceptance}
+
+La corrección conserva la clave lógica de la fila y el foco del descendiente durante actualizaciones interrumpidas. iOS restaura el foco de accesibilidad después del movimiento y la limpieza; Android lo restaura después del layout. El foco de teclado conserva su timing. Eliminar la clave enfocada o mover el foco fuera de la lista no fuerza un salto. Unload, suspensión y destrucción invalidan restauraciones pendientes. Las fixtures de 200 filas verifican movimiento, inserción, interrupción, foco externo, movimiento reducido y destrucción; la navegación de salidas también comprueba copias inaccesibles, cancelación y reinserción. El equivalente Web supera sus pruebas de ciclo de vida/foco en tres motores.
+
+[Informe](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/acceptance-closure).
+
+<Clip :autoplay="false" name="layout-exits-voiceover-ios" caption="Simulador iOS 27 con VoiceOver real e interacción XCTest. Foco visible y aserciones de navegación; grabación sin audio. No demuestra comportamiento en dispositivos físicos. Copias de salida, cancelación, reinserción y limpieza." />
+
+<Clip :autoplay="false" name="layout-exits-talkback-android" caption="Emulador Android API 36 con TalkBack real e interacción táctil nativa. Foco visible y aserciones de navegación; grabación sin audio. No demuestra comportamiento en dispositivos físicos. Copias de salida, cancelación, reinserción y limpieza." />
+
+<Clip :autoplay="false" name="list-focus-voiceover-ios" caption="Simulador iOS 27 con VoiceOver real e interacción XCTest. Foco visible y aserciones de navegación; grabación sin audio. No demuestra comportamiento en dispositivos físicos. Foco por clave de Core ListView durante actualizaciones." />
+
+<Clip :autoplay="false" name="list-focus-talkback-android" caption="Emulador Android API 36 con TalkBack real e interacción táctil nativa. Foco visible y aserciones de navegación; grabación sin audio. No demuestra comportamiento en dispositivos físicos. Foco por clave de Core ListView durante actualizaciones." />

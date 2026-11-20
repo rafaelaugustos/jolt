@@ -1,8 +1,10 @@
 # Combined values, scroll, layout exits and keyed lists
 
-RC.15 implementation/acceptance report for Jolt #494, #495, #498, #499, #500 and #501, delivered by PR #506. The release contains the documented tested subset; the remaining acceptance below stays open. This is not a performance comparison with Reanimated.
+> Follow-up (20 November 2026): see the [RC.16 acceptance audit](../acceptance-closure/README.md). The maintainer approved emulated acceptance for #385/#415/#494, and real native reader suites pass for #498/#499 with the follow-up focus correction. The historical measurements and release scope below are unchanged.
 
-RC.16 follow-up: [collections and scroll acceptance](../collections-scroll/README.md) completes the documented #495 matrix and matched producer timing, and adds the separate CollectionView changes/reorder adapters. The table below records RC.15 delivery; physical Android measurements and full native screen-reader acceptance remain pending.
+RC.15 implementation/acceptance report for Jolt #494, #495, #498, #499, #500 and #501, delivered by PR #506. The release contains the documented tested subset; the table below preserves the acceptance outstanding at that release. This is not a performance comparison with Reanimated.
+
+RC.16 follow-up: [collections and scroll acceptance](../collections-scroll/README.md) completes the documented #495 matrix and matched producer timing, and adds the separate CollectionView changes/reorder adapters. The table below records RC.15 delivery; the newer follow-up linked above supersedes its pending measurement and reader status.
 
 ## Delivery plan and evidence
 
@@ -29,7 +31,7 @@ The four language guides include native/browser coverage, supported properties/u
 
 Native app-side reports in `evidence/` supplement the OS input scripts. `validate.py` rejects errors, nonzero Jolt scroll callbacks, failed anchor preservation, missing completion and missing interruption even if the XCTest/ADB taps succeeded. A sort around a preserved edge key can have no overlapping moving rows and legitimately finish immediately; the explicit delete/prepend pair verifies interruption of an active operation.
 
-The new Web suite runs in CI; the standalone SwiftUI scenario is discovered by the existing UI-test job. Native input/recording scripts are reproducible locally and complement the existing native CI probe. None of these reports replaces the physical-device requirement of #494.
+The new Web suite runs in CI; the standalone SwiftUI scenario is discovered by the existing UI-test job. Native input/recording scripts are reproducible locally and complement the existing native CI probe. Those original reports did not replace the then-required physical-device measurement of #494; the later emulated acceptance decision is recorded in the follow-up.
 
 ## Exit-copy decision
 

@@ -2,7 +2,7 @@
 
 **Available in 0.1.0-rc.15 (Beta).** Rebuild native applications after upgrading. The recordings below show actual interaction on the labeled platforms; simulators/emulators are not physical-device performance evidence.
 
-Physical Android allocation/frame-time measurements (#494), physical pointer acceptance (#492) and full native VoiceOver/TalkBack traversal/focus (#498/#499) remain open. RC.16 completes the documented #495 horizontal/RTL/bounce/CollectionView matrix and producer-only timing; those measurements exclude later graph evaluation/rendering. CollectionView changes/reorder support one vertical span. Sections, grids and cross-list moves remain outside the adapters; Web virtualization stays application-owned. Simulator/emulator evidence does not establish physical-device performance or lower application CPU/PSS.
+On 20 November 2026, the maintainer accepted emulator evidence for #385, #415 and #494. Actual VoiceOver on the iOS 27 simulator and TalkBack on the Android API 36 emulator pass exit traversal and keyed Core ListView/CollectionView focus (#498/#499). The native focus correction is a source follow-up to RC.16 and is not included in the published RC.16 packages. Physical pointer acceptance (#492) remains separate. CollectionView changes/reorder support one vertical span; sections, grids and cross-list moves remain outside the adapters, and Web virtualization stays application-owned. These runs do not establish physical-device accuracy, frame pacing or lower application CPU/PSS. [Report](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/acceptance-closure).
 
 ## Combine numeric values
 
@@ -134,6 +134,20 @@ Swift scalar graphs use `JoltComputedValue`, share their inputs' clock, and part
 <Clip name="swiftui-values-scroll-ios" caption="Standalone SwiftUI on the iOS 27 simulator: combined inputs, programmatic scroll, keyed prepend, pinned header/title handoff and reduced motion. No NativeScript dependency." />
 <Clip name="swiftui-values-scroll-macos" caption="Standalone SwiftUI on macOS: the same values/header controller with wheel input, anchor preservation and reduced motion. Desktop capture, not an iPhone performance result." />
 
-The validation fixtures live in `benchmarks/values-scroll-lists` and `benchmarks/swiftui-demo`. The physical Android allocation/frame-time measurement required by #494 is still pending: the user authorized emulator-only validation for this batch. Host evaluator vectors, tests and simulator recordings do not establish lower application CPU/PSS than Reanimated.
+The [acceptance follow-up](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/acceptance-closure) records five measured repetitions of a shared graph bound to 16 native views, with all endpoints checked. The maintainer accepted emulator evidence for #494; physical frame pacing, total allocation cost and a CPU/PSS advantage over Reanimated are not established.
 
 <Clip name="list-changes-playground-web" caption="Chromium, actual documentation playground: scroll the keyed list, preserve the anchor while inserting above, then remove, reverse and interrupt updates." />
+
+## Native screen-reader acceptance {#native-reader-acceptance}
+
+The source follow-up preserves the logical row key and descendant focus through interrupted updates. iOS restores accessibility focus after motion and cleanup settle; Android restores after layout. Keyboard focus keeps its existing timing. Removing a focused key or moving focus outside the list does not force a jump. Unload, suspension and disposal invalidate pending restoration. The 200-row fixtures exercise moves, insertion, interruption, outside focus, reduced motion and disposal; exit traversal also checks inaccessible leaving copies, cancellation and reinsertion. The existing Web equivalent passes its three-engine lifecycle/focus tests.
+
+[Report](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/acceptance-closure).
+
+<Clip :autoplay="false" name="layout-exits-voiceover-ios" caption="iOS 27 simulator with actual VoiceOver and XCTest interaction. Visible focus and traversal assertions; silent recording. No physical-device claim. Exit copies, cancellation, reinsertion and cleanup." />
+
+<Clip :autoplay="false" name="layout-exits-talkback-android" caption="Android API 36 emulator with actual TalkBack and native touch interaction. Visible focus and traversal assertions; silent recording. No physical-device claim. Exit copies, cancellation, reinsertion and cleanup." />
+
+<Clip :autoplay="false" name="list-focus-voiceover-ios" caption="iOS 27 simulator with actual VoiceOver and XCTest interaction. Visible focus and traversal assertions; silent recording. No physical-device claim. Core ListView keyed focus across updates." />
+
+<Clip :autoplay="false" name="list-focus-talkback-android" caption="Android API 36 emulator with actual TalkBack and native touch interaction. Visible focus and traversal assertions; silent recording. No physical-device claim. Core ListView keyed focus across updates." />

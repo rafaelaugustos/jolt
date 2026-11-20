@@ -91,6 +91,14 @@
       "bytes": 166985,
       "sha256": "b718dcb32bd2721db894f46045297d5ae95870b5038e1a350e06a691ce3d3e90"
     },
+    "collection-focus-talkback-android.mp4": {
+      "bytes": 564156,
+      "sha256": "4b7b4de6ef3efef2d83fd5deac842c9de576d73e03a24fb530c49e5462d919cf"
+    },
+    "collection-focus-voiceover-ios.mp4": {
+      "bytes": 916098,
+      "sha256": "4e5b3951da6320738f4147587a6fee7aaebfc297a9826b476d1a3e1fc9b2d3a2"
+    },
     "collection-motion-android.mp4": {
       "bytes": 3584854,
       "sha256": "74e0618dec093ef86edacde257ad27948dce68dfd8c94d1e45828f5521b4d19e"
@@ -723,6 +731,14 @@
       "bytes": 240980,
       "sha256": "6211244f4ed227ff06bebd6a8c92b0f80beecbbb64c28cb81c3676a164a4f543"
     },
+    "layout-exits-talkback-android.mp4": {
+      "bytes": 577357,
+      "sha256": "8e8b9e0a96288e1e03a367c0860da35f8fd1b3acbfc8f25b3972bab69f8ec028"
+    },
+    "layout-exits-voiceover-ios.mp4": {
+      "bytes": 844947,
+      "sha256": "decf2a0ac3ec65b22876cbefca94cccf0fe87415017a7277ad9f88d8b151e610"
+    },
     "layout-exits-web.mp4": {
       "bytes": 150539,
       "sha256": "959564812a9feffb27e0b75ba157e67b27c24515e17697b7a8723ac424117dad"
@@ -750,6 +766,14 @@
     "list-changes-web.mp4": {
       "bytes": 229663,
       "sha256": "55c4757edf43cf1687ac31494e553fb13d3409182d0cac8cb500ec208e70e21e"
+    },
+    "list-focus-talkback-android.mp4": {
+      "bytes": 584520,
+      "sha256": "3227255c1c301a3a842260ce28311f82243ef1fcbb8ae29bfb1a77959b439f6c"
+    },
+    "list-focus-voiceover-ios.mp4": {
+      "bytes": 933507,
+      "sha256": "042b3a8c4464a4d5f6b42ea8aac2afbeac67927011ee03ff5a49e2eb81ccf020"
     },
     "lists-android.mp4": {
       "bytes": 44683,

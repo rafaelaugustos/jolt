@@ -79,3 +79,6 @@ benchmarks/values-scroll-lists/captures/
 packages/swiftui/Tests/JoltCoreTests/Fixtures/svg-paths.json
 benchmarks/web-motion-contracts/results/
 benchmarks/web-motion-contracts/captures/
+
+# Raw acceptance evidence is preserved byte-for-byte.
+benchmarks/acceptance-closure/evidence/**

@@ -6,6 +6,7 @@ import { onReducedMotion, reducedMotion } from './config.js'
 import { layoutExit } from './core/layout-exit.js'
 import { requireExitCapture } from './layout-exit.js'
 import { nativeListEffects } from './list-changes-effects.js'
+import { captureListFocus, listFocusAfterMotion } from './list-focus.js'
 import { springs } from './transition.js'
 import type { ListChangesOptions } from './list-changes.js'
 
@@ -88,14 +89,33 @@ export function adapterListChanges<T, K extends ReorderKey>(
     return result
   }
   let result: ListChanges<T>
+  let restoreFocus: (() => void) | undefined
+  const focusAfterMotion = listFocusAfterMotion(view, rows)
   const release = adapter.claim?.() ?? (() => {})
   try {
     result = createListChanges(options, {
       items: () => adapter.items(),
       render: (items) => adapter.render(items),
       rows,
-      layout: (callback) => adapter.layout(callback),
-      anchor: (keys) => adapter.anchor(keys),
+      captureFocus: isIOS ? () => focusAfterMotion.capture() : undefined,
+      layout: (callback) =>
+        adapter.layout(() => {
+          const focus = restoreFocus
+          restoreFocus = undefined
+          focus?.()
+          callback()
+        }),
+      anchor(keys) {
+        restoreFocus = undefined
+        const focus = captureListFocus(view, rows()),
+          anchor = adapter.anchor(keys)
+        return (next) => {
+          anchor(next)
+          restoreFocus = () => {
+            if (!isIOS || !focus.accessibility) focus(rows())
+          }
+        }
+      },
       reduced: reducedMotion,
       ...nativeListEffects(transition),
       observe(events) {
@@ -106,6 +126,8 @@ export function adapterListChanges<T, K extends ReorderKey>(
         view.on('unloaded', events.dispose)
         Application.on(Application.suspendEvent, events.stop)
         return () => {
+          restoreFocus = undefined
+          focusAfterMotion.dispose()
           recycle()
           preference()
           release()

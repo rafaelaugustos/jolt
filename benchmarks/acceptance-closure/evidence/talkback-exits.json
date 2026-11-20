@@ -1,0 +1,138 @@
+{
+  "session": 1795149862001,
+  "platform": "android-emulator",
+  "events": [
+    {
+      "name": "cleanup",
+      "time": 1795149862099,
+      "flights": 0,
+      "focus": null
+    },
+    {
+      "name": "exits-ready",
+      "time": 1795149862121,
+      "flights": 0,
+      "focus": null
+    },
+    {
+      "name": "exit-start",
+      "time": 1795149880692,
+      "flights": 1,
+      "focus": {
+        "label": "Remove Bravo",
+        "id": "exit-remove"
+      }
+    },
+    {
+      "name": "exit-cancel-before",
+      "time": 1795149893004,
+      "flights": 1,
+      "focus": {
+        "label": "Cancel exit",
+        "id": "exit-cancel"
+      }
+    },
+    {
+      "name": "exit-cancel",
+      "time": 1795149893009,
+      "flights": 0,
+      "focus": {
+        "label": "Cancel exit",
+        "id": "exit-cancel"
+      }
+    },
+    {
+      "name": "exit-settled",
+      "time": 1795149893010,
+      "flights": 0,
+      "focus": {
+        "label": "Cancel exit",
+        "id": "exit-cancel"
+      },
+      "done": false
+    },
+    {
+      "name": "exits-ready",
+      "time": 1795149896909,
+      "flights": 0,
+      "focus": {
+        "label": "Reset cards",
+        "id": "exit-reset"
+      }
+    },
+    {
+      "name": "exit-start",
+      "time": 1795149900862,
+      "flights": 1,
+      "focus": {
+        "label": "Remove Bravo",
+        "id": "exit-remove"
+      }
+    },
+    {
+      "name": "exit-reinsert",
+      "time": 1795149904789,
+      "flights": 0,
+      "focus": {
+        "label": "Reinsert Bravo",
+        "id": "exit-reinsert"
+      }
+    },
+    {
+      "name": "exits-ready",
+      "time": 1795149914092,
+      "flights": 0,
+      "focus": {
+        "label": "Reduced removal",
+        "id": "exit-reduced"
+      }
+    },
+    {
+      "name": "exit-start",
+      "time": 1795149914093,
+      "flights": 0,
+      "focus": {
+        "label": "Reduced removal",
+        "id": "exit-reduced"
+      }
+    },
+    {
+      "name": "exit-reduced",
+      "time": 1795149914093,
+      "flights": 0,
+      "focus": {
+        "label": "Reduced removal",
+        "id": "exit-reduced"
+      }
+    },
+    {
+      "name": "exit-settled",
+      "time": 1795149914093,
+      "flights": 0,
+      "focus": {
+        "label": "Reduced removal",
+        "id": "exit-reduced"
+      },
+      "done": false
+    },
+    {
+      "name": "cleanup",
+      "time": 1795149923409,
+      "flights": 0,
+      "focus": {
+        "label": "Dispose scene",
+        "id": "reader-dispose"
+      }
+    },
+    {
+      "name": "exit-settled",
+      "time": 1795149923409,
+      "flights": 0,
+      "focus": {
+        "label": "Dispose scene",
+        "id": "reader-dispose"
+      },
+      "done": false
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 import { nativeListEffects } from './list-changes-effects.js'
 import { adapterListChanges, type NativeListAdapter } from './list-adapter.js'
 export type { NativeListAdapter } from './list-adapter.js'
-import { captureListFocus } from './list-focus.js'
+import { captureListFocus, listFocusAfterMotion } from './list-focus.js'
 import {
   Application,
   ListView,
@@ -152,6 +152,7 @@ export function listChanges<T, K extends ReorderKey = ReorderKey>(
     return result
   }
   let restoreFocus: (() => void) | undefined
+  const focusAfterMotion = listFocusAfterMotion(list, rows)
   const layout = (callback: () => void) => {
     if (!list.isLoaded) {
       void Promise.resolve().then(callback)
@@ -184,6 +185,7 @@ export function listChanges<T, K extends ReorderKey = ReorderKey>(
     rows,
     layout,
     reduced: reducedMotion,
+    captureFocus: isIOS ? () => focusAfterMotion.capture() : undefined,
     render(items) {
       list.items = [...items]
     },
@@ -217,7 +219,9 @@ export function listChanges<T, K extends ReorderKey = ReorderKey>(
       const key = keys[index]
       return (next) => {
         if (!list.isLoaded) return
-        restoreFocus = () => focus(rows())
+        restoreFocus = () => {
+          if (!isIOS || !focus.accessibility) focus(rows())
+        }
         const found = next.indexOf(key!),
           destination = found < 0 ? Math.min(index, Math.max(0, next.length - 1)) : found
         if (isIOS) {
@@ -258,6 +262,7 @@ export function listChanges<T, K extends ReorderKey = ReorderKey>(
       Application.on(Application.suspendEvent, events.stop)
       return () => {
         restoreFocus = undefined
+        focusAfterMotion.dispose()
         preference()
         list.off(ListView.itemLoadingEvent, recycled)
         list.off('unloaded', events.dispose)
