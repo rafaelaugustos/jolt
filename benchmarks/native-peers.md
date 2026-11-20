@@ -1,6 +1,6 @@
 # Native-only framework peer compatibility (#517)
 
-Source follow-up to RC.16. The published RC.16 package rejects normal installation
+Included in RC.17 through PR #520. The published RC.16 package rejects normal installation
 alongside Solid 2.0.0 or Svelte 4.2.20, even when an app never imports a Jolt framework
 binding. Both original `npm install --package-lock-only --ignore-scripts`
 reproductions were confirmed with Core 9.1.3 before changing the manifest.
@@ -84,7 +84,7 @@ these temporary RC.16 overrides:
 ```
 
 Keep them while using the published RC.16 package. Remove just those two mappings
-after installing a verified release containing #517 and rerunning Mavis's native
+after installing verified RC.17 or newer and rerunning Mavis's native
 acceptance. The separate `@nativescript-community/svelte-native` Core override
 belongs to the renderer's Core 9 compatibility work and is not resolved here.
 Mavis implementation and release remain a separate workstream; no overrides are

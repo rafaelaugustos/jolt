@@ -7,7 +7,7 @@ On 20 November 2026, the maintainer explicitly approved **closing #385, #415 and
 #494 with emulated acceptance**, replacing their former physical-device gate for
 this batch. Historical physical measurements remain historical evidence; new
 simulated runs cannot establish physical accuracy, frame pacing or device cost.
-The new native focus correction is a source follow-up, not part of published RC.16.
+The native focus correction is included in RC.17 through PR #518; published RC.16 artifacts remain unchanged.
 
 ## Bounded drawings (#414) and rendering activity (#416)
 

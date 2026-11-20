@@ -80,7 +80,7 @@ Reutilize `listChanges` Web, seu adaptador explícito para virtualizadores, `scr
 
 ## Aceite com leitores de tela nativos {#native-reader-acceptance}
 
-CollectionView agora compartilha a captura/restauração de foco por chave do Core ListView. A correção é posterior à RC.16 e ainda não está no pacote RC.16 publicado. A fixture com 200 linhas verifica movimento, inserção, interrupção, foco externo, movimento reduzido e descarte. A cobertura se limita ao adaptador documentado de uma coluna.
+CollectionView agora compartilha a captura/restauração de foco por chave do Core ListView. A correção está incluída na RC.17; o pacote RC.16 publicado permanece inalterado. A fixture com 200 linhas verifica movimento, inserção, interrupção, foco externo, movimento reduzido e descarte. A cobertura se limita ao adaptador documentado de uma coluna.
 
 [Relatório](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/acceptance-closure).
 

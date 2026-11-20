@@ -6,18 +6,18 @@ npm install @rafaelaugusto/jolt@next
 
 A RC.6 inclui [movimento contínuo na Web](./web-dynamic), com valores, followers e drag/snap, além de [mapeamentos numéricos, atualização de geometria e scroll vertical](./web-support). As APIs Web continuam experimentais.
 
-A **candidata a release 0.1.0-rc.16** é publicada sob a tag `next`. O escopo nativo da 0.1.0 está congelado enquanto continuam as validações de compatibilidade e de release. Consumidores NativeScript exigem `@nativescript/core` 8.9 ou mais novo. Não depende de framework: recebe uma view, ou um elemento que contém uma, então funciona com NativeScript-Vue, Angular, Svelte ou NativeScript puro. Apps NativeScript-Vue também podem importar `@rafaelaugusto/jolt/vue` para [diretivas e um componente de transição](./vue).
+A **candidata a release 0.1.0-rc.17** é publicada sob a tag `next`. O escopo nativo da 0.1.0 está congelado enquanto continuam as validações de compatibilidade e de release. Consumidores NativeScript exigem `@nativescript/core` 8.9 ou mais novo. Não depende de framework: recebe uma view, ou um elemento que contém uma, então funciona com NativeScript-Vue, Angular, Svelte ou NativeScript puro. Apps NativeScript-Vue também podem importar `@rafaelaugusto/jolt/vue` para [diretivas e um componente de transição](./vue).
 
 O Jolt inclui helpers nativos no iOS e no Android. Recompile o app nativo após instalar ou atualizar o Jolt; uma atualização só de JavaScript não instala código nativo.
 
-A candidata atual é **0.1.0-rc.16**. Para fixá-la, use `npm install @rafaelaugusto/jolt@0.1.0-rc.16`. Para [adaptadores de propriedades nativas externas](./native-properties), instale também `@rafaelaugusto/jolt-native@0.1.0-rc.16` e recompile o aplicativo nativo.
+A candidata atual é **0.1.0-rc.17**. Para fixá-la, use `npm install @rafaelaugusto/jolt@0.1.0-rc.17`. Para [adaptadores de propriedades nativas externas](./native-properties), instale também `@rafaelaugusto/jolt-native@0.1.0-rc.17` e recompile o aplicativo nativo.
 
 ## Entradas Web experimentais {#experimental-web-candidate}
 
 A partir da **0.1.0-rc.5**, o pacote inclui as entradas experimentais `/web` e `/web/vue`. Instale a candidata publicada diretamente; adicione Vue somente ao usar o adapter Vue DOM. O import raiz e `/vue` continuam sendo entradas nativas.
 
 ```sh
-npm install @rafaelaugusto/jolt@0.1.0-rc.16
+npm install @rafaelaugusto/jolt@0.1.0-rc.17
 # Somente para o adapter Vue DOM opcional:
 npm install vue@^3.5.0
 ```
@@ -92,7 +92,7 @@ ns run ios         # ou: ns run android
 
 ## Compatibilidade de versões dos frameworks {#framework-versions}
 
-**Correção posterior à RC.16, ainda não publicada.** Os peers opcionais do pacote agora aceitam Solid `^1.9.18 || ^2.0.0` e Svelte `^4.2.20 || ^5.0.0`. São ranges de instalação: um framework não usado não deve impedir um app NativeScript imperativo de instalar Jolt. Escolha os imports conforme o suporte abaixo.
+**Incluído na RC.17.** Os peers opcionais do pacote agora aceitam Solid `^1.9.18 || ^2.0.0` e Svelte `^4.2.20 || ^5.0.0`. São ranges de instalação: um framework não usado não deve impedir um app NativeScript imperativo de instalar Jolt. Escolha os imports conforme o suporte abaixo.
 
 | Consumidor                            | Combinação testada                                                                                                 | Entrada suportada                                                                    |
 | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
@@ -106,4 +106,4 @@ O Solid 2 mudou o contrato dos efeitos. `/solid` e `/web/solid` rejeitam esse ru
 
 As fixtures empacotadas usam resolução npm normal, verificam os tipos imperativos e geram bundles de produção iOS/Android sem carregar bindings Jolt não usados. Isso não estabelece aceite de runtime dos novos renderers. As gravações existentes mantêm suas versões e plataformas originais. Consulte o [relatório de aceite do pacote](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/native-peers.md).
 
-Até publicar um pacote com a correção, apps na RC.16 mantêm seus overrides pontuais existentes. No Mavis, o app raiz é responsável pelos overrides `solid-js` e `svelte` dentro de `@rafaelaugusto/jolt`; remova apenas esses mapeamentos após atualizar para uma versão verificada que contenha [#517](https://github.com/rafaelaugustos/jolt/issues/517). O override separado de Svelte Native/Core não é resolvido por esta mudança. Um override não valida bindings incompatíveis; as fixtures não usam `--force` nem `--legacy-peer-deps`.
+Apps que permanecem na RC.16 mantêm seus overrides pontuais existentes. A RC.17 inclui a correção. No Mavis, o app raiz é responsável pelos overrides `solid-js` e `svelte` dentro de `@rafaelaugusto/jolt`; remova apenas esses mapeamentos após atualizar para uma versão verificada que contenha [#517](https://github.com/rafaelaugustos/jolt/issues/517). O override separado de Svelte Native/Core não é resolvido por esta mudança. Um override não valida bindings incompatíveis; as fixtures não usam `--force` nem `--legacy-peer-deps`.
