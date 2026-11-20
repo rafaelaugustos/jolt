@@ -2,6 +2,8 @@
 
 Disponible en **0.1.0-rc.13 (Beta)**: adaptadores React DOM, Angular, Svelte y Solid sobre el runtime Web existente. Instale la versión npm correspondiente; las entradas nativas conservan su significado.
 
+Los rangos de peers describen la instalación, no cada combinación de binding/runtime. Consulta la [compatibilidad de versiones](./install#framework-versions) para consumidores imperativos Solid 2, actions nativas Svelte 4, bindings compatibles y responsabilidad de los overrides temporales.
+
 Los bindings empiezan después del renderizado cliente; el servidor no crea un runtime. Declaraciones equivalentes no reinician la animación. Un valor nuevo sustituye el movimiento desde la pose actual. Un elemento desconectado conserva la última declaración para reconectarse; la destrucción detiene sus animaciones y elimina sus listeners. La pausa manual sobrevive a la desconexión. Use un propietario por propiedad; la respuesta de presión compone su propia capa.
 
 Los bindings predeterminados comparten un runtime por documento mientras están montados. Un runtime explícito es prestado: los bindings no lo configuran, liberan ni destruyen. La aplicación lo destruye después de sus componentes. React acepta `{ runtime }`; Angular usa `[joltRuntime]` o `runtime:` en `*joltIf`; Svelte usa `createActions({ runtime })`; Solid usa `createDirectives({ runtime })`.

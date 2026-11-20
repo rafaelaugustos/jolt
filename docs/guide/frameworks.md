@@ -2,6 +2,8 @@
 
 Available since **0.1.0-rc.11**. Import only the adapter your NativeScript app uses. They share Jolt playback and ownership with the imperative API.
 
+Package peer ranges describe installation, not every binding/runtime pair. See [framework version compatibility](./install#framework-versions) for Solid 2 imperative consumers, Svelte 4 native actions, supported bindings and temporary override ownership.
+
 Every binding owns its animations and listeners. Native unload suspends work; load resumes it and applies the latest pending value. Framework destruction disposes it. A new value interrupts from the current pose. Equivalent inline values do not restart playback. Press feedback owns a separate layer, so it can coexist with entrance or position motion.
 
 ## React NativeScript

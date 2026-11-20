@@ -2,6 +2,8 @@
 
 Available in **0.1.0-rc.13 (Beta)**: React DOM, Angular, Svelte and Solid adapters over the existing Web runtime. Install the matching npm version; native framework entries retain their existing meaning.
 
+Package peer ranges describe installation, not every binding/runtime pair. See [framework version compatibility](./install#framework-versions) for Solid 2 imperative consumers, Svelte 4 native actions, supported bindings and temporary override ownership.
+
 Bindings start after client rendering; server rendering does not create a runtime. Equivalent declarations do not restart motion. A new value replaces motion from the current pose. A detached element keeps the latest declaration for reconnection; destruction stops owned animations and removes feedback listeners. Manual pause survives detachment. Use one binding per property owner; press feedback composes on its own layer.
 
 The default bindings share a runtime per document while mounted. An explicit runtime is borrowed: bindings never configure, release or dispose it. The application disposes its runtime after its components. React accepts `{ runtime }`; Angular uses `[joltRuntime]` or `runtime:` in `*joltIf`; Svelte uses `createActions({ runtime })`; Solid uses `createDirectives({ runtime })`.

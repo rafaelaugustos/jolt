@@ -2,6 +2,8 @@
 
 **0.1.0-rc.13（测试版）**提供基于现有 Web 运行时的 React DOM、Angular、Svelte 和 Solid 适配器。安装对应 npm 版本；原生框架入口保持原有含义。
 
+Peer 范围描述安装兼容性，不代表所有绑定/runtime 组合。参见[框架版本兼容性](./install#framework-versions)，了解 Solid 2 命令式消费者、Svelte 4 原生 actions、支持的绑定及临时 overrides 的责任。
+
 绑定在客户端渲染后启动，服务端渲染不创建 runtime。等价声明不会重启动画；新目标从当前姿态替换运动。节点断开时保存最新声明，重新连接后应用；销毁时停止自身动画并移除反馈监听器。手动暂停状态在断开后保留。每个属性只应有一个所有者，按压反馈在独立层上组合。
 
 默认绑定在挂载期间按 document 共享 runtime。显式传入的 runtime 属于借用资源，绑定不会配置、释放或销毁它；应用应在组件销毁后再销毁 runtime。React 接收 `{ runtime }`；Angular 使用 `[joltRuntime]` 或 `*joltIf` 的 `runtime:`；Svelte 使用 `createActions({ runtime })`；Solid 使用 `createDirectives({ runtime })`。

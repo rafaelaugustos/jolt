@@ -1,4 +1,5 @@
 import { createRenderEffect, onCleanup, type Accessor } from 'solid-js'
+import { requireSolid1Binding } from '../frameworks/solid-version.js'
 import {
   animateBinding,
   pressBinding,
@@ -10,12 +11,14 @@ export type { AnimateValue, PressValue } from '../frameworks/native-binding.js'
 
 /** Solid Native directive: `use:animate={value}` on a DOMiNATIVE NativeScript view. */
 export function animate(node: Target, value: Accessor<AnimateValue | undefined>) {
+  requireSolid1Binding('@rafaelaugusto/jolt/solid')
   const binding = animateBinding(node)
   onCleanup(() => binding.destroy())
   createRenderEffect(() => binding.update(value()))
 }
 /** Solid Native directive: `use:press={value}`. */
 export function press(node: Target, value: Accessor<PressValue | undefined>) {
+  requireSolid1Binding('@rafaelaugusto/jolt/solid')
   const binding = pressBinding(node)
   onCleanup(() => binding.destroy())
   createRenderEffect(() => binding.update(value()))

@@ -3,15 +3,16 @@ const { createRequire } = require('node:module')
 const { resolve, join } = require('node:path')
 const { writeFileSync } = require('node:fs')
 
-const [tooling, consumer, platform] = process.argv.slice(2)
+const [tooling, consumer, platform, mode] = process.argv.slice(2)
+const imperative = mode === 'imperative'
 assert(['ios', 'android'].includes(platform))
 process.chdir(consumer)
 // Use the project's pinned NativeScript/Webpack toolchain. Library resolution
 // is entirely from the clean consumer's installed tarball and actual peers.
-const requireTool = createRequire(join(tooling, 'package.json'))
+const requireTool = createRequire(join(imperative ? consumer : tooling, 'package.json'))
 const ns = requireTool('@nativescript/webpack')
 ns.init({ [platform]: true, production: true, hmr: false, nativescriptLibPath: false })
-ns.useConfig('vue')
+ns.useConfig(imperative ? 'javascript' : 'vue')
 ns.chainWebpack((config) => {
   config.output.path(join(consumer, `bundle-${platform}`))
   config.resolveLoader.modules.prepend(join(tooling, 'node_modules'))
@@ -49,9 +50,23 @@ compiler.run((error, stats) => {
       jolt.every((path) => path.startsWith(prefix)),
       jolt.join('\n'),
     )
-    for (const entry of ['dist/index.js', 'dist/native/index.js', 'dist/vue/index.js'])
+    const entries = ['dist/index.js', 'dist/native/index.js']
+    if (!imperative) entries.push('dist/vue/index.js')
+    for (const entry of entries)
       assert(jolt.includes(prefix + entry), `Missing packed entry ${entry}`)
     assert(!jolt.some((path) => path.includes('/dist/web/')))
+    if (imperative) {
+      assert(
+        !jolt.some((path) =>
+          /\/dist\/(vue|react|angular|solid|svelte|frameworks)\//.test(path),
+        ),
+      )
+      assert(
+        !resources.some((path) =>
+          /\/node_modules\/(solid-js|svelte|nativescript-vue)\//.test(path),
+        ),
+      )
+    }
     const core = resources.filter((path) => path.includes('/@nativescript/core/'))
     assert(
       core.length > 0 &&
@@ -72,7 +87,7 @@ compiler.run((error, stats) => {
       JSON.stringify(result, null, 2) + '\n',
     )
     console.log(
-      `PASS: NativeScript ${platform} production bundle resolves packed root, /vue and /native without aliases`,
+      `PASS: NativeScript ${platform} production bundle resolves packed ${imperative ? 'imperative' : 'framework'} entries without Jolt aliases`,
     )
   } catch (error) {
     console.error(error)

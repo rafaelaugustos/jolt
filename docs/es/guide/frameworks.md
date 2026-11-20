@@ -2,6 +2,8 @@
 
 Disponibles desde **0.1.0-rc.11**. Importe solo el adaptador de su aplicación NativeScript. Comparten la reproducción y la gestión de recursos de Jolt.
 
+Los rangos de peers describen la instalación, no cada combinación de binding/runtime. Consulta la [compatibilidad de versiones](./install#framework-versions) para consumidores imperativos Solid 2, actions nativas Svelte 4, bindings compatibles y responsabilidad de los overrides temporales.
+
 Cada binding administra sus animaciones y listeners. Unload suspende el trabajo; load lo reanuda y aplica el último valor pendiente. La destrucción del framework libera los recursos. Un valor nuevo interrumpe desde la posición actual. Los valores inline equivalentes no reinician la animación. La presión usa una capa independiente y coexiste con la entrada o el movimiento.
 
 ## React NativeScript
