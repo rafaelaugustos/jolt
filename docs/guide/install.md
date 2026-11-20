@@ -89,3 +89,21 @@ cd demo
 npm install
 ns run ios         # or: ns run android
 ```
+
+## Framework version compatibility {#framework-versions}
+
+**Source follow-up to RC.16, not yet published.** The package's optional peers now allow Solid `^1.9.18 || ^2.0.0` and Svelte `^4.2.20 || ^5.0.0`. These are installation ranges: installing an unused framework must not prevent an imperative NativeScript application from using Jolt. Choose imports using the binding support below.
+
+| Consumer                             | Tested combination                                                                                                 | Supported entry                                                                                   |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------- |
+| Solid Native 2, imperative API       | Solid 2.0.0, community renderer 2.0.1, DOMiNATIVE 0.1.3, universal/compiler 2.0.0, NativeScript 9.1.3; Node 22.12+ | `@rafaelaugusto/jolt` and native subentries; the component owns disposal                          |
+| Stable Svelte Native, imperative API | Svelte 4.2.20, community renderer 1.0.32, NativeScript 8.9.9                                                       | `@rafaelaugusto/jolt` and native subentries                                                       |
+| Svelte 4 without the renderer        | Svelte 4.2.20 and NativeScript 9.1.3                                                                               | Normal imperative package installation also passes                                                |
+| Native framework bindings            | Solid 1.9.18; Svelte 4.2.20                                                                                        | `/solid` retains the Solid 1 lifecycle; `/svelte` retains its native actions                      |
+| Web framework bindings               | Solid 1.9.18; Svelte 5.57.3                                                                                        | `/web/solid` and `/web/svelte`; the broader package peer range does not expand this tested matrix |
+
+Solid 2 changes the effect contract. `/solid` and `/web/solid` reject its runtime before creating binding resources, with guidance to use the imperative native or Web API. This installation fix does not port the Solid bindings. Stable Svelte Native 1.0.32 itself pins Core 8.9.9; its compatibility with Core 9 is a renderer concern, independent of Jolt's peers.
+
+Clean packed fixtures use normal npm resolution, type-check the imperative imports and build iOS/Android production bundles without pulling in unused Jolt framework bindings. They do not establish runtime acceptance for the newer renderers. Existing native binding recordings keep their original version/platform labels. See the [package acceptance report](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/native-peers.md).
+
+Until a package containing this fix is published, RC.16 applications retain their existing narrowly scoped overrides. In Mavis, the root application owns the `@rafaelaugusto/jolt` overrides for `solid-js` and `svelte`; remove only those mappings after upgrading to a verified release containing [#517](https://github.com/rafaelaugustos/jolt/issues/517). Its separate Svelte Native/Core override is not resolved by this change. A peer override does not validate an unsupported binding, and the fixtures do not use `--force` or `--legacy-peer-deps`.

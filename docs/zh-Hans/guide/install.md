@@ -89,3 +89,21 @@ cd demo
 npm install
 ns run ios         # or: ns run android
 ```
+
+## 框架版本兼容性 {#framework-versions}
+
+**RC.16 之后的源码修复，尚未发布。** 软件包的可选 peer 范围现在允许 Solid `^1.9.18 || ^2.0.0` 与 Svelte `^4.2.20 || ^5.0.0`。这是安装范围：未使用的框架绑定不应阻止命令式 NativeScript 应用安装 Jolt。绑定兼容性见下表。
+
+| 消费者                         | 已测试组合                                                                                                         | 支持入口                                                    |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------- |
+| Solid Native 2，命令式 API     | Solid 2.0.0、community renderer 2.0.1、DOMiNATIVE 0.1.3、universal/compiler 2.0.0、NativeScript 9.1.3；Node 22.12+ | `@rafaelaugusto/jolt` 及原生子入口；组件负责销毁            |
+| 稳定 Svelte Native，命令式 API | Svelte 4.2.20、community renderer 1.0.32、NativeScript 8.9.9                                                       | `@rafaelaugusto/jolt` 及原生子入口                          |
+| 无 renderer 的 Svelte 4        | Svelte 4.2.20 与 NativeScript 9.1.3                                                                                | 正常命令式安装也通过                                        |
+| 原生绑定                       | Solid 1.9.18；Svelte 4.2.20                                                                                        | `/solid` 保留 Solid 1 生命周期；`/svelte` 保留原生 actions  |
+| Web 绑定                       | Solid 1.9.18；Svelte 5.57.3                                                                                        | `/web/solid` 与 `/web/svelte`；扩大安装范围不扩大此测试矩阵 |
+
+Solid 2 改变了 effect 契约。`/solid` 与 `/web/solid` 会在创建绑定资源之前拒绝该 runtime，并引导使用原生或 Web 命令式 API。本修复不移植 Solid 绑定。Svelte Native 1.0.32 本身固定 Core 8.9.9；其 Core 9 兼容性属于 renderer，与 Jolt peer 独立。
+
+干净的打包测试使用正常 npm 解析，检查命令式类型并生成 iOS/Android 生产 bundle，确认未使用的 Jolt 框架绑定没有进入 bundle。这不证明新 renderer 的运行时验收。已有录像保留原来的版本及平台标签。参见[软件包验收报告](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/native-peers.md)。
+
+在含修复的软件包发布之前，RC.16 应用保留已有的定向 overrides。Mavis 根应用负责 `@rafaelaugusto/jolt` 下的 `solid-js` 与 `svelte` overrides；升级到包含 [#517](https://github.com/rafaelaugustos/jolt/issues/517) 的已验证版本后，只移除这两个映射。独立的 Svelte Native/Core override 不由本修复解决。Override 不证明绑定兼容；测试不使用 `--force` 或 `--legacy-peer-deps`。

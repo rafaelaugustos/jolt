@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import { prepareFrameworks } from '../benchmarks/package-consumers/frameworks.mjs'
 import { checkVue } from '../benchmarks/package-consumers/vue.mjs'
+import { checkNativePeers } from '../benchmarks/package-consumers/native-peers.mjs'
 import { execFileSync } from 'node:child_process'
 import {
   cpSync,
@@ -543,6 +544,7 @@ try {
     )
   }
 
+  await checkNativePeers({ root, scratch, artifact, run, passed, report })
   report.completed = true
 } finally {
   await browser?.close()

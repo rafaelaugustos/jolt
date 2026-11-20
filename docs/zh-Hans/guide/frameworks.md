@@ -2,6 +2,8 @@
 
 自 **0.1.0-rc.11** 起可用。只导入 NativeScript 应用使用的适配器。各适配器共享 Jolt 的播放和资源管理。
 
+Peer 范围描述安装兼容性，不代表所有绑定/runtime 组合。参见[框架版本兼容性](./install#framework-versions)，了解 Solid 2 命令式消费者、Svelte 4 原生 actions、支持的绑定及临时 overrides 的责任。
+
 每个绑定管理自己的动画和监听器。原生 unload 暂停工作；load 恢复并应用最后一个待处理值。框架销毁时释放资源。新值从当前状态中断；等价的内联值不会重启动画。按压反馈使用独立图层，可与入场或位置动画共存。
 
 ## React NativeScript

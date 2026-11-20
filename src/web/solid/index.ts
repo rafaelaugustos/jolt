@@ -1,4 +1,5 @@
 import { createEffect, createSignal, getOwner, onCleanup, type Accessor } from 'solid-js'
+import { requireSolid1Binding } from '../../frameworks/solid-version.js'
 import {
   animateBinding,
   presenceBinding,
@@ -18,6 +19,7 @@ export type {
 } from '../frameworks/binding.js'
 
 export function createDirectives(options: BindingOptions = {}) {
+  requireSolid1Binding('@rafaelaugusto/jolt/web/solid')
   return {
     motion(node: HTMLElement, setup: Accessor<MotionSetup>) {
       if (!getOwner()) throw new Error('Motion directives require a Solid owner.')
@@ -57,6 +59,7 @@ export function createPresence(
   present: Accessor<boolean>,
   options: PresenceOptions = {},
 ) {
+  requireSolid1Binding('@rafaelaugusto/jolt/web/solid')
   if (!getOwner()) throw new Error('Presence requires a Solid owner.')
   const [retained, retain] = createSignal(present())
   let binding: ReturnType<typeof presenceBinding> | undefined,
