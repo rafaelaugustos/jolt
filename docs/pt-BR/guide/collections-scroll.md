@@ -12,8 +12,8 @@ Passe listTransferOptions a dropZones para cada origem. Forneça chaves únicas 
 const options = listTransferOptions({
   key: card.id,
   target: destination,
-  sourceKeys: () => inbox.map(item => item.id),
-  targetKeys: () => queue.map(item => item.id),
+  sourceKeys: () => inbox.map((item) => item.id),
+  targetKeys: () => queue.map((item) => item.id),
   centers: measureVisibleDestinationRows,
   revision: () => boardRevision,
   accept: () => queue.length < capacity,

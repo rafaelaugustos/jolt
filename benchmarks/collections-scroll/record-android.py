@@ -52,39 +52,54 @@ try:
     time.sleep(.5)
  density=int(adb('shell','wm','density').strip().split()[-1])/160
  if layouts_only:
+  def read_history():
+   return json.loads(adb('shell','run-as','dev.jolt.nativeci','cat','files/collection-layouts.json'))['history']
   def state():
+   previous=len(read_history())
    tap('Audit',.1)
-   value=json.loads(adb('shell','run-as','dev.jolt.nativeci','cat','files/collection-layouts.json'))
-   assert not value['message'].startswith('Error'),value
-   reports.append(value)
-   return value
+   deadline=time.monotonic()+10
+   while time.monotonic()<deadline:
+    for value in read_history()[previous:]:
+     if value['scene']==scene and value['audit']:
+      assert not value['message'].startswith('Error'),value
+      reports.append(value)
+      return value
+    time.sleep(.1)
+   raise AssertionError('No new audit from '+scene)
   def center(name):
    a,b,c,d=bounds(name);return ((a+c)/2,(b+d)/2)
   def drag(source,target,hold):
    x,y=center(source);xx,yy=center(target);contact(x,y,xx-x,yy-y,hold=hold)
+  failures=[]
   for scene in sys.argv[5:] or ['Carousel','RTL','Grid','Heights','Transfer']:
-   control_bounds.clear();tap(scene,1);control_bounds.clear()
-   with record('collection-'+scene.lower()+'-android'):
-    if scene=='Transfer':
-     drag('Atlas','Elm',120);assert state()['commits']==1,reports[-1]
-     tap('Reject');drag('Birch','Dune',120);assert state()['commits']==1,reports[-1]
-     xx,yy=center('Dune');tap('Reject');tap('Empty');x,y=center('Birch');contact(x,y,xx-x,yy-y,hold=120)
-     assert state()['right']==['Birch'],reports[-1]
-    else:
-     if scene!='Heights':
-      drag('Card 01','Card 04' if scene=='Grid' else 'Card 03',600)
-      assert state()['commits']==1,reports[-1]
-      a,b,c,d=bounds('cards');x,y=center('Card 01')
-      far=(x,d-4*density) if scene=='Grid' else (c-4*density,y)
-      near=(x,b+4*density) if scene=='Grid' else (a+4*density,y)
-      contact(x,y,far[0]-x,far[1]-y,near[0]-far[0],near[1]-far[1],hold=600,dwell=1200,reverse_dwell=800)
-      before=state();tap('Cancel',.05)
-      contact(x,y,far[0]-x,far[1]-y,hold=600,dwell=800)
-      after=state();assert after['commits']==before['commits'] and after['cancels']>before['cancels'],(before,after)
-     tap('Jump',1);before=state();tap('Insert');after=state()
-     assert after['count']==65 and (scene=='Grid' or (after['anchor']==before['anchor'] and abs(after['offset']-before['offset'])<2)),(before,after)
-     tap('Move')
-     tap('Delete');assert state()['count']==64,reports[-1]
+   try:
+    tap(scene,1);control_bounds={key:rect for key,rect in control_bounds.items() if key in {'Carousel','RTL','Grid','Heights','Transfer'}}
+    with record('collection-'+scene.lower()+'-android'):
+     if scene=='Transfer':
+      drag('Atlas','Elm',120);assert state()['commits']==1,reports[-1]
+      tap('Reject');drag('Birch','Dune',120);assert state()['commits']==1,reports[-1]
+      xx,yy=center('Dune');tap('Reject');tap('Empty');x,y=center('Birch');contact(x,y,xx-x,yy-y,hold=120)
+      assert state()['right']==['Birch'],reports[-1]
+     else:
+      if scene!='Heights':
+       drag('Card 01','Card 04' if scene=='Grid' else 'Card 03',600)
+       assert state()['commits']==1,reports[-1]
+       a,b,c,d=bounds('cards');x,y=center('Card 01')
+       far=(x,d-4*density) if scene=='Grid' else (c-4*density,y)
+       near=(x,b+4*density) if scene=='Grid' else (a+4*density,y)
+       contact(x,y,far[0]-x,far[1]-y,near[0]-far[0],near[1]-far[1],hold=600,dwell=1200,reverse_dwell=800)
+       before=state();tap('Cancel',.05)
+       contact(x,y,far[0]-x,far[1]-y,hold=600,dwell=800)
+       after=state();assert after['commits']==before['commits'] and after['cancels']>before['cancels'],(before,after)
+      tap('Jump',1);before=state();tap('Insert');after=state()
+      assert after['count']==65 and (scene=='Grid' or (after['anchor']==before['anchor'] and abs(after['offset']-before['offset'])<2)),(before,after)
+      tap('Move')
+      tap('Delete');assert state()['count']==64,reports[-1]
+   except (AssertionError,subprocess.CalledProcessError,ET.ParseError) as error:
+    failures.append((scene,str(error)));print('Failed',scene,error,flush=True)
+   else:print('Passed',scene,flush=True)
+  (output/'acceptance.json').write_text(json.dumps(reports,indent=2))
+  assert not failures,failures
  elif not edges_only and not life_only:
   with record('collection-motion-android'):
    tap('Jump 100');before=snapshot();tap('Prepend');s=snapshot();assert s['count']==201 and s['anchor']==before['anchor'] and abs(s['anchorY']-before['anchorY'])<2,(before,s)

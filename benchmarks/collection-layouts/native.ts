@@ -218,7 +218,10 @@ export function runCollectionLayouts() {
           setTimeout(() => {
             if (ticket !== epoch) return
             if (!isIOS)
-              for (const panel of [board, ...panels]) panel.android.setClipChildren(false)
+              for (const panel of [board, ...panels]) {
+                panel.android.setClipChildren(false)
+                panel.android.setClipToPadding(false)
+              }
             render()
             report('Drag a card between lists')
           }, 300)
@@ -263,11 +266,19 @@ export function runCollectionLayouts() {
                     : {}),
                 }),
               )
+              let cancelNext = false
               const reordering =
                 list instanceof CollectionView
                   ? own(
                       reorder(collectionViewReorderAdapter<Card>(list), {
                         key: (r) => r.id,
+                        onStart() {
+                          if (!cancelNext) return
+                          cancelNext = false
+                          setTimeout(() => {
+                            if (ticket === epoch) reordering?.cancel()
+                          }, 250)
+                        },
                         onCancel() {
                           cancels++
                           report('Drag cancelled')
@@ -346,8 +357,13 @@ export function runCollectionLayouts() {
                 )
               })
               button(controls, 'Jump', () => {
-                if (list instanceof CollectionView) list.scrollToIndex(18, false)
-                else list.scrollToIndex(18)
+                if (list instanceof CollectionView) {
+                  if (isIOS) list.scrollToIndex(18, false)
+                  else {
+                    list.android.stopScroll()
+                    list.android.getLayoutManager().scrollToPositionWithOffset(18, 0)
+                  }
+                } else list.scrollToIndex(18)
                 report('Jumped to card 19')
               })
               button(controls, 'Move', () => {
@@ -357,9 +373,7 @@ export function runCollectionLayouts() {
               })
               if (reordering)
                 button(controls, 'Cancel', () => {
-                  setTimeout(() => {
-                    if (ticket === epoch) reordering.cancel()
-                  }, 1400)
+                  cancelNext = true
                   report('Cancellation armed')
                 })
               report(measured ? '52, 88 and 64 point rows' : 'Hold a card and drag')
