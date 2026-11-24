@@ -8,6 +8,7 @@ const { Windows, XamlWindow, native } = createRequire(import.meta.url)(
   '@nativescript/windows-napi',
 )
 const Xaml = Windows.UI.Xaml
+console.log('System animations enabled:',new Windows.UI.ViewManagement.UISettings().AnimationsEnabled)
 const window = new XamlWindow({ title: 'Jolt Desktop Motion', theme: 'light' })
 const panel = new Xaml.Controls.StackPanel()
 const card = new Xaml.Controls.Button()
@@ -36,6 +37,7 @@ try {
   await wait(300)
   if(error) throw error
   assert(movement)
+  console.log('XAML presentation at replacement',card.RenderTransform.X)
   const first = movement
   const second = motion.animate('x', 48, { duration: 500 })
   assert.equal(await first.finished, false)
