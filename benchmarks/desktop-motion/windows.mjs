@@ -31,6 +31,9 @@ const pump = setInterval(() => native.pumpMessages(), 8)
 card.RenderTransform = new Xaml.Media.TranslateTransform()
 const motion = windowsMotion(card, Windows)
 window.on('closed', () => motion.dispose())
+const composite = () => card.RenderTransform.Children.GetAt(0)
+const angle = () => composite().Rotation
+const scale = () => composite().ScaleX
 let movement, error, recorder, recorded
 card.Click = () => {
   status.Text = 'Moving right'
@@ -116,6 +119,33 @@ try {
   await motion.animate('opacity', 1, { reducedMotion: true }).finished
   assert.equal(card.Opacity, 1)
   await wait(600)
+  const scaleX = motion.animate('scaleX', 1.45, { duration: 480 })
+  const scaleY = motion.animate('scaleY', 1.28, { duration: 480 })
+  const spin = motion.animate('rotate', 32, { duration: 1300, ease: 'linear' })
+  status.Text = 'Scale and rotate'
+  await wait(450)
+  const back = motion.animate('rotate', -14, { duration: 1650, ease: 'linear' })
+  assert.equal(await spin.finished, false)
+  assert.equal(await scaleX.finished, true)
+  assert.equal(await scaleY.finished, true)
+  await wait(380)
+  back.pause()
+  status.Text = 'Rotation paused'
+  await wait(150)
+  const heldAngle = angle()
+  assert(heldAngle > -13 && heldAngle < 32, 'Paused in flight: ' + heldAngle)
+  await wait(750)
+  assert(Math.abs(angle() - heldAngle) < 0.8)
+  status.Text = 'Resuming rotation'
+  const resumeStart = performance.now()
+  back.resume()
+  assert.equal(await Promise.race([back.finished, wait(3500).then(() => null)]), true)
+  const remaining = performance.now() - resumeStart
+  assert(remaining > 450 && remaining < 1600, 'Remaining duration: ' + remaining)
+  assert(Math.abs(angle() + 14) < 0.9)
+  assert(Math.abs(scale() - 1.45) < 0.03, 'Scale survived rotation replacement')
+  status.Text = 'Finished at the original scale'
+  await wait(650)
   if (recorder) {
     recorder.stdin.end('q')
     assert.equal((await recorded)[0], 0)
