@@ -82,11 +82,15 @@ try:
       assert state()['right']==['Birch'],reports[-1]
      else:
       if scene!='Heights':
+       if scene in ('Carousel','RTL'):
+        first_x,_=center('Card 01');third_x,_=center('Card 03')
+        assert (first_x>third_x)==(scene=='RTL'),(scene,first_x,third_x)
        drag('Card 01','Card 04' if scene=='Grid' else 'Card 03',600)
        assert state()['commits']==1,reports[-1]
        a,b,c,d=bounds('cards');x,y=center('Card 01')
        far=(x,d-4*density) if scene=='Grid' else (c-4*density,y)
        near=(x,b+4*density) if scene=='Grid' else (a+4*density,y)
+       if scene=='RTL':far,near=near,far
        contact(x,y,far[0]-x,far[1]-y,near[0]-far[0],near[1]-far[1],hold=600,dwell=1200,reverse_dwell=800)
        before=state();tap('Cancel',.05)
        contact(x,y,far[0]-x,far[1]-y,hold=600,dwell=800)

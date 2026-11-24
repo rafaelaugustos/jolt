@@ -8,6 +8,8 @@
 
 为每个来源将 listTransferOptions 传给 dropZones。提供两个列表中唯一的键、目标列表可见行的中心坐标，以及一次更新两个列表的 commit。空目标使用索引零。preview 报告插入位置并在离开时清除。accept 在释放时同步决定是否接受。数据失效时增加 revision，中断时取消，卸载时调用 dispose。也可使用既有的键盘排序或 dropZones.request。
 
+Android 应用需在清单中启用 `android:supportsRtl="true"` 才能显示从右到左的轮播。跨列拖动时，请允许卡片在来源列的边界外绘制。iOS 使用 `clipToBounds = false`，Android 则在卡片经过的容器上同时调用 `setClipChildren(false)` 和 `setClipToPadding(false)`。拖动时将来源列绘制在目标列上方。
+
 ```ts
 const options = listTransferOptions({
   key: card.id,
@@ -28,11 +30,15 @@ const owner = dropZones(source, options)
 
 <Clip name="collection-carousel-ios" caption="单行轮播 · iOS 模拟器." />
 
+<Clip name="collection-carousel-android" caption="单行轮播 · Android 模拟器." />
+
 <Clip name="collection-carousel-web" caption="单行轮播 · macOS 上的 Chromium." />
 
 ### 从右到左的轮播
 
 <Clip name="collection-rtl-ios" caption="从右到左的轮播 · iOS 模拟器." />
+
+<Clip name="collection-rtl-android" caption="从右到左的轮播 · Android 模拟器." />
 
 <Clip name="collection-rtl-web" caption="从右到左的轮播 · macOS 上的 Chromium." />
 
@@ -40,17 +46,23 @@ const owner = dropZones(source, options)
 
 <Clip name="collection-heights-ios" caption="不同行高 · iOS 模拟器." />
 
+<Clip name="collection-heights-android" caption="不同行高 · Android 模拟器." />
+
 <Clip name="collection-heights-web" caption="不同行高 · macOS 上的 Chromium." />
 
 ### 规则网格
 
 <Clip name="collection-grid-ios" caption="规则网格 · iOS 模拟器." />
 
+<Clip name="collection-grid-android" caption="规则网格 · Android 模拟器." />
+
 <Clip name="collection-grid-web" caption="规则网格 · macOS 上的 Chromium." />
 
 ### 跨列表移动
 
 <Clip name="collection-transfer-ios" caption="跨列表移动 · iOS 模拟器." />
+
+<Clip name="collection-transfer-android" caption="跨列表移动 · Android 模拟器." />
 
 <Clip name="collection-transfer-web" caption="跨列表移动 · macOS 上的 Chromium." />
 

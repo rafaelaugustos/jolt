@@ -8,6 +8,8 @@ On the Web, pass axis x to listChanges for a horizontal viewport and layout grid
 
 Pass listTransferOptions to dropZones for each source. Supply unique keys across both lists, realized destination centers in visual coordinates and a commit callback that updates both lists once. An empty destination accepts position zero. preview receives the slot and clears on exit. accept runs synchronously at release. Increment revision on data invalidation, cancel on interruption and dispose when unmounting. Existing reorder keyboard controls and dropZones.request remain available.
 
+For an Android RTL carousel, enable `android:supportsRtl="true"` in the host manifest. For cross-column drops, allow the card to draw outside its source container. Use `clipToBounds = false` on iOS and both `setClipChildren(false)` and `setClipToPadding(false)` on Android containers the card crosses. Draw the active source above its destination sibling while dragging.
+
 ```ts
 const options = listTransferOptions({
   key: card.id,
@@ -28,11 +30,15 @@ const owner = dropZones(source, options)
 
 <Clip name="collection-carousel-ios" caption="Single-span carousel · iOS simulator." />
 
+<Clip name="collection-carousel-android" caption="Single-span carousel · Android emulator." />
+
 <Clip name="collection-carousel-web" caption="Single-span carousel · Chromium on macOS." />
 
 ### Right-to-left carousel
 
 <Clip name="collection-rtl-ios" caption="Right-to-left carousel · iOS simulator." />
+
+<Clip name="collection-rtl-android" caption="Right-to-left carousel · Android emulator." />
 
 <Clip name="collection-rtl-web" caption="Right-to-left carousel · Chromium on macOS." />
 
@@ -40,17 +46,23 @@ const owner = dropZones(source, options)
 
 <Clip name="collection-heights-ios" caption="Measured Core ListView rows · iOS simulator." />
 
-<Clip name="collection-heights-web" caption="Measured Core ListView rows · Chromium on macOS." />
+<Clip name="collection-heights-android" caption="Measured Core ListView rows · Android emulator." />
+
+<Clip name="collection-heights-web" caption="Measured DOM rows · Chromium on macOS." />
 
 ### Regular grid
 
 <Clip name="collection-grid-ios" caption="Regular grid · iOS simulator." />
+
+<Clip name="collection-grid-android" caption="Regular grid · Android emulator." />
 
 <Clip name="collection-grid-web" caption="Regular grid · Chromium on macOS." />
 
 ### Two-list transfer
 
 <Clip name="collection-transfer-ios" caption="Two-list transfer · iOS simulator." />
+
+<Clip name="collection-transfer-android" caption="Two-list transfer · Android emulator." />
 
 <Clip name="collection-transfer-web" caption="Two-list transfer · Chromium on macOS." />
 

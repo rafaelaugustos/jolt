@@ -171,6 +171,11 @@ export function runCollectionLayouts() {
                       })),
                     accept: () => !reject,
                     preview(move) {
+                      if (move && !isIOS) {
+                        // Keep the moving Android card above the opposite column.
+                        panels[group]!.android.setTranslationZ(1)
+                        target.android.setTranslationZ(0)
+                      }
                       for (const [i, item] of views[other]!.entries()) {
                         item.borderTopWidth = move?.toIndex === i ? 3 : 0
                         item.borderBottomWidth =

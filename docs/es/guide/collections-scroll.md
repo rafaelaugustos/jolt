@@ -8,6 +8,8 @@ En la Web, use axis x en listChanges para carruseles y layout grid en reorder pa
 
 Pase listTransferOptions a dropZones para cada origen. Proporcione claves únicas entre ambas listas, los centros de las filas montadas del destino y un commit que actualice ambas listas una vez. Un destino vacío acepta el índice cero. preview indica el índice y lo limpia al salir. accept decide al soltar de forma síncrona. Incremente revision al invalidar datos, cancele al interrumpir y llame a dispose al desmontar. Se mantienen los controles de teclado de reorder y dropZones.request.
 
+Para un carrusel RTL en Android, habilite `android:supportsRtl="true"` en el manifiesto de la aplicación. Para mover una tarjeta entre columnas, permita que se dibuje fuera de la columna de origen. Use `clipToBounds = false` en iOS y aplique `setClipChildren(false)` y `setClipToPadding(false)` a los contenedores que atraviesa en Android. Durante el arrastre, dibuje la columna de origen por encima del destino.
+
 ```ts
 const options = listTransferOptions({
   key: card.id,
@@ -28,11 +30,15 @@ const owner = dropZones(source, options)
 
 <Clip name="collection-carousel-ios" caption="Carrusel de una fila · simulador iOS." />
 
+<Clip name="collection-carousel-android" caption="Carrusel de una fila · emulador Android." />
+
 <Clip name="collection-carousel-web" caption="Carrusel de una fila · Chromium en macOS." />
 
 ### Carrusel de derecha a izquierda
 
 <Clip name="collection-rtl-ios" caption="Carrusel de derecha a izquierda · simulador iOS." />
+
+<Clip name="collection-rtl-android" caption="Carrusel de derecha a izquierda · emulador Android." />
 
 <Clip name="collection-rtl-web" caption="Carrusel de derecha a izquierda · Chromium en macOS." />
 
@@ -40,17 +46,23 @@ const owner = dropZones(source, options)
 
 <Clip name="collection-heights-ios" caption="Filas de alturas distintas · simulador iOS." />
 
+<Clip name="collection-heights-android" caption="Filas de alturas distintas · emulador Android." />
+
 <Clip name="collection-heights-web" caption="Filas de alturas distintas · Chromium en macOS." />
 
 ### Cuadrícula regular
 
 <Clip name="collection-grid-ios" caption="Cuadrícula regular · simulador iOS." />
 
+<Clip name="collection-grid-android" caption="Cuadrícula regular · emulador Android." />
+
 <Clip name="collection-grid-web" caption="Cuadrícula regular · Chromium en macOS." />
 
 ### Transferencia entre listas
 
 <Clip name="collection-transfer-ios" caption="Transferencia entre listas · simulador iOS." />
+
+<Clip name="collection-transfer-android" caption="Transferencia entre listas · emulador Android." />
 
 <Clip name="collection-transfer-web" caption="Transferencia entre listas · Chromium en macOS." />
 

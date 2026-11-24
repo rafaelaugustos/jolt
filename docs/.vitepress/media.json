@@ -95,6 +95,10 @@
       "bytes": 166985,
       "sha256": "b718dcb32bd2721db894f46045297d5ae95870b5038e1a350e06a691ce3d3e90"
     },
+    "collection-carousel-android.mp4": {
+      "bytes": 204350,
+      "sha256": "0afc8cb4b24ae13c703fa95a018aaffca7feaa6af212727def147c652535d0f5"
+    },
     "collection-carousel-ios.mp4": {
       "bytes": 234163,
       "sha256": "d9917bab0d51953d4f35a5c0447caa834a6cf1ab12f098e2d3b965154df1cf7b"
@@ -111,6 +115,10 @@
       "bytes": 916098,
       "sha256": "4e5b3951da6320738f4147587a6fee7aaebfc297a9826b476d1a3e1fc9b2d3a2"
     },
+    "collection-grid-android.mp4": {
+      "bytes": 444086,
+      "sha256": "1597977b67f462674acde45188a0e3acd30f2a21a67d2f1506c8f3b3bb62c2d2"
+    },
     "collection-grid-ios.mp4": {
       "bytes": 761723,
       "sha256": "6b99f34d5b3c28642adb8c1ab128ed2ca9bf6ae0fbb89f9ec42a51ebf9b217f9"
@@ -118,6 +126,10 @@
     "collection-grid-web.mp4": {
       "bytes": 110785,
       "sha256": "7693def4e0efb78d086b903f327a8a7f0b4642884d6be9ca6264f0ae36844263"
+    },
+    "collection-heights-android.mp4": {
+      "bytes": 42079,
+      "sha256": "56874491b448f57566a719bae2b6a40c352332096ea80abb0e7554c84676a1f7"
     },
     "collection-heights-ios.mp4": {
       "bytes": 106928,
@@ -135,6 +147,10 @@
       "bytes": 1874252,
       "sha256": "94a38fa0741ba700deaffbc3c829d191598b54fbb808d97ed90888dc82e037eb"
     },
+    "collection-rtl-android.mp4": {
+      "bytes": 197445,
+      "sha256": "f20e6032902b7bcce1b741795d5f1ea1df1ed1008ad5ea8f702b82f54f40d367"
+    },
     "collection-rtl-ios.mp4": {
       "bytes": 231387,
       "sha256": "9dea94468598adc49138411c37e165137e15aa1ed7038b0bb8c1a77f718f0186"
@@ -142,6 +158,10 @@
     "collection-rtl-web.mp4": {
       "bytes": 40080,
       "sha256": "7ee9a659d0c549fe2055317b5449875954822c32e19ce815e03366736512fd0b"
+    },
+    "collection-transfer-android.mp4": {
+      "bytes": 144198,
+      "sha256": "640fef9c608c849a1ae38ccc5dd7b802ae39395be21abd8ec3b3617e822ebab9"
     },
     "collection-transfer-ios.mp4": {
       "bytes": 59076,
