@@ -156,4 +156,6 @@ See the [validation report and raw measurements](https://github.com/rafaelaugust
 
 The unguarded Button fixture compares plain, direct, scoped and repeated press registration. On the iOS 27 simulator, four taps in each configuration produced 16 actions. Sending the app Home after 0, 50 or 200 ms, holding a contact across suspension and remounting produced zero actions while suspended. The original Hexdrop report remains specific to its observed app state. The trace establishes the reduced fixture’s behavior. Browser coverage uses visibility, focus and disposal.
 
+On the original iPhone 17 / iOS 26.2 setup, Hexdrop reproduced the visible reset when its root treated background unloading as teardown. Three active brews reset in this control. Preserving the scene through transient unload kept them running. All three button callbacks occurred in the foreground in each build.
+
 <Clip :autoplay="false" name="press-lifecycle-ios" caption="iOS 27 · iPhone Simulator — real taps, Home, return and remount." />

@@ -134,4 +134,6 @@ Veja [validação e dados brutos](https://github.com/rafaelaugustos/jolt/blob/ma
 
 O botão de teste conta ações inclusive durante a suspensão. No simulador com iOS 27, quatro toques em cada uma das configurações simples, direta, com escopo e com registro repetido produziram 16 ações. Ir à tela inicial após 0, 50 ou 200 ms, manter o toque durante a suspensão e remontar o botão produziram zero ações enquanto suspenso. O relato original ocorreu no estado de preparo do Hexdrop. A medição descreve o comportamento da reprodução reduzida. Na Web os testes cobrem visibilidade, foco e descarte.
 
+No iPhone 17 com iOS 26.2 do relato original, o Hexdrop reproduziu o reset quando a raiz tratou a ida ao segundo plano como encerramento da tela. Três preparos ativos foram interrompidos nesse controle. Preservar a cena durante o descarregamento temporário manteve os preparos em andamento. Nas três builds, todos os callbacks do botão ocorreram em primeiro plano.
+
 <Clip :autoplay="false" name="press-lifecycle-ios" caption="iOS 27 · simulador de iPhone — toques, tela inicial, retorno e remontagem." />
