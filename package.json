@@ -40,6 +40,14 @@
       "types": "./dist/gestures/index.d.ts",
       "default": "./dist/gestures/index.js"
     },
+    "./appkit": {
+      "types": "./dist/desktop/appkit.d.ts",
+      "default": "./dist/desktop/appkit.js"
+    },
+    "./windows": {
+      "types": "./dist/desktop/windows.d.ts",
+      "default": "./dist/desktop/windows.js"
+    },
     "./native": {
       "types": "./dist/native/index.d.ts",
       "default": "./dist/native/index.js"

@@ -1,0 +1,23 @@
+name: Native desktop motion
+on:
+  push:
+    branches: [feat/desktop-collections-rc18]
+  pull_request:
+    paths: ['src/desktop/**', 'src/core/**', 'benchmarks/desktop-motion/**', '.github/workflows/desktop-motion.yml']
+permissions:
+  contents: read
+jobs:
+  windows:
+    runs-on: windows-2025
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - run: npm ci --ignore-scripts
+      - run: npx --no-install tsc -p tsconfig.build.json
+      - run: npm ci --prefix benchmarks/desktop-motion
+      - run: node benchmarks/desktop-motion/windows-host.mjs .local/runtime/node.exe
+      - name: Exercise the native XAML window
+        run: .local/runtime/node.exe benchmarks/desktop-motion/windows.mjs
