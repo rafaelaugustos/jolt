@@ -26,12 +26,16 @@ export function windowsMotion(element: Element, windows: XamlRuntime) {
   return finiteMotion(
     (property) => {
       if (property !== 'opacity' && !translation) {
-        if (element.RenderTransform != null)
-          throw new Error(
-            'Translation requires a dedicated target with no existing RenderTransform.',
-          )
-        translation = new xaml.Media.TranslateTransform()
-        element.RenderTransform = translation
+        const current = element.RenderTransform
+        if (current instanceof xaml.Media.TranslateTransform) translation = current
+        else {
+          const local = current?.Matrix
+          if (current && !(local && local.M11 === 1 && local.M22 === 1 &&
+            local.M12 === 0 && local.M21 === 0 && local.OffsetX === 0 && local.OffsetY === 0))
+            throw new Error('Translation requires an identity or TranslateTransform target.')
+          translation = new xaml.Media.TranslateTransform()
+          element.RenderTransform = translation
+        }
       }
       const target = property === 'opacity' ? element : translation
       const key = property === 'opacity' ? 'Opacity' : property.toUpperCase()
@@ -57,13 +61,13 @@ export function windowsMotion(element: Element, windows: XamlRuntime) {
             })
             .join('')
           const story = xaml.Markup.XamlReader.Load(
-            '<Storyboard xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"><DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="' +
-              key +
+            '<Storyboard xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"><DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="' +
+              (property === 'opacity' ? key : "(UIElement.RenderTransform).(TranslateTransform." + key + ")") +
               '">' +
               frames +
               '</DoubleAnimationUsingKeyFrames></Storyboard>',
           )
-          xaml.Media.Animation.Storyboard.SetTarget(story.Children.GetAt(0), target)
+          xaml.Media.Animation.Storyboard.SetTarget(story.Children.GetAt(0), element)
           function stop(value: number) {
             story.Completed = null
             target[key] = value

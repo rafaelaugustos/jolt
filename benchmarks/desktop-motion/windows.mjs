@@ -17,6 +17,7 @@ window.content = panel
 window.place({ width: 480, height: 260 })
 window.show()
 const pump = setInterval(() => native.pumpMessages(), 8)
+card.RenderTransform = new Xaml.Media.TranslateTransform()
 const motion = windowsMotion(card, Windows)
 window.on('closed', () => motion.dispose())
 let movement, error, recorder, recorded
