@@ -21,7 +21,9 @@ jobs:
       - run: node benchmarks/desktop-motion/windows-host.mjs .local/runtime/node.exe
       - name: Locate the window recorder
         shell: pwsh
-        run: if (!(Get-Command ffmpeg -ErrorAction SilentlyContinue)) { choco install ffmpeg -y --no-progress }
+        run: |
+          npm install --prefix .local/recorder --ignore-scripts @ffmpeg-installer/win32-x64@4.1.0
+          (Resolve-Path .local/recorder/node_modules/@ffmpeg-installer/win32-x64).Path >> $env:GITHUB_PATH
       - name: Enable client animations on the disposable runner
         shell: pwsh
         run: |
