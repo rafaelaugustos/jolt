@@ -52,6 +52,7 @@ else if (entry.endsWith('/web/testing')) {
     'drawingLimits',
     'gestureRelations',
     'listTransferOptions',
+    'listTransferScroll',
     'origamiSpring',
     'presets',
     'resolveListTarget',

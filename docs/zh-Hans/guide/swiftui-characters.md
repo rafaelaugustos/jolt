@@ -148,3 +148,11 @@ try rig.blend([.init("wave", weight: 0.5)])
 <Clip name="web-characters-svelte" caption="Svelte · Chromium：打包消费者中的关键帧、真实鼠标/键盘、socket 与时间线粒子。" />
 
 <Clip name="web-characters-solid" caption="Solid · Chromium：打包消费者中的关键帧、真实鼠标/键盘、socket 与时间线粒子。" />
+
+## 在两个列表间移动行
+
+用源键和目标 ID 创建 `JoltDropZones.listTransfer`。提供两个键数组及按目标索引排序的可见行中心，使用全局点坐标。水平或反向列表可设置 `axis` 和 `reverse`。预览只标记插入位置，应用在 `commit` 中移除源行并一次插入到 `toIndex`。空目标使用索引零。版本变化、目标移除、重复键、取消或释放均会使操作失效。`request` 可无拖动追加。Web 使用 `listTransferOptions` 操作应用持有的数据。
+
+<Clip :autoplay="false" name="swiftui-controlled-transfer-ios" caption="iOS 27 · iPhone Simulator · SwiftUI — 移动、拒绝及空目标。" />
+
+<Clip :autoplay="false" name="swiftui-controlled-transfer-macos" caption="macOS · SwiftUI — 移动、拒绝及空目标。" />

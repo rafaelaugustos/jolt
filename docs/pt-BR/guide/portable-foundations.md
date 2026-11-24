@@ -129,3 +129,9 @@ As formas iOS passam a ler `UIView.bounds` local após layout transformado, evit
 <Clip name="portable-press-ios" caption="Simulador iPhone, iOS 26.2: uma ação por toque real com feedback em scope, Home/background, retorno e remontagem. Interface em inglês, tempo original; demonstra prevenção de duplicação, não uma ação reproduzida durante suspensão." />
 
 Veja [validação e dados brutos](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/portable-foundations.md). Os resultados não comprovam menor CPU/PSS total do app nem superioridade sobre Reanimated.
+
+## Toque durante a ida ao segundo plano
+
+O botão de teste conta ações inclusive durante a suspensão. No simulador com iOS 27, quatro toques em cada uma das configurações simples, direta, com escopo e com registro repetido produziram 16 ações. Ir à tela inicial após 0, 50 ou 200 ms, manter o toque durante a suspensão e remontar o botão produziram zero ações enquanto suspenso. O relato original ocorreu no estado de preparo do Hexdrop. A medição descreve o comportamento da reprodução reduzida. Na Web os testes cobrem visibilidade, foco e descarte.
+
+<Clip :autoplay="false" name="press-lifecycle-ios" caption="iOS 27 · simulador de iPhone — toques, tela inicial, retorno e remontagem." />

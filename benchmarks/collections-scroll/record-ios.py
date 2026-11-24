@@ -27,7 +27,17 @@ try:
   subprocess.run(['ffmpeg','-y','-v','error','-i',str(source),'-an','-vf','scale=-2:1200','-c:v','libx264','-crf','22','-pix_fmt','yuv420p','-movflags','+faststart',str(source.with_suffix('.mp4'))],check=True)
  container=subprocess.check_output(['xcrun','simctl','get_app_container',serial,'dev.jolt.nativeci','data'],text=True).strip()
  report_name = 'collection-layouts.json' if 'testCollectionLayouts' in sys.argv else 'collections-scroll.json'
+ if 'testCollectionContinuity' in sys.argv:report_name='continuity.json'
  report=json.loads((Path(container)/'Documents'/report_name).read_text())
+ if 'testCollectionContinuity' in sys.argv:
+  audits=[e for e in report['history'] if e['message']=='Audit']
+  compact,expanded,returned,reversed_contact,cancelled,transferred=audits
+  assert compact['first']==0 and abs(compact['height']-compact['min'])<3,compact
+  assert expanded['first']>0 and abs(expanded['height']-expanded['max'])<3,expanded
+  for e in (returned,reversed_contact):assert e['first']==0 and abs(e['height']-e['min'])<3,e
+  assert reversed_contact['maxFirst']>0,reversed_contact
+  assert cancelled['commits']==0 and cancelled['offset']>0,cancelled
+  assert transferred['commits']==1 and transferred['index']>12 and transferred['offset']>250,transferred
  if 'testCollectionLayouts' in sys.argv:
   for scene in ['Carousel','RTL','Heights']:
    audits=[e for e in report['history'] if e['scene']==scene and e['audit']]

@@ -8,6 +8,14 @@ export interface ListTransferMove<K extends ReorderKey> {
   beforeKey: K | null
 }
 
+/** Scrolling and frame scheduling belong to the destination viewport. Coordinates and deltas use DIPs or CSS pixels. */
+export interface TransferScrollPort {
+  viewport(): { top: number; bottom: number } | undefined
+  scrollBy(delta: number): boolean
+  frame(tick: () => void): () => void
+  now(): number
+}
+
 /** Pass the returned options to the platform's dropZones for each draggable row.
  * Both arrays are application-owned. Row centers use the same window coordinates
  * as dropZones (DIPs or CSS pixels). Include only currently realized destination rows.
@@ -20,11 +28,25 @@ export function listTransferOptions<T, K extends ReorderKey>(options: {
   centers(): readonly { key: K; center: number }[]
   axis?: 'x' | 'y'
   reverse?: boolean
+  edgeScroll?: TransferScrollPort
   revision?(): unknown
   accept?(move: ListTransferMove<K>): boolean
   preview?(move: ListTransferMove<K> | undefined): void
   commit(move: ListTransferMove<K>): void
 }): DropOptions<T> {
+  const scroll = options.edgeScroll
+  if (scroll && options.axis === 'x')
+    throw new TypeError('Destination edge scrolling requires a vertical list.')
+  let cancelFrame: (() => void) | undefined
+  let held: DropRect | undefined,
+    previousTime = 0,
+    generation = 0
+  function stopScroll() {
+    generation++
+    cancelFrame?.()
+    cancelFrame = undefined
+    held = undefined
+  }
   let source: K[] = [],
     destination: K[] = [],
     revision: unknown,
@@ -32,6 +54,7 @@ export function listTransferOptions<T, K extends ReorderKey>(options: {
   let proposal: ListTransferMove<K> | undefined
   let positions = new Map<K, number>()
   function begin() {
+    stopScroll()
     source = itemKeys(options.sourceKeys(), (key) => key)
     destination = itemKeys(options.targetKeys(), (key) => key)
     itemKeys([...source, ...destination], (key) => key)
@@ -85,7 +108,49 @@ export function listTransferOptions<T, K extends ReorderKey>(options: {
     proposal = move
     options.preview?.(move)
   }
+  function speed(bounds: DropRect) {
+    const rect = scroll?.viewport()
+    if (!rect || !(rect.bottom > rect.top)) return 0
+    const y = bounds.y + bounds.height / 2
+    if (y < rect.top || y > rect.bottom) return 0
+    const edge = Math.min(48, (rect.bottom - rect.top) / 3)
+    return (
+      600 *
+      (Math.max(0, 1 - (rect.bottom - y) / edge) - Math.max(0, 1 - (y - rect.top) / edge))
+    )
+  }
+  function updateScroll(bounds: DropRect) {
+    if (!scroll || !speed(bounds)) {
+      stopScroll()
+      return
+    }
+    held = bounds
+    if (cancelFrame) return
+    previousTime = scroll.now()
+    const ticket = generation
+    const tick = () => {
+      if (ticket !== generation || !held) return
+      cancelFrame = undefined
+      if (!valid()) {
+        reset()
+        return
+      }
+      const rate = speed(held),
+        now = scroll.now()
+      const dt = Math.min(50, Math.max(0, now - previousTime))
+      previousTime = now
+      if (!rate || (dt > 0 && !scroll.scrollBy((rate * dt) / 1000))) {
+        stopScroll()
+        return
+      }
+      if (ticket !== generation || !held) return
+      display(propose(held))
+      if (ticket === generation && held) cancelFrame = scroll.frame(tick)
+    }
+    cancelFrame = scroll.frame(tick)
+  }
   function reset() {
+    stopScroll()
     active = false
     display()
   }
@@ -108,8 +173,16 @@ export function listTransferOptions<T, K extends ReorderKey>(options: {
       },
     ],
     onStart: begin,
-    onMove: (event) => display(event.id ? propose(event.bounds) : undefined),
-    onLeave: () => display(),
+    onMove(event) {
+      const move = event.id ? propose(event.bounds) : undefined
+      display(move)
+      if (event.id && valid()) updateScroll(event.bounds)
+      else stopScroll()
+    },
+    onLeave() {
+      stopScroll()
+      display()
+    },
     onReject: reset,
     onCancel: reset,
     onDrop() {

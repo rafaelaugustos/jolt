@@ -154,3 +154,11 @@ Create one owner per target. Replacement starts from its presentation value. Can
 <Clip name="appkit-desktop-motion" caption="macOS AppKit window. A button moves, changes destination, holds its opacity and returns to full opacity." />
 
 <Clip name="windows-xaml-motion" caption="Windows Server 2025, native XAML window. The button changes destination, holds its fade and restores opacity." />
+
+## Scale, rotation and playback controls
+
+AppKit and Windows XAML also animate `scaleX`, `scaleY` (positive factors, 1 is identity) and `rotate` (degrees). Each property has its own channel. Replacing rotation preserves translation and both scale factors. Call `pause()` on the returned handle to hold its presentation value, then `resume()` to continue along the remaining duration and easing curve. The same `finished` promise resolves on completion or interruption. `owner.suspend()` cancels all tracks, including paused ones. Respect the host’s reduced-motion preference.
+
+<Clip :autoplay="false" name="desktop-transforms-appkit" caption="macOS · AppKit — independent transforms, held rotation and remaining playback." />
+
+<Clip :autoplay="false" name="desktop-transforms-windows" caption="Windows Server 2025 · XAML — independent transforms, held rotation and remaining playback." />

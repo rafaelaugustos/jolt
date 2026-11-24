@@ -1,6 +1,7 @@
 """Real OS contact paths and native snapshots, on a dedicated Android emulator."""
 import contextlib,json,pathlib,re,subprocess,sys,time,xml.etree.ElementTree as ET
 serial,folder,jar=sys.argv[1:4]
+continuity=len(sys.argv)>4 and sys.argv[4]=='continuity'
 layouts_only=len(sys.argv)>4 and sys.argv[4]=='layouts'
 edges_only=len(sys.argv)>4 and sys.argv[4]=='edges'
 life_only=len(sys.argv)>4 and sys.argv[4]=='lifecycle'
@@ -20,7 +21,9 @@ def bounds(name):
   if layouts_only and node.get('class')=='android.widget.Button':
    for label in labels:
     if label in static_controls:control_bounds[label]=rect
-  if name in labels:match=rect
+  if name in labels:
+   if continuity and node.get('class')=='android.widget.Button':return rect
+   match=rect
  if match:return match
  raise AssertionError('Missing control: '+name)
 def tap(name,wait=.6):
@@ -43,15 +46,50 @@ reports=[];previous=adb('shell','settings','get','system','show_touches').strip(
 try:
  adb('shell','settings','put','system','show_touches','1');adb('push',jar,'/data/local/tmp/jolt-collections-input.jar')
  adb('shell','am','start','-W','-S','-n','dev.jolt.nativeci/com.tns.NativeScriptActivity');time.sleep(2)
- if layouts_only:
+ if layouts_only or continuity:
   deadline=time.monotonic()+75
   while True:
-   try:bounds('Carousel');break
+   try:bounds('Grid sheet' if continuity else 'Carousel');break
    except (AssertionError,ET.ParseError):
     if time.monotonic()>=deadline:raise
     time.sleep(.5)
  density=int(adb('shell','wm','density').strip().split()[-1])/160
- if layouts_only:
+ if continuity:
+  def history():
+   return json.loads(adb('shell','run-as','dev.jolt.nativeci','cat','files/continuity.json'))['history']
+  def audit():
+   before=len(history());tap('Audit',.2)
+   for _ in range(40):
+    for e in history()[before:]:
+     if e['message']=='Audit':reports.append(e);return e
+    time.sleep(.1)
+   raise AssertionError('Missing audit')
+  def midpoint(rect):return ((rect[0]+rect[2])/2,(rect[1]+rect[3])/2)
+  tap('Grid sheet',1.1)
+  with record('grid-sheet-continuity-android'):
+   compact=audit();assert compact['first']==0 and abs(compact['height']-compact['min'])<3,compact
+   a,b,c,d=bounds('sheet-grid');x=(a+c)/2;y=d-15*density
+   _,nav_top,_,nav_bottom=bounds('Grid sheet')
+   travel=y-(nav_bottom+12*density)
+   contact(x,y,0,-travel);expanded=audit()
+   assert expanded['first']>0 and abs(expanded['height']-expanded['max'])<3,expanded
+   a,b,c,d=bounds('sheet-grid');start=b+12*density
+   contact(x,start,0,y-start)
+   control_bounds.pop('sheet-grid',None)
+   _,new_top,_,_=bounds('sheet-grid');start=new_top+12*density
+   if start<y:contact(x,start,0,y-start)
+   returned=audit()
+   assert returned['first']==0 and abs(returned['height']-returned['min'])<3,returned
+   tap('Grid sheet',1);contact(x,y,0,-travel,0,travel-8*density);reversed_contact=audit()
+   assert reversed_contact['maxFirst']>0 and reversed_contact['first']==0 and abs(reversed_contact['height']-reversed_contact['min'])<3,reversed_contact
+  tap('Transfer',1)
+  with record('transfer-scroll-android'):
+   x,y=midpoint(bounds('Atlas'));a,b,c,d=bounds('destination');dx=(a+c)/2-x;dy=d-17*density-y
+   tap('Cancel');contact(x,y,dx,dy,dwell=2000);cancelled=audit()
+   assert cancelled['commits']==0 and cancelled['offset']>0,cancelled
+   tap('Transfer',1);contact(x,y,dx,dy,dwell=2500);transferred=audit()
+   assert transferred['commits']==1 and transferred['index']>12 and transferred['offset']>250,transferred
+ elif layouts_only:
   def read_history():
    return json.loads(adb('shell','run-as','dev.jolt.nativeci','cat','files/collection-layouts.json'))['history']
   def state():

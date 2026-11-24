@@ -153,3 +153,23 @@ CollectionView 现在与 Core ListView 共用按键捕获/恢复原生焦点的�
 <Clip :autoplay="false" name="collection-focus-voiceover-ios" caption="iOS 27 模拟器，使用真实 VoiceOver 与 XCTest 交互。可见焦点及遍历断言；无声录像。不证明实体设备行为。 CollectionView 更新期间按键保留焦点。" />
 
 <Clip :autoplay="false" name="collection-focus-talkback-android" caption="Android API 36 模拟器，使用真实 TalkBack 与原生触摸交互。可见焦点及遍历断言；无声录像。不证明实体设备行为。 CollectionView 更新期间按键保留焦点。" />
+
+## 面板中的规则网格
+
+垂直正向排列且列宽一致的 CollectionView 可通过 `scrollHandoff(collection, { axis: "y" })` 传入面板的 `scrollView`。从单元格上拖会先展开面板，再滚动网格。同一次接触反向时，网格先回到起点，面板才收起。松手速度交给当前活动的表面。该适配器仅支持规则列，不支持按项目改变跨度或横向多列布局。在 Web 上将 CSS 网格的滚动容器作为 `scrollView`。释放面板会结束手势。
+
+<Clip :autoplay="false" name="grid-sheet-continuity-ios" caption="iOS 27 · iPhone Simulator — 同一次接触中展开、滚动并反向收起。" />
+
+<Clip :autoplay="false" name="grid-sheet-continuity-android" caption="Android · Pixel Emulator — 同一次接触中展开、滚动并反向收起。" />
+
+<Clip :autoplay="false" name="collection-gridsheet-web" caption="Web · Chromium — 同一次接触中展开、滚动并反向收起。" />
+
+## 跨列表拖动时滚动目标
+
+在 `listTransferOptions` 中设置 `edgeScroll: listTransferScroll(destination)`，传入已挂载的垂直 ScrollView 或可滚动 DOM 元素。拖动行的中心进入目标后，在距边缘 48 DIP 或 CSS 像素内逐渐加速，最高每秒 600 单位。指针静止时仍会根据窗口坐标中的可见行中心更新插入位置。使用稳定键，应用只在提交时修改列表。离开边缘、松手、取消、释放或到达边界均会停止滚动。无拖动的请求会追加到列表末尾。
+
+<Clip :autoplay="false" name="transfer-scroll-ios" caption="iOS 27 · iPhone Simulator — 边缘停留、取消及单次插入。" />
+
+<Clip :autoplay="false" name="transfer-scroll-android" caption="Android · Pixel Emulator — 边缘停留、取消及单次插入。" />
+
+<Clip :autoplay="false" name="collection-edgetransfer-web" caption="Web · Chromium — 边缘停留、取消及单次插入。" />

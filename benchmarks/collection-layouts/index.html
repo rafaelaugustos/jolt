@@ -107,6 +107,64 @@
     .end {
       border-bottom: 4px solid #b2ffcc;
     }
+    #list.gridsheet {
+      height: 310px;
+      overflow: hidden;
+      background: #172e39;
+      border-radius: 10px;
+    }
+    #sheet {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      background: #22464d;
+    }
+    #grip {
+      padding: 12px;
+      background: #33685e;
+      font-weight: bold;
+    }
+    #sheet-grid {
+      -webkit-user-select: none;
+      user-select: none;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 4px;
+      overflow: auto;
+      flex: 1;
+      min-height: 0;
+    }
+    #list.edgetransfer {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      overflow: visible;
+      height: 285px;
+    }
+    .edgetransfer section {
+      background: #243d48;
+      padding: 8px;
+      border-radius: 8px;
+      min-height: 0;
+    }
+    #destination {
+      overflow: auto;
+    }
+    .edgetransfer .card {
+      height: 48px;
+      margin-bottom: 4px;
+    }
+    .edgetransfer .origin {
+      position: relative;
+      z-index: 2;
+    }
+    #atlas {
+      background: #805c3c;
+      touch-action: none;
+    }
     output {
       color: #b7e1d6;
     }

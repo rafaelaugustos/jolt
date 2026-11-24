@@ -151,3 +151,9 @@ The iOS shape renderer now reads local `UIView.bounds` after transformed layout,
 <Clip name="portable-press-ios" caption="iPhone simulator, iOS 26.2: one action per real tap with scoped press feedback, Home/background, foreground and remount. English UI, original timing; this demonstrates tap duplication prevention, not a reproduced action during suspension." />
 
 See the [validation report and raw measurements](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/portable-foundations.md) for device/build identities, repeated workloads, browser costs and limits. These results do not establish lower total application CPU/PSS or superiority over Reanimated.
+
+## Press during background transitions
+
+The unguarded Button fixture compares plain, direct, scoped and repeated press registration. On the iOS 27 simulator, four taps in each configuration produced 16 actions. Sending the app Home after 0, 50 or 200 ms, holding a contact across suspension and remounting produced zero actions while suspended. The original Hexdrop report remains specific to its observed app state. The trace establishes the reduced fixture’s behavior. Browser coverage uses visibility, focus and disposal.
+
+<Clip :autoplay="false" name="press-lifecycle-ios" caption="iOS 27 · iPhone Simulator — real taps, Home, return and remount." />

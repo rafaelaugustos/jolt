@@ -634,4 +634,9 @@ export type {
   GestureRecognizerKind,
 } from '../core/gesture-relations.js'
 
-export { listTransferOptions, type ListTransferMove } from '../core/list-transfer.js'
+export { listTransferScroll } from './list-transfer-scroll.js'
+export {
+  listTransferOptions,
+  type ListTransferMove,
+  type TransferScrollPort,
+} from '../core/list-transfer.js'

@@ -128,3 +128,9 @@ iOS shape renderer 在变换后的 layout 中读取本地 `UIView.bounds`，避�
 <Clip name="portable-press-ios" caption="iPhone 模拟器，iOS 26.2：scope 内的 press 反馈每次真实点击只产生一次操作，包含 Home/后台、返回和重新挂载。英文界面，原始时序；展示防重复点击，不代表复现暂停期间的操作。" />
 
 请查看[验证与原始数据](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/portable-foundations.md)。这些结果不能证明整个应用 CPU/PSS 更低，也不能证明优于 Reanimated。
+
+## 进入后台时的按压事件
+
+测试按钮在挂起时也记录动作。在 iOS 27 模拟器上，无反馈、直接注册、作用域注册及重复注册四种方式各点按四次，共触发 16 次动作。在点按后 0、50 或 200 毫秒返回主屏幕、挂起时保持按压及重新挂载期间，均未记录到挂起时触发的动作。Hexdrop 的原报告发生在其调制状态中，这组数据描述的是最小复现应用。Web 测试覆盖可见性、焦点变化及释放。
+
+<Clip :autoplay="false" name="press-lifecycle-ios" caption="iOS 27 · iPhone 模拟器，实际点按、进入后台、返回及重新挂载。" />

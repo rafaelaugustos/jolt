@@ -17,12 +17,16 @@ const js = (
   })
 ).outputFiles[0].text
 for (const [name, engine] of Object.entries({ chromium, firefox, webkit })) {
+  if (process.env.JOLT_BROWSER && process.env.JOLT_BROWSER !== name) continue
   const browser = await engine.launch()
   try {
     for (const mode of process.argv.length > 2
       ? process.argv.slice(2)
       : ['Carousel', 'RTL', 'Grid', 'Heights', 'Transfer']) {
-      const size = { width: 760, height: 475 },
+      const size = {
+          width: 760,
+          height: ['GridSheet', 'EdgeTransfer'].includes(mode) ? 610 : 475,
+        },
         context = await browser.newContext({
           viewport: size,
           ...(name === 'chromium' ? { recordVideo: { dir: folder, size } } : {}),
@@ -55,7 +59,64 @@ for (const [name, engine] of Object.entries({ chromium, firefox, webkit })) {
         await p.mouse.up()
         await p.waitForTimeout(500)
       }
-      if (mode === 'Transfer') {
+      if (mode === 'GridSheet') {
+        const grid = await p.locator('#sheet-grid').boundingBox()
+        const host = await p.locator('#list').boundingBox()
+        const x = grid.x + grid.width / 4,
+          bottom = host.y + host.height - 12,
+          top = host.y + 10
+        await p.mouse.move(x, bottom)
+        await p.mouse.down()
+        await p.mouse.move(x, top, { steps: 38 })
+        await p.waitForTimeout(200)
+        const expanded = await state()
+        assert(
+          expanded.offset > 30 && Math.abs(expanded.height - expanded.max) < 3,
+          JSON.stringify(expanded),
+        )
+        await p.mouse.move(x, bottom, { steps: 45 })
+        await p.waitForTimeout(150)
+        await p.mouse.up()
+        await p.waitForTimeout(950)
+        const returned = await state()
+        assert(
+          returned.offset < 2 && Math.abs(returned.height - returned.min) < 3,
+          JSON.stringify(returned),
+        )
+      } else if (mode === 'EdgeTransfer') {
+        const card = await p.locator('#atlas').boundingBox(),
+          dst = await p.locator('#destination').boundingBox()
+        async function edge() {
+          await p.mouse.move(card.x + card.width / 2, card.y + card.height / 2)
+          await p.mouse.down()
+          await p.mouse.move(dst.x + dst.width / 2, dst.y + dst.height - 12, {
+            steps: 30,
+          })
+        }
+        await edge()
+        await p.waitForTimeout(900)
+        await p.locator('nav button').evaluate((el) => el.click())
+        await p.mouse.up()
+        const cancelled = await state()
+        await p.waitForTimeout(400)
+        assert(
+          cancelled.commits === 0 &&
+            cancelled.offset > 60 &&
+            (await state()).offset === cancelled.offset,
+          JSON.stringify(cancelled),
+        )
+        await p.reload()
+        await p.waitForFunction(() => window.snapshot)
+        await edge()
+        await p.waitForTimeout(1800)
+        await p.mouse.up()
+        await p.waitForTimeout(400)
+        const completed = await state()
+        assert(
+          completed.commits === 1 && completed.index > 12 && completed.offset > 300,
+          JSON.stringify(completed),
+        )
+      } else if (mode === 'Transfer') {
         await drag('Atlas', 'Elm')
         assert.equal((await state()).commits, 1)
         await p.getByText('Reject', { exact: true }).click()

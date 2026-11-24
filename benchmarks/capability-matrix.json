@@ -38,6 +38,7 @@
           "liquid",
           "listChanges",
           "listTransferOptions",
+          "listTransferScroll",
           "loader",
           "motionBehaviors",
           "motionScope",
@@ -248,6 +249,7 @@
           "drawingLimits",
           "gestureRelations",
           "listTransferOptions",
+          "listTransferScroll",
           "origamiSpring",
           "presets",
           "resolveListTarget",
@@ -2684,17 +2686,17 @@
       "nativeStatus": "published",
       "webStatus": "platform-specific",
       "counterpart": "gestures",
-      "contract": "Available in RC.16 (Beta): native Core ListView, linear CollectionView and horizontal Core ScrollView port. Web keeps existing scrollView input with browser ownership and scheduling.",
-      "issues": [496],
-      "evidence": ["src/scroll-handoff.ts", "benchmarks/collections-scroll/README.md"]
+      "contract": "RC.16 includes Core ListView, linear CollectionView and horizontal Core ScrollView. The development branch adds forward uniform vertical CollectionView grids. Web accepts a scrollable CSS grid as its sheet scrollView.",
+      "issues": [496, 528],
+      "evidence": ["src/scroll-handoff.ts", "benchmarks/collection-layouts/README.md"]
     },
     {
       "entry": "./appkit",
       "symbol": "appKitMotion",
       "webStatus": "platform-specific",
       "counterpart": "WebRuntime.animate",
-      "issues": [516],
-      "contract": "Experimental AppKit Core Animation entry on the development branch. One owner per native control supports finite opacity and x/y translation, reduced motion, interruption, suspension and disposal. Web uses its existing DOM animation entry.",
+      "issues": [516, 531, 532],
+      "contract": "Experimental AppKit Core Animation entry on the development branch. One owner per native control supports finite opacity, translation, independent scale factors and rotation in degrees. Each handle can pause and resume its remaining track. Suspension cancels all tracks. Web uses its existing DOM animation entry.",
       "evidence": [
         "src/desktop/finite.ts",
         "benchmarks/desktop-motion/appkit.mjs",
@@ -2707,8 +2709,8 @@
       "symbol": "windowsMotion",
       "webStatus": "platform-specific",
       "counterpart": "WebRuntime.animate",
-      "issues": [519],
-      "contract": "Experimental Windows XAML Storyboard entry on the development branch. One owner per native control supports finite opacity and x/y translation, reduced motion, interruption, suspension and disposal. Web uses its existing DOM animation entry.",
+      "issues": [519, 531, 532],
+      "contract": "Experimental Windows XAML Storyboard entry on the development branch. One owner per native control supports finite opacity, translation, independent scale factors and rotation in degrees. Each handle can pause and resume its remaining track. Suspension cancels all tracks. Web uses its existing DOM animation entry.",
       "evidence": [
         "src/desktop/finite.ts",
         "benchmarks/desktop-motion/windows.mjs",
@@ -2742,6 +2744,34 @@
         "test/list-transfer.spec.ts",
         "benchmarks/collection-layouts/native.ts",
         "benchmarks/collection-layouts/web.ts"
+      ]
+    },
+    {
+      "entry": ".",
+      "symbol": "listTransferScroll",
+      "webStatus": "pending",
+      "counterpart": "listTransferScroll",
+      "issues": [529],
+      "contract": "Optional vertical destination scrolling for controlled transfers. Native uses a mounted ScrollView and Web a DOM scroller. The shared policy updates the slot during stationary contact and stops on interruption or exhaustion.",
+      "evidence": [
+        "src/core/list-transfer.ts",
+        "test/list-transfer.spec.ts",
+        "benchmarks/collection-layouts/continuity-native.ts",
+        "benchmarks/collection-layouts/continuity-web.ts"
+      ]
+    },
+    {
+      "entry": "./web",
+      "symbol": "listTransferScroll",
+      "webStatus": "pending",
+      "counterpart": "listTransferScroll",
+      "issues": [529],
+      "contract": "Optional vertical destination scrolling for controlled transfers. Native uses a mounted ScrollView and Web a DOM scroller. The shared policy updates the slot during stationary contact and stops on interruption or exhaustion.",
+      "evidence": [
+        "src/core/list-transfer.ts",
+        "test/list-transfer.spec.ts",
+        "benchmarks/collection-layouts/continuity-native.ts",
+        "benchmarks/collection-layouts/continuity-web.ts"
       ]
     }
   ],

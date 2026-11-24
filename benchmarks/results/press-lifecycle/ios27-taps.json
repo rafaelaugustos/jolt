@@ -1,0 +1,785 @@
+{
+  "platform": "ios",
+  "events": [
+    {
+      "name": "setup",
+      "time": 1795556774832,
+      "mode": "press",
+      "variant": "plain",
+      "taps": 0,
+      "suspended": false,
+      "generation": 1,
+      "scope": 0
+    },
+    {
+      "name": "resume",
+      "time": 1795556774908,
+      "mode": "press",
+      "variant": "plain",
+      "taps": 0,
+      "suspended": false,
+      "generation": 1,
+      "scope": 0
+    },
+    {
+      "name": "setup",
+      "time": 1795556777346,
+      "mode": "press",
+      "variant": "plain",
+      "taps": 0,
+      "suspended": false,
+      "generation": 2,
+      "scope": 0
+    },
+    {
+      "name": "tap",
+      "time": 1795556777978,
+      "mode": "press",
+      "variant": "plain",
+      "taps": 1,
+      "suspended": false,
+      "generation": 2,
+      "scope": 0
+    },
+    {
+      "name": "suspend",
+      "time": 1795556778455,
+      "mode": "press",
+      "variant": "plain",
+      "taps": 1,
+      "suspended": true,
+      "generation": 2,
+      "scope": 0
+    },
+    {
+      "name": "snapshot",
+      "time": 1795556779678,
+      "mode": "press",
+      "variant": "plain",
+      "taps": 1,
+      "suspended": true,
+      "generation": 2,
+      "scope": 0
+    },
+    {
+      "name": "resume",
+      "time": 1795556779711,
+      "mode": "press",
+      "variant": "plain",
+      "taps": 1,
+      "suspended": false,
+      "generation": 2,
+      "scope": 0
+    },
+    {
+      "name": "setup",
+      "time": 1795556779712,
+      "mode": "press",
+      "variant": "plain",
+      "taps": 1,
+      "suspended": false,
+      "generation": 3,
+      "scope": 0
+    },
+    {
+      "name": "tap",
+      "time": 1795556779995,
+      "mode": "press",
+      "variant": "plain",
+      "taps": 2,
+      "suspended": false,
+      "generation": 3,
+      "scope": 0
+    },
+    {
+      "name": "suspend",
+      "time": 1795556780523,
+      "mode": "press",
+      "variant": "plain",
+      "taps": 2,
+      "suspended": true,
+      "generation": 3,
+      "scope": 0
+    },
+    {
+      "name": "snapshot",
+      "time": 1795556781761,
+      "mode": "press",
+      "variant": "plain",
+      "taps": 2,
+      "suspended": true,
+      "generation": 3,
+      "scope": 0
+    },
+    {
+      "name": "resume",
+      "time": 1795556781784,
+      "mode": "press",
+      "variant": "plain",
+      "taps": 2,
+      "suspended": false,
+      "generation": 3,
+      "scope": 0
+    },
+    {
+      "name": "setup",
+      "time": 1795556781784,
+      "mode": "press",
+      "variant": "plain",
+      "taps": 2,
+      "suspended": false,
+      "generation": 4,
+      "scope": 0
+    },
+    {
+      "name": "tap",
+      "time": 1795556782061,
+      "mode": "press",
+      "variant": "plain",
+      "taps": 3,
+      "suspended": false,
+      "generation": 4,
+      "scope": 0
+    },
+    {
+      "name": "suspend",
+      "time": 1795556782745,
+      "mode": "press",
+      "variant": "plain",
+      "taps": 3,
+      "suspended": true,
+      "generation": 4,
+      "scope": 0
+    },
+    {
+      "name": "snapshot",
+      "time": 1795556783978,
+      "mode": "press",
+      "variant": "plain",
+      "taps": 3,
+      "suspended": true,
+      "generation": 4,
+      "scope": 0
+    },
+    {
+      "name": "resume",
+      "time": 1795556784009,
+      "mode": "press",
+      "variant": "plain",
+      "taps": 3,
+      "suspended": false,
+      "generation": 4,
+      "scope": 0
+    },
+    {
+      "name": "setup",
+      "time": 1795556784009,
+      "mode": "press",
+      "variant": "plain",
+      "taps": 3,
+      "suspended": false,
+      "generation": 5,
+      "scope": 0
+    },
+    {
+      "name": "setup",
+      "time": 1795556784299,
+      "mode": "press",
+      "variant": "plain",
+      "taps": 3,
+      "suspended": false,
+      "generation": 6,
+      "scope": 0
+    },
+    {
+      "name": "tap",
+      "time": 1795556784928,
+      "mode": "press",
+      "variant": "plain",
+      "taps": 4,
+      "suspended": false,
+      "generation": 6,
+      "scope": 0
+    },
+    {
+      "name": "snapshot",
+      "time": 1795556785245,
+      "mode": "press",
+      "variant": "plain",
+      "taps": 4,
+      "suspended": false,
+      "generation": 6,
+      "scope": 0
+    },
+    {
+      "name": "setup",
+      "time": 1795556785562,
+      "mode": "press",
+      "variant": "direct",
+      "taps": 0,
+      "suspended": false,
+      "generation": 7,
+      "scope": 0
+    },
+    {
+      "name": "tap",
+      "time": 1795556786164,
+      "mode": "press",
+      "variant": "direct",
+      "taps": 1,
+      "suspended": false,
+      "generation": 7,
+      "scope": 0
+    },
+    {
+      "name": "suspend",
+      "time": 1795556786647,
+      "mode": "press",
+      "variant": "direct",
+      "taps": 1,
+      "suspended": true,
+      "generation": 7,
+      "scope": 0
+    },
+    {
+      "name": "snapshot",
+      "time": 1795556787878,
+      "mode": "press",
+      "variant": "direct",
+      "taps": 1,
+      "suspended": true,
+      "generation": 7,
+      "scope": 0
+    },
+    {
+      "name": "resume",
+      "time": 1795556787904,
+      "mode": "press",
+      "variant": "direct",
+      "taps": 1,
+      "suspended": false,
+      "generation": 7,
+      "scope": 0
+    },
+    {
+      "name": "setup",
+      "time": 1795556787905,
+      "mode": "press",
+      "variant": "direct",
+      "taps": 1,
+      "suspended": false,
+      "generation": 8,
+      "scope": 0
+    },
+    {
+      "name": "tap",
+      "time": 1795556788179,
+      "mode": "press",
+      "variant": "direct",
+      "taps": 2,
+      "suspended": false,
+      "generation": 8,
+      "scope": 0
+    },
+    {
+      "name": "suspend",
+      "time": 1795556788717,
+      "mode": "press",
+      "variant": "direct",
+      "taps": 2,
+      "suspended": true,
+      "generation": 8,
+      "scope": 0
+    },
+    {
+      "name": "snapshot",
+      "time": 1795556789945,
+      "mode": "press",
+      "variant": "direct",
+      "taps": 2,
+      "suspended": true,
+      "generation": 8,
+      "scope": 0
+    },
+    {
+      "name": "resume",
+      "time": 1795556789971,
+      "mode": "press",
+      "variant": "direct",
+      "taps": 2,
+      "suspended": false,
+      "generation": 8,
+      "scope": 0
+    },
+    {
+      "name": "setup",
+      "time": 1795556789972,
+      "mode": "press",
+      "variant": "direct",
+      "taps": 2,
+      "suspended": false,
+      "generation": 9,
+      "scope": 0
+    },
+    {
+      "name": "tap",
+      "time": 1795556790263,
+      "mode": "press",
+      "variant": "direct",
+      "taps": 3,
+      "suspended": false,
+      "generation": 9,
+      "scope": 0
+    },
+    {
+      "name": "suspend",
+      "time": 1795556790938,
+      "mode": "press",
+      "variant": "direct",
+      "taps": 3,
+      "suspended": true,
+      "generation": 9,
+      "scope": 0
+    },
+    {
+      "name": "snapshot",
+      "time": 1795556792162,
+      "mode": "press",
+      "variant": "direct",
+      "taps": 3,
+      "suspended": true,
+      "generation": 9,
+      "scope": 0
+    },
+    {
+      "name": "resume",
+      "time": 1795556792191,
+      "mode": "press",
+      "variant": "direct",
+      "taps": 3,
+      "suspended": false,
+      "generation": 9,
+      "scope": 0
+    },
+    {
+      "name": "setup",
+      "time": 1795556792191,
+      "mode": "press",
+      "variant": "direct",
+      "taps": 3,
+      "suspended": false,
+      "generation": 10,
+      "scope": 0
+    },
+    {
+      "name": "setup",
+      "time": 1795556792480,
+      "mode": "press",
+      "variant": "direct",
+      "taps": 3,
+      "suspended": false,
+      "generation": 11,
+      "scope": 0
+    },
+    {
+      "name": "tap",
+      "time": 1795556793112,
+      "mode": "press",
+      "variant": "direct",
+      "taps": 4,
+      "suspended": false,
+      "generation": 11,
+      "scope": 0
+    },
+    {
+      "name": "snapshot",
+      "time": 1795556793428,
+      "mode": "press",
+      "variant": "direct",
+      "taps": 4,
+      "suspended": false,
+      "generation": 11,
+      "scope": 0
+    },
+    {
+      "name": "setup",
+      "time": 1795556793728,
+      "mode": "press",
+      "variant": "scoped",
+      "taps": 0,
+      "suspended": false,
+      "generation": 12,
+      "scope": 1
+    },
+    {
+      "name": "tap",
+      "time": 1795556794345,
+      "mode": "press",
+      "variant": "scoped",
+      "taps": 1,
+      "suspended": false,
+      "generation": 12,
+      "scope": 1
+    },
+    {
+      "name": "suspend",
+      "time": 1795556794803,
+      "mode": "press",
+      "variant": "scoped",
+      "taps": 1,
+      "suspended": true,
+      "generation": 12,
+      "scope": 1
+    },
+    {
+      "name": "snapshot",
+      "time": 1795556796045,
+      "mode": "press",
+      "variant": "scoped",
+      "taps": 1,
+      "suspended": true,
+      "generation": 12,
+      "scope": 1
+    },
+    {
+      "name": "resume",
+      "time": 1795556796076,
+      "mode": "press",
+      "variant": "scoped",
+      "taps": 1,
+      "suspended": false,
+      "generation": 12,
+      "scope": 1
+    },
+    {
+      "name": "setup",
+      "time": 1795556796077,
+      "mode": "press",
+      "variant": "scoped",
+      "taps": 1,
+      "suspended": false,
+      "generation": 13,
+      "scope": 1
+    },
+    {
+      "name": "tap",
+      "time": 1795556796362,
+      "mode": "press",
+      "variant": "scoped",
+      "taps": 2,
+      "suspended": false,
+      "generation": 13,
+      "scope": 1
+    },
+    {
+      "name": "suspend",
+      "time": 1795556796871,
+      "mode": "press",
+      "variant": "scoped",
+      "taps": 2,
+      "suspended": true,
+      "generation": 13,
+      "scope": 1
+    },
+    {
+      "name": "snapshot",
+      "time": 1795556798111,
+      "mode": "press",
+      "variant": "scoped",
+      "taps": 2,
+      "suspended": true,
+      "generation": 13,
+      "scope": 1
+    },
+    {
+      "name": "resume",
+      "time": 1795556798132,
+      "mode": "press",
+      "variant": "scoped",
+      "taps": 2,
+      "suspended": false,
+      "generation": 13,
+      "scope": 1
+    },
+    {
+      "name": "setup",
+      "time": 1795556798133,
+      "mode": "press",
+      "variant": "scoped",
+      "taps": 2,
+      "suspended": false,
+      "generation": 14,
+      "scope": 1
+    },
+    {
+      "name": "tap",
+      "time": 1795556798412,
+      "mode": "press",
+      "variant": "scoped",
+      "taps": 3,
+      "suspended": false,
+      "generation": 14,
+      "scope": 1
+    },
+    {
+      "name": "suspend",
+      "time": 1795556799072,
+      "mode": "press",
+      "variant": "scoped",
+      "taps": 3,
+      "suspended": true,
+      "generation": 14,
+      "scope": 1
+    },
+    {
+      "name": "snapshot",
+      "time": 1795556800312,
+      "mode": "press",
+      "variant": "scoped",
+      "taps": 3,
+      "suspended": true,
+      "generation": 14,
+      "scope": 1
+    },
+    {
+      "name": "resume",
+      "time": 1795556800337,
+      "mode": "press",
+      "variant": "scoped",
+      "taps": 3,
+      "suspended": false,
+      "generation": 14,
+      "scope": 1
+    },
+    {
+      "name": "setup",
+      "time": 1795556800338,
+      "mode": "press",
+      "variant": "scoped",
+      "taps": 3,
+      "suspended": false,
+      "generation": 15,
+      "scope": 1
+    },
+    {
+      "name": "setup",
+      "time": 1795556800630,
+      "mode": "press",
+      "variant": "scoped",
+      "taps": 3,
+      "suspended": false,
+      "generation": 16,
+      "scope": 1
+    },
+    {
+      "name": "tap",
+      "time": 1795556801262,
+      "mode": "press",
+      "variant": "scoped",
+      "taps": 4,
+      "suspended": false,
+      "generation": 16,
+      "scope": 1
+    },
+    {
+      "name": "snapshot",
+      "time": 1795556801578,
+      "mode": "press",
+      "variant": "scoped",
+      "taps": 4,
+      "suspended": false,
+      "generation": 16,
+      "scope": 1
+    },
+    {
+      "name": "setup",
+      "time": 1795556801879,
+      "mode": "press",
+      "variant": "repeated",
+      "taps": 0,
+      "suspended": false,
+      "generation": 17,
+      "scope": 2
+    },
+    {
+      "name": "tap",
+      "time": 1795556802496,
+      "mode": "press",
+      "variant": "repeated",
+      "taps": 1,
+      "suspended": false,
+      "generation": 17,
+      "scope": 2
+    },
+    {
+      "name": "suspend",
+      "time": 1795556802950,
+      "mode": "press",
+      "variant": "repeated",
+      "taps": 1,
+      "suspended": true,
+      "generation": 17,
+      "scope": 2
+    },
+    {
+      "name": "snapshot",
+      "time": 1795556804178,
+      "mode": "press",
+      "variant": "repeated",
+      "taps": 1,
+      "suspended": true,
+      "generation": 17,
+      "scope": 2
+    },
+    {
+      "name": "resume",
+      "time": 1795556804221,
+      "mode": "press",
+      "variant": "repeated",
+      "taps": 1,
+      "suspended": false,
+      "generation": 17,
+      "scope": 2
+    },
+    {
+      "name": "setup",
+      "time": 1795556804222,
+      "mode": "press",
+      "variant": "repeated",
+      "taps": 1,
+      "suspended": false,
+      "generation": 18,
+      "scope": 2
+    },
+    {
+      "name": "tap",
+      "time": 1795556804496,
+      "mode": "press",
+      "variant": "repeated",
+      "taps": 2,
+      "suspended": false,
+      "generation": 18,
+      "scope": 2
+    },
+    {
+      "name": "suspend",
+      "time": 1795556805011,
+      "mode": "press",
+      "variant": "repeated",
+      "taps": 2,
+      "suspended": true,
+      "generation": 18,
+      "scope": 2
+    },
+    {
+      "name": "snapshot",
+      "time": 1795556806245,
+      "mode": "press",
+      "variant": "repeated",
+      "taps": 2,
+      "suspended": true,
+      "generation": 18,
+      "scope": 2
+    },
+    {
+      "name": "resume",
+      "time": 1795556806275,
+      "mode": "press",
+      "variant": "repeated",
+      "taps": 2,
+      "suspended": false,
+      "generation": 18,
+      "scope": 2
+    },
+    {
+      "name": "setup",
+      "time": 1795556806276,
+      "mode": "press",
+      "variant": "repeated",
+      "taps": 2,
+      "suspended": false,
+      "generation": 19,
+      "scope": 2
+    },
+    {
+      "name": "tap",
+      "time": 1795556806545,
+      "mode": "press",
+      "variant": "repeated",
+      "taps": 3,
+      "suspended": false,
+      "generation": 19,
+      "scope": 2
+    },
+    {
+      "name": "suspend",
+      "time": 1795556807231,
+      "mode": "press",
+      "variant": "repeated",
+      "taps": 3,
+      "suspended": true,
+      "generation": 19,
+      "scope": 2
+    },
+    {
+      "name": "snapshot",
+      "time": 1795556808462,
+      "mode": "press",
+      "variant": "repeated",
+      "taps": 3,
+      "suspended": true,
+      "generation": 19,
+      "scope": 2
+    },
+    {
+      "name": "resume",
+      "time": 1795556808492,
+      "mode": "press",
+      "variant": "repeated",
+      "taps": 3,
+      "suspended": false,
+      "generation": 19,
+      "scope": 2
+    },
+    {
+      "name": "setup",
+      "time": 1795556808492,
+      "mode": "press",
+      "variant": "repeated",
+      "taps": 3,
+      "suspended": false,
+      "generation": 20,
+      "scope": 2
+    },
+    {
+      "name": "setup",
+      "time": 1795556808780,
+      "mode": "press",
+      "variant": "repeated",
+      "taps": 3,
+      "suspended": false,
+      "generation": 21,
+      "scope": 2
+    },
+    {
+      "name": "tap",
+      "time": 1795556809396,
+      "mode": "press",
+      "variant": "repeated",
+      "taps": 4,
+      "suspended": false,
+      "generation": 21,
+      "scope": 2
+    },
+    {
+      "name": "snapshot",
+      "time": 1795556809712,
+      "mode": "press",
+      "variant": "repeated",
+      "taps": 4,
+      "suspended": false,
+      "generation": 21,
+      "scope": 2
+    }
+  ]
+}

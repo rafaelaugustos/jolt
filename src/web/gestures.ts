@@ -437,47 +437,54 @@ export function createGestures(
     samples = []
     speed = { x: 0, y: 0 }
   }
-  events.on(target, 'pointerdown', (e: PointerEvent) => {
-    if (
-      !allowed() ||
-      e.defaultPrevented ||
-      e.button !== 0 ||
-      inputChild(e, target) ||
-      pointers.has(e.pointerId)
-    )
-      return
-    if (pointers.size >= 2) return
-    assertDragSpace(target, true, true)
-    if (!pointers.size) {
-      stop()
-      active = false
-      rejected = false
-      hadMultiple = false
-      downAt = e.timeStamp
-      suppressUntil = 0
-      for (const peer of Object.values(peers)) peer.begin(e.pointerId)
-    } else {
-      flush()
-      hadMultiple = true
-      clearTap()
-    }
-    pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
-    rebase()
-    sample(e.timeStamp)
-    try {
-      if (Object.values(peers).some((peer) => peer.coordinated))
-        captures.set(e.pointerId, coordinatedCapture(document, e.pointerId))
-      else target.setPointerCapture(e.pointerId)
-    } catch (error) {
-      cancel()
-      host.error(error)
-      return
-    }
-    if (pointers.size === 1) {
-      scroll?.begin(e)
-      notify('onContactStart')
-    }
-  })
+  events.on(
+    target,
+    'pointerdown',
+    (e: PointerEvent) => {
+      if (
+        !allowed() ||
+        e.defaultPrevented ||
+        e.button !== 0 ||
+        inputChild(e, target) ||
+        pointers.has(e.pointerId)
+      )
+        return
+      if (pointers.size >= 2) return
+      assertDragSpace(target, true, true)
+      if (!pointers.size) {
+        stop()
+        active = false
+        rejected = false
+        hadMultiple = false
+        downAt = e.timeStamp
+        suppressUntil = 0
+        for (const peer of Object.values(peers)) peer.begin(e.pointerId)
+      } else {
+        flush()
+        hadMultiple = true
+        clearTap()
+      }
+      pointers.set(e.pointerId, { x: e.clientX, y: e.clientY })
+      rebase()
+      sample(e.timeStamp)
+      try {
+        if (Object.values(peers).some((peer) => peer.coordinated))
+          captures.set(e.pointerId, coordinatedCapture(document, e.pointerId))
+        else target.setPointerCapture(e.pointerId)
+      } catch (error) {
+        cancel()
+        host.error(error)
+        return
+      }
+      if (pointers.size === 1) {
+        scroll?.begin(e)
+        // Mouse selection can auto-scroll a WebKit viewport against a held pan.
+        if (scroll && e.pointerType === 'mouse' && e.cancelable) e.preventDefault()
+        notify('onContactStart')
+      }
+    },
+    false,
+  )
   events.on(
     events.view,
     'pointermove',

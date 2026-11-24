@@ -138,11 +138,11 @@ final class DocsTests: XCTestCase {
         for variant in ["plain", "direct", "scoped", "repeated"] {
             app.buttons["portable-" + variant].tap()
             Thread.sleep(forTimeInterval: 0.3)
-            for _ in 0..<3 {
+            for delay in [0.0, 0.05, 0.20] {
                 let button = app.buttons["portable-button"]
                 let point = CGPoint(x: button.frame.midX, y: button.frame.midY)
                 XCTAssertNil(JoltNativeTap(point))
-                Thread.sleep(forTimeInterval: 0.05)
+                Thread.sleep(forTimeInterval: delay)
                 XCUIDevice.shared.press(.home)
                 Thread.sleep(forTimeInterval: 0.6)
                 app.activate()

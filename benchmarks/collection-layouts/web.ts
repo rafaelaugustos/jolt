@@ -1,3 +1,4 @@
+import { collectionContinuity } from './continuity-web.js'
 import { createWebRuntime, listTransferOptions } from '../../src/web/public.js'
 const runtime = createWebRuntime(document),
   list = document.querySelector<HTMLElement>('#list')!,
@@ -41,7 +42,12 @@ function render(next: readonly string[]) {
   items = [...next]
   list.replaceChildren(...items.map(card))
 }
-if (mode === 'Transfer') {
+let continuity: (() => object) | undefined
+if (mode === 'GridSheet' || mode === 'EdgeTransfer') {
+  document.querySelector('h1')!.textContent =
+    mode === 'GridSheet' ? 'Grid in a bottom sheet' : 'Transfer between lists'
+  continuity = collectionContinuity(mode, runtime, list, status)
+} else if (mode === 'Transfer') {
   items = ['Atlas', 'Birch', 'Cedar']
   const left = document.createElement('section'),
     target = document.createElement('section')
@@ -159,5 +165,6 @@ if (mode === 'Transfer') {
   )
 }
 Object.assign(window, {
-  snapshot: () => ({ items: [...items], right: [...right], commits, mutations }),
+  snapshot:
+    continuity ?? (() => ({ items: [...items], right: [...right], commits, mutations })),
 })

@@ -154,3 +154,11 @@ Cree un controlador por elemento. Una sustitución parte del valor visible. Canc
 <Clip name="appkit-desktop-motion" caption="Ventana AppKit en macOS. El botón cambia de destino, conserva la opacidad interrumpida y recupera la opacidad total." />
 
 <Clip name="windows-xaml-motion" caption="Ventana XAML en Windows Server 2025. El botón cambia de destino, mantiene el valor de opacidad y vuelve a ser opaco." />
+
+## Escala, rotación y controles de reproducción
+
+AppKit y Windows XAML también animan `scaleX`, `scaleY` (factores positivos, con 1 para el tamaño original) y `rotate` (grados). Cada propiedad tiene su canal. Reemplazar la rotación conserva la traslación y ambas escalas. Llama a `pause()` en el control devuelto para mantener el valor mostrado y a `resume()` para continuar por la duración y curva restantes. La misma promesa `finished` se resuelve al terminar o interrumpir. `owner.suspend()` cancela incluso los canales pausados. Respeta la preferencia de movimiento reducido del sistema.
+
+<Clip :autoplay="false" name="desktop-transforms-appkit" caption="macOS · AppKit — transformaciones independientes, pausa y reproducción restante." />
+
+<Clip :autoplay="false" name="desktop-transforms-windows" caption="Windows Server 2025 · XAML — transformaciones independientes, pausa y reproducción restante." />

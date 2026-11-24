@@ -148,3 +148,11 @@ Los consumidores empaquetados React, Angular, Svelte y Solid usan APIs Web exist
 <Clip name="web-characters-svelte" caption="Svelte · Chromium: keyframes, ratón/teclado reales, sockets y partículas coordinadas en un consumidor empaquetado." />
 
 <Clip name="web-characters-solid" caption="Solid · Chromium: keyframes, ratón/teclado reales, sockets y partículas coordinadas en un consumidor empaquetado." />
+
+## Mover una fila entre dos listas
+
+Crea un controlador con `JoltDropZones.listTransfer` para la clave de origen y el ID de destino. Proporciona las claves de ambas listas y los centros de las filas visibles en puntos globales según el orden del destino. Usa `axis` y `reverse` para listas horizontales o invertidas. La vista previa solo dibuja la posición. En `commit`, quita la fila de origen e insértala una vez en `toIndex`. El destino vacío acepta el índice cero. Una nueva revisión, la retirada del destino, claves duplicadas, cancelación o liberación invalidan la propuesta. `request` añade al final sin arrastrar. Web usa `listTransferOptions` con los datos de la aplicación.
+
+<Clip :autoplay="false" name="swiftui-controlled-transfer-ios" caption="iOS 27 · iPhone Simulator · SwiftUI — traslado, rechazo y destino vacío." />
+
+<Clip :autoplay="false" name="swiftui-controlled-transfer-macos" caption="macOS · SwiftUI — traslado, rechazo y destino vacío." />

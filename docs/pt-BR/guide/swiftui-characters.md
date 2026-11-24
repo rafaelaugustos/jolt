@@ -148,3 +148,11 @@ Os consumidores empacotados React, Angular, Svelte e Solid usam as APIs Web exis
 <Clip name="web-characters-svelte" caption="Svelte · Chromium: keyframes, interação real com mouse/teclado, sockets e partículas coordenadas em um consumidor empacotado." />
 
 <Clip name="web-characters-solid" caption="Solid · Chromium: keyframes, interação real com mouse/teclado, sockets e partículas coordenadas em um consumidor empacotado." />
+
+## Mover uma linha entre duas listas
+
+Crie um controlador com `JoltDropZones.listTransfer` para a chave de origem e o ID de destino. Informe as chaves das duas listas e os centros das linhas visíveis em pontos globais, na ordem do destino. Use `axis` e `reverse` para listas horizontais ou invertidas. A prévia apenas mostra a inserção. Em `commit`, remova a linha da origem e insira uma vez em `toIndex`. Um destino vazio aceita o índice zero. Mudanças de revisão, remoção do destino, chaves duplicadas, cancelamento ou descarte invalidam a proposta. `request` insere no fim sem arrastar. Na Web, use `listTransferOptions` com as listas controladas pelo aplicativo.
+
+<Clip :autoplay="false" name="swiftui-controlled-transfer-ios" caption="iOS 27 · iPhone Simulator · SwiftUI — transferência, recusa e destino vazio." />
+
+<Clip :autoplay="false" name="swiftui-controlled-transfer-macos" caption="macOS · SwiftUI — transferência, recusa e destino vazio." />

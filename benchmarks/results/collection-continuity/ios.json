@@ -1,0 +1,54 @@
+{
+  "compact": {
+    "scene": "Grid sheet",
+    "message": "Audit",
+    "maxFirst": 0,
+    "first": 0,
+    "height": 230,
+    "min": 230,
+    "max": 580
+  },
+  "expanded": {
+    "scene": "Grid sheet",
+    "message": "Audit",
+    "maxFirst": 12,
+    "first": 12,
+    "height": 580,
+    "min": 230,
+    "max": 580
+  },
+  "returned": {
+    "scene": "Grid sheet",
+    "message": "Audit",
+    "maxFirst": 12,
+    "first": 0,
+    "height": 230,
+    "min": 230,
+    "max": 580
+  },
+  "singleContactReversal": {
+    "scene": "Grid sheet",
+    "message": "Audit",
+    "maxFirst": 6,
+    "first": 0,
+    "height": 230,
+    "min": 230,
+    "max": 580
+  },
+  "cancelled": {
+    "scene": "Transfer",
+    "message": "Audit",
+    "commits": 0,
+    "index": -1,
+    "preview": -1,
+    "offset": 53.333333333333336
+  },
+  "committed": {
+    "scene": "Transfer",
+    "message": "Audit",
+    "commits": 1,
+    "index": 24,
+    "preview": -1,
+    "offset": 690.6666666666666
+  }
+}

@@ -72,6 +72,16 @@ try:
             elif cue['action'] in ['save-held', 'save-lifecycle']:
                 container = Path(subprocess.check_output(['xcrun', 'simctl', 'get_app_container', device, app, 'data'], text=True).strip())
                 trace = json.loads((container/'Documents/portable-lab.json').read_text())
+                events = trace['events']
+                assert not any(e['name']=='tap' and e['suspended'] for e in events), 'Action delivered while suspended'
+                if 'testPressLifecycle' in methods and cue['action']=='save-lifecycle':
+                    for variant in ('plain','direct','scoped','repeated'):
+                        selected=[e for e in events if e['variant']==variant]
+                        assert [e['taps'] for e in selected if e['name']=='tap']==[1,2,3,4], variant
+                        assert sum(e['name']=='suspend' for e in selected)>=3, variant
+                if cue['action']=='save-held':
+                    assert sum(e['name']=='suspend' for e in events)>=4
+                    assert not any(e['name']=='tap' for e in events), 'Held contact activated the button'
                 (out/(cue['action'][5:]+'.json')).write_text(json.dumps(trace, indent=2)+'\n')
             else:
                 raise ValueError(cue)
