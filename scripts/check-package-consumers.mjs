@@ -131,10 +131,14 @@ try {
       '-e',
       `
     import assert from 'node:assert/strict';
+    assert.equal(typeof (await import('@rafaelaugusto/jolt/appkit')).appKitMotion, 'function');
+    assert.equal(typeof (await import('@rafaelaugusto/jolt/windows')).windowsMotion, 'function');
     for (const [specifier, file] of [
       ['@rafaelaugusto/jolt', '/dist/index.js'],
       ['@rafaelaugusto/jolt/vue', '/dist/vue/index.js'],
       ['@rafaelaugusto/jolt/native', '/dist/native/index.js'],
+      ['@rafaelaugusto/jolt/appkit', '/dist/desktop/appkit.js'],
+      ['@rafaelaugusto/jolt/windows', '/dist/desktop/windows.js'],
       ['@rafaelaugusto/jolt/web', '/dist/web/public.js'],
       ['@rafaelaugusto/jolt/audio', '/dist/audio/index.js'],
       ['@rafaelaugusto/jolt/web/audio', '/dist/web/audio.js'],

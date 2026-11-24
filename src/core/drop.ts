@@ -31,13 +31,15 @@ export interface DropTarget<T> {
   /** Larger values win; declaration order resolves ties. */
   readonly priority?: number
   /** Synchronous acceptance, evaluated again at the final release. */
-  readonly accept?: (event: DropEvent<T>) => boolean
+  readonly accept?: (event: DropEvent<T>, bounds?: DropRect) => boolean
   /** Extra hit area outside the visual bounds: one value or per edge, 0–1,000. */
   readonly padding?: number | DropPadding
 }
 export interface DropOptions<T> {
   readonly targets: readonly DropTarget<T>[]
   /** Axis-aligned visual bounds; overlap requires positive intersection area. */
+  onStart?: () => void
+  onCancel?: () => void
   hitTest?: 'center' | 'overlap'
   /** Every drag move, after hit testing; never after cancellation or disposal. */
   onMove?: (event: DropMoveEvent<T>) => void
@@ -188,6 +190,8 @@ export function createDropPolicy<T>(
   if (!['center', 'overlap'].includes(policy))
     throw new TypeError('Unknown drop hit-test policy.')
   for (const callback of [
+    options.onStart,
+    options.onCancel,
     options.onMove,
     options.onEnter,
     options.onLeave,
@@ -258,6 +262,7 @@ export function createDropPolicy<T>(
     if (Math.abs(x) > 0.01 || Math.abs(y) > 0.01) host.shift?.(-x, -y)
   }
   const cancel = () => {
+    const wasActive = active
     generation++
     active = false
     anchor = undefined
@@ -265,6 +270,7 @@ export function createDropPolicy<T>(
       stopEffect()
     } finally {
       hover(undefined)
+      if (wasActive) options.onCancel?.()
     }
   }
   const commit = (target: DropTarget<T> | undefined, method: DropEvent<T>['method']) => {
@@ -278,7 +284,7 @@ export function createDropPolicy<T>(
       return false
     }
     const detail = event(target, method),
-      allowed = target.accept?.(detail) ?? true
+      allowed = target.accept?.(detail, host.bounds(source)!) ?? true
     if (typeof allowed !== 'boolean')
       throw new TypeError('Drop acceptance must return a boolean, not a promise.')
     if (epoch !== generation || !available() || !host.bounds(target.target)) return false
@@ -402,6 +408,7 @@ export function createDropPolicy<T>(
         if (available()) {
           active = true
           anchor = layout()
+          options.onStart?.()
         }
       }),
     move: () =>

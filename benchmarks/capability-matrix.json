@@ -37,6 +37,7 @@
           "interactionSurface",
           "liquid",
           "listChanges",
+          "listTransferOptions",
           "loader",
           "motionBehaviors",
           "motionScope",
@@ -97,6 +98,16 @@
         "entry": "./gestures",
         "file": "src/gestures/index.ts",
         "exports": ["GestureSurface", "gestureRelations", "gestures", "scrollHandoff"]
+      },
+      {
+        "entry": "./appkit",
+        "file": "src/desktop/appkit.ts",
+        "exports": ["appKitMotion"]
+      },
+      {
+        "entry": "./windows",
+        "file": "src/desktop/windows.ts",
+        "exports": ["windowsMotion"]
       },
       {
         "entry": "./native",
@@ -236,6 +247,7 @@
           "cubicBezier",
           "drawingLimits",
           "gestureRelations",
+          "listTransferOptions",
           "origamiSpring",
           "presets",
           "resolveListTarget",
@@ -2644,9 +2656,13 @@
       "nativeStatus": "published",
       "webStatus": "platform-specific",
       "counterpart": "listChanges",
-      "contract": "Available in RC.16 (Beta): optional community CollectionView 6.1.x native vertical one-span adapter. Web reuses its explicit rows/render/anchor/recycling adapter; no shared virtualizer.",
-      "issues": [511],
-      "evidence": ["src/collection-view.ts", "benchmarks/collections-scroll/README.md"]
+      "contract": "Available in RC.16 (Beta): optional community CollectionView 6.1.x native vertical one-span adapter. Web reuses its explicit rows/render/anchor/recycling adapter; no shared virtualizer. The development branch adds single-span horizontal and regular multi-column vertical collections.",
+      "issues": [511, 523, 525],
+      "evidence": [
+        "src/collection-view.ts",
+        "benchmarks/collections-scroll/README.md",
+        "benchmarks/collection-layouts/native.ts"
+      ]
     },
     {
       "entry": "./reorder",
@@ -2654,9 +2670,13 @@
       "nativeStatus": "published",
       "webStatus": "platform-specific",
       "counterpart": "reorder",
-      "contract": "Available in RC.16 (Beta): vertical one-span UICollectionView/RecyclerView input, native edge scrolling and recycling. Web reorder cancels a contact when its realized keys or DOM targets change; pin the realized window for continuous drag.",
-      "issues": [512],
-      "evidence": ["src/collection-view.ts", "benchmarks/collections-scroll/README.md"]
+      "contract": "Available in RC.16 (Beta): vertical one-span UICollectionView/RecyclerView input, native edge scrolling and recycling. Web reorder cancels a contact when its realized keys or DOM targets change; pin the realized window for continuous drag. The development branch adds single-span horizontal and regular multi-column vertical collections.",
+      "issues": [512, 523, 525],
+      "evidence": [
+        "src/collection-view.ts",
+        "benchmarks/collections-scroll/README.md",
+        "benchmarks/collection-layouts/native.ts"
+      ]
     },
     {
       "entry": "./gestures",
@@ -2667,6 +2687,62 @@
       "contract": "Available in RC.16 (Beta): native Core ListView, linear CollectionView and horizontal Core ScrollView port. Web keeps existing scrollView input with browser ownership and scheduling.",
       "issues": [496],
       "evidence": ["src/scroll-handoff.ts", "benchmarks/collections-scroll/README.md"]
+    },
+    {
+      "entry": "./appkit",
+      "symbol": "appKitMotion",
+      "webStatus": "platform-specific",
+      "counterpart": "WebRuntime.animate",
+      "issues": [516],
+      "contract": "Experimental AppKit Core Animation entry on the development branch. One owner per native control supports finite opacity and x/y translation, reduced motion, interruption, suspension and disposal. Web uses its existing DOM animation entry.",
+      "evidence": [
+        "src/desktop/finite.ts",
+        "benchmarks/desktop-motion/appkit.mjs",
+        "test/desktop-motion.spec.ts",
+        "docs/guide/native-properties.md"
+      ]
+    },
+    {
+      "entry": "./windows",
+      "symbol": "windowsMotion",
+      "webStatus": "platform-specific",
+      "counterpart": "WebRuntime.animate",
+      "issues": [519],
+      "contract": "Experimental Windows XAML Storyboard entry on the development branch. One owner per native control supports finite opacity and x/y translation, reduced motion, interruption, suspension and disposal. Web uses its existing DOM animation entry.",
+      "evidence": [
+        "src/desktop/finite.ts",
+        "benchmarks/desktop-motion/windows.mjs",
+        "test/desktop-motion.spec.ts",
+        "docs/guide/native-properties.md"
+      ]
+    },
+    {
+      "entry": ".",
+      "symbol": "listTransferOptions",
+      "webStatus": "pending",
+      "counterpart": "listTransferOptions",
+      "issues": [526],
+      "contract": "Implemented on the development branch for two flat lists. The host supplies stable keys and realized row centers. Preview is provisional, synchronous acceptance controls one application-owned commit, and invalid snapshots or teardown prevent stale moves. Package publication is pending.",
+      "evidence": [
+        "src/core/list-transfer.ts",
+        "test/list-transfer.spec.ts",
+        "benchmarks/collection-layouts/native.ts",
+        "benchmarks/collection-layouts/web.ts"
+      ]
+    },
+    {
+      "entry": "./web",
+      "symbol": "listTransferOptions",
+      "webStatus": "pending",
+      "counterpart": "listTransferOptions",
+      "issues": [526],
+      "contract": "Implemented on the development branch for two flat lists. The host supplies stable keys and realized row centers. Preview is provisional, synchronous acceptance controls one application-owned commit, and invalid snapshots or teardown prevent stale moves. Package publication is pending.",
+      "evidence": [
+        "src/core/list-transfer.ts",
+        "test/list-transfer.spec.ts",
+        "benchmarks/collection-layouts/native.ts",
+        "benchmarks/collection-layouts/web.ts"
+      ]
     }
   ],
   "contracts": [
@@ -2973,6 +3049,18 @@
         "benchmarks/web-gestures/gestures.spec.ts"
       ],
       "status": "published-with-limits"
+    },
+    {
+      "id": "desktop-collections-development",
+      "issues": [516, 519, 523, 524, 525, 526],
+      "limit": "Pending publication. Native desktop tracks support finite opacity and translation. CollectionView supports forward single-span carousels and regular vertical grids. Core ListView reads mounted row geometry. Web virtualizers own anchoring and recycling, and cross-list updates are application controlled. Runtime and simulator evidence does not establish physical-device performance.",
+      "evidence": [
+        "benchmarks/desktop-motion/README.md",
+        "benchmarks/collection-layouts/README.md",
+        "docs/guide/collections-scroll.md",
+        "docs/guide/native-properties.md"
+      ],
+      "status": "pending"
     }
   ]
 }

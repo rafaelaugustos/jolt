@@ -23,10 +23,11 @@ import java.util.WeakHashMap;
 public final class ReorderSession implements View.OnTouchListener, Choreographer.FrameCallback, View.OnLayoutChangeListener, View.OnAttachStateChangeListener {
     public interface Listener { void onState(int state, int index, int toIndex); }
     private static final class Cell {
-        final float translation, alpha;
+        final float translation, translationX, alpha;
         final int index;
+        final SpringState springX = new SpringState(0,0);
         final SpringState spring = new SpringState(0, 0);
-        Cell(View view, int index) { this.translation = view.getTranslationY(); this.alpha = view.getAlpha(); this.index = index; }
+        Cell(View view, int index) { this.translation = view.getTranslationY(); this.translationX=view.getTranslationX(); this.alpha = view.getAlpha(); this.index = index; }
     }
     final ViewGroup list;
     private final RecycledList port;
@@ -36,24 +37,26 @@ public final class ReorderSession implements View.OnTouchListener, Choreographer
     private final Set<View> handles = Collections.newSetFromMap(new WeakHashMap<View, Boolean>());
     private final float density, edgeSize, edgeSpeed, slop;
     private final long longPress;
-    private final boolean handlesOnly;
+    private final boolean handlesOnly, spatial;
     private final GesturePeer peer=new GesturePeer(()->cancel());
     public GesturePeer recognizer(String kind){return kind.equals("longPress")?peer:null;}
     private final Runnable activate = () -> peer.request(()->begin());
     private boolean enabled = true, disposed, active, settling, pending, reduced;
     private int from, target, count, generation, width, height;
-    private float downX, downY, pointerX, pointerY, grabOffset, rowHeight, remainder;
+    private float downX, downY, pointerX, pointerY, grabOffset, grabX, rowHeight, remainder;
     private long previousTime;
     private ImageView overlay;
     private Bitmap bitmap;
     private ValueAnimator drop;
 
     public ReorderSession(ReorderSurface surface, ViewGroup list, String options, Listener listener) {
-        this.surface = surface; this.list = list; this.listener = listener; this.port=new RecycledList(list);
+        this.surface = surface; this.list = list; this.listener = listener;
         density = list.getResources().getDisplayMetrics().density;
         slop = ViewConfiguration.get(list.getContext()).getScaledTouchSlop();
         try {
             JSONObject config = new JSONObject(options);
+            boolean horizontal=config.optBoolean("horizontal"), grid=config.optBoolean("grid");
+            port=new RecycledList(list,horizontal,grid); spatial=horizontal || grid;
             longPress = config.getLong("longPress"); edgeSize = (float)config.getDouble("edgeSize") * density;
             edgeSpeed = (float)config.getDouble("edgeSpeed") * density;
             reduced = config.getBoolean("reducedMotion"); handlesOnly = config.getBoolean("handles");
@@ -116,6 +119,7 @@ public final class ReorderSession implements View.OnTouchListener, Choreographer
         overlay.layout(cell.getLeft(), 0, cell.getRight(), cell.getHeight());
         overlay.setTranslationY(cell.getTop()); overlay.setElevation(12 * density);
         list.getOverlay().add(overlay);
+        grabX=pointerX-cell.getLeft();
         rowHeight = port.stride(cell); grabOffset = pointerY - cell.getTop();
         width = list.getWidth(); height = list.getHeight(); count = port.count();
         from = target = index; active = true; settling = false; remainder = 0; generation++;
@@ -132,23 +136,36 @@ public final class ReorderSession implements View.OnTouchListener, Choreographer
         if (!active || settling || disposed) return;
         if (!list.isAttachedToWindow() || count != port.count() || width != list.getWidth() || height != list.getHeight()) { finish(false, 1); return; }
         double dt = Math.min(.04, Math.max(0, (time - previousTime) / 1e9)); previousTime = time;
-        float edge = Math.min(edgeSize, list.getHeight() / 3f), direction = 0;
-        if (pointerY < list.getPaddingTop() + edge) direction = -Math.min(1, (list.getPaddingTop() + edge - pointerY) / edge);
-        else if (pointerY > list.getHeight() - list.getPaddingBottom() - edge) direction = Math.min(1, (pointerY - list.getHeight() + list.getPaddingBottom() + edge) / edge);
+        float start = port.horizontal ? list.getPaddingLeft() : list.getPaddingTop();
+        float end = port.horizontal ? list.getWidth()-list.getPaddingRight() : list.getHeight()-list.getPaddingBottom();
+        float pointer = port.horizontal ? pointerX : pointerY;
+        float edge = Math.min(edgeSize, (end-start)/3f), direction = 0;
+        if (pointer < start+edge) direction=-Math.min(1,(start+edge-pointer)/edge);
+        else if (pointer > end-edge) direction=Math.min(1,(pointer-end+edge)/edge);
         float distance = (float)(direction * edgeSpeed * dt) + remainder;
         int pixels = (int)distance; remainder = distance - pixels;
         if (pixels != 0) port.scroll(pixels);
         update(dt);
         if (active) Choreographer.getInstance().postFrameCallback(this);
     }
-    private void restore(View view, Cell state) { view.setTranslationY(state.translation); view.setAlpha(state.alpha); }
+    private void restore(View view, Cell state) { view.setTranslationX(state.translationX); view.setTranslationY(state.translation); view.setAlpha(state.alpha); }
     private void update(double dt) {
         if (!active || settling) return;
         float top = pointerY - grabOffset;
-        overlay.setTranslationY(top);
+        if (!port.horizontal) overlay.setTranslationY(top);
+        if (spatial) overlay.setTranslationX(pointerX-grabX-overlay.getLeft());
+        double best=Double.POSITIVE_INFINITY;
         int visible = list.getChildCount(), destination = from;
         for (int offset = 0; offset < visible; offset++) {
-            View view = list.getChildAt(offset); int index=port.index(view); if(index<0 || index==from)continue;
+            View view = list.getChildAt(offset); int index=port.index(view); if(index<0)continue;
+            if (spatial) {
+                double dx=overlay.getX()+overlay.getWidth()/2f-view.getLeft()-view.getWidth()/2f;
+                double dy=overlay.getY()+overlay.getHeight()/2f-view.getTop()-view.getHeight()/2f;
+                double distance=dx*dx+dy*dy;
+                if (distance<best) { best=distance; destination=index; }
+                continue;
+            }
+            if(index==from)continue;
             float midpoint = view.getTop() + view.getHeight() / 2f - (index > from ? rowHeight : 0);
             int insertion = index - (index > from ? 1 : 0);
             destination = insertion;
@@ -166,6 +183,15 @@ public final class ReorderSession implements View.OnTouchListener, Choreographer
             Cell state = cells.get(view);
             if (state == null) { state = new Cell(view, index); cells.put(view, state); }
             float displacement = index > from && index <= target ? -rowHeight : index < from && index >= target ? rowHeight : 0;
+            if (spatial) {
+                float dx=0;
+                View slot=displacement==0 ? null : port.at(index+(displacement<0 ? -1 : 1));
+                if (slot!=null) { dx=slot.getLeft()-view.getLeft(); displacement=slot.getTop()-view.getTop(); }
+                else displacement=0;
+                if (reduced) { state.springX.position=dx; state.springX.velocity=0; }
+                else state.springX.advance(dx,360,34,1,dt);
+                view.setTranslationX(state.translationX+(float)state.springX.position);
+            }
             if (reduced) { state.spring.position = displacement; state.spring.velocity = 0; }
             else state.spring.advance(displacement, 360, 34, 1, dt);
             view.setTranslationY(state.translation + (float)state.spring.position);
@@ -179,8 +205,14 @@ public final class ReorderSession implements View.OnTouchListener, Choreographer
         float end = destination == null ? overlay.getTranslationY() : target > from ? destination.getBottom() - bitmap.getHeight() : destination.getTop();
         if (reduced) { finish(true, 0); return; }
         final int ticket = generation;
-        drop = ValueAnimator.ofFloat(overlay.getTranslationY(), end); drop.setDuration(180);
-        drop.addUpdateListener(animation -> { if (overlay != null) overlay.setTranslationY((float)animation.getAnimatedValue()); });
+        float startX=overlay.getX(), startY=overlay.getY();
+        float endX=spatial && destination!=null ? destination.getLeft() : startX;
+        drop = ValueAnimator.ofFloat(0f, 1f); drop.setDuration(180);
+        drop.addUpdateListener(animation -> { if (overlay != null) {
+            float progress=(float)animation.getAnimatedValue();
+            overlay.setX(startX+(endX-startX)*progress);
+            overlay.setY(startY+(end-startY)*progress);
+        } });
         drop.addListener(new AnimatorListenerAdapter() {
             @Override public void onAnimationEnd(Animator animation) { if (active && generation == ticket) finish(true, 0); }
         });

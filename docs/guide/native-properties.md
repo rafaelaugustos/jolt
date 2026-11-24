@@ -132,3 +132,25 @@ The wrapper preserves target identity until `dispose()`, which also releases its
 ## Portable foundations (RC.12 work)
 
 [Portable foundations (RC.12 work)](./portable-foundations): Pointer presence, coordinated property groups, renderer activity, bounded drawings and native press/shape fixes.
+
+## Experimental desktop motion {#desktop-motion}
+
+Use the AppKit entry with a layer-backed NSView and the Windows entry with a XAML UIElement. Both compile finite tracks for opacity (0–1) and x/y translation (points on macOS, DIPs on Windows). Core Animation and XAML Storyboard own playback. Duration is in milliseconds.
+
+Load AppKit and QuartzCore with @nativescript/macos-node-api 0.5.0-beta.0. The Windows fixture uses @nativescript/windows-napi 1.0.0-beta.20, a dedicated TranslateTransform and a Node 22 executable with the XAML Islands compatibility manifest. XAML Islands require Windows 10 version 1903 or later. The recorded test ran on Windows Server 2025. [Microsoft Learn](https://learn.microsoft.com/en-us/windows/uwp/xaml-islands/xaml-islands)
+
+```ts
+import { appKitMotion } from '@rafaelaugusto/jolt/appkit'
+import { windowsMotion } from '@rafaelaugusto/jolt/windows'
+
+const owner = appKitMotion(nsView)
+// Windows: const owner = windowsMotion(xamlElement, Windows)
+const move = owner.animate('x', 80, { duration: 350, ease: 'easeOut' })
+const completed = await move.finished
+```
+
+Create one owner per target. Replacement starts from its presentation value. Cancel or suspend to hold the current value. The finished promise resolves to false on interruption and true on completion. Respect system Reduce Motion or request an immediate update explicitly. Call suspend from the host suspension callback and dispose when the view or window is removed.
+
+<Clip name="appkit-desktop-motion" caption="macOS AppKit window. A button moves, changes destination, holds its opacity and returns to full opacity." />
+
+<Clip name="windows-xaml-motion" caption="Windows Server 2025, native XAML window. The button changes destination, holds its fade and restores opacity." />

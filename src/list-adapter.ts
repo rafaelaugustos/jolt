@@ -75,6 +75,9 @@ export function adapterListChanges<T, K extends ReorderKey>(
       if (
         !local ||
         size.height <= 0 ||
+        size.width <= 0 ||
+        local.x + size.width <= 0 ||
+        local.x >= extent.width ||
         local.y + size.height <= 0 ||
         local.y >= extent.height
       )

@@ -1,5 +1,7 @@
 # 组合数值、滚动与按键更新列表
 
+开发分支还支持 Core ListView 的实测行高及更多集合布局。 [CollectionView / ListView](./collections-scroll#collection-layouts)
+
 **已包含在 0.1.0-rc.15（测试版）。** 更新后请重新编译原生应用。以下视频来自所标注平台的实际交互；模拟器不能作为实体设备性能证明。
 
 2026 年 11 月 20 日，维护者批准 #385、#415 和 #494 使用模拟器验收。iOS 27 模拟器中的真实 VoiceOver 与 Android API 36 模拟器中的真实 TalkBack 均通过退出遍历及 Core ListView/CollectionView 按键保留焦点的检查（#498/#499）。原生焦点修复已包含在 RC.17 中；已发布的 RC.16 构件保持不变。实体指针验收（#492）仍独立跟踪。CollectionView 更新/排序仅支持单列垂直布局；分区、网格、跨列表移动不在适配器范围内，Web 虚拟化仍由应用负责。这些测试不证明实体设备精度、帧耗时或更低的应用 CPU/PSS。 [报告](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/acceptance-closure).

@@ -9,6 +9,13 @@ if (!existsSync(root + 'App_Resources'))
     root + 'App_Resources',
     { recursive: true },
   )
+const manifest = root + 'App_Resources/Android/src/main/AndroidManifest.xml'
+const android = readFileSync(manifest, 'utf8')
+const withRtl = android.includes('android:supportsRtl=')
+  ? android.replace(/android:supportsRtl="[^"]*"/, 'android:supportsRtl="true"')
+  : android.replace('<application', '<application android:supportsRtl="true"')
+if (android !== withRtl) writeFileSync(manifest, withRtl)
+
 const plist = root + 'App_Resources/iOS/Info.plist'
 let xml = readFileSync(plist, 'utf8')
 if (!xml.includes('CADisableMinimumFrameDurationOnPhone'))

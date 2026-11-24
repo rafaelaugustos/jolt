@@ -1,0 +1,9 @@
+{
+  "name": "jolt-desktop-acceptance",
+  "private": true,
+  "type": "module",
+  "optionalDependencies": {
+    "@nativescript/macos-node-api": "0.5.0-beta.0",
+    "@nativescript/windows-napi": "1.0.0-beta.20"
+  }
+}

@@ -20,7 +20,7 @@
 @interface JoltReorderCellState : NSObject
 @property(nonatomic) CATransform3D transform;
 @property(nonatomic) BOOL cellClips, contentClips;
-@property(nonatomic) CGFloat alpha, offset;
+@property(nonatomic) CGFloat alpha, offset, offsetX;
 @property(nonatomic) NSInteger index;
 @end
 @implementation JoltReorderCellState
@@ -35,10 +35,10 @@
 @property(nonatomic) CADisplayLink *clock;
 @property(nonatomic, copy) void (^onState)(NSInteger, NSInteger, NSInteger);
 @property(nonatomic) NSInteger from, target, count, generation;
-@property(nonatomic) CGFloat edgeSize, edgeSpeed, height, stride, grabOffset, pointerY, pointerX;
+@property(nonatomic) CGFloat edgeSize, edgeSpeed, height, stride, grabOffset, grabX, pointerY, pointerX;
 @property(nonatomic) CGSize viewport;
 @property(nonatomic) double previousTime;
-@property(nonatomic) BOOL enabled, disposed, handlesOnly, reduced, settling, scrollEnabled, cancelling;
+@property(nonatomic) BOOL horizontal, grid, enabled, disposed, handlesOnly, reduced, settling, scrollEnabled, cancelling;
 @property(nonatomic, readwrite) BOOL active;
 @end
 
@@ -63,11 +63,12 @@
     if (![list isKindOfClass:UITableView.class] && ![list isKindOfClass:UICollectionView.class]) @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Reorder requires UITableView or UICollectionView" userInfo:nil];
     if([list isKindOfClass:UICollectionView.class]) {
         UICollectionViewLayout *layout=((UICollectionView *)list).collectionViewLayout;
-        if(![layout isKindOfClass:UICollectionViewFlowLayout.class] || ((UICollectionViewFlowLayout *)layout).scrollDirection!=UICollectionViewScrollDirectionVertical)
-            [NSException raise:NSInvalidArgumentException format:@"Collection reorder needs vertical flow layout"];
+        if(![layout isKindOfClass:UICollectionViewFlowLayout.class])
+            [NSException raise:NSInvalidArgumentException format:@"Collection reorder needs a flow layout"];
     }
     NSDictionary *config = [NSJSONSerialization JSONObjectWithData:[options dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
     JoltReorderSession *s = [self new]; s.list = list; s.onState = onState; s.enabled = YES;
+    s.horizontal = [config[@"horizontal"] boolValue]; s.grid = [config[@"grid"] boolValue];
     s.edgeSize = [config[@"edgeSize"] doubleValue]; s.edgeSpeed = [config[@"edgeSpeed"] doubleValue];
     s.reduced = [config[@"reducedMotion"] boolValue]; s.handlesOnly = [config[@"handles"] boolValue];
     s.handles = [NSHashTable weakObjectsHashTable]; s.cells = [NSMapTable weakToStrongObjectsMapTable];
@@ -114,7 +115,7 @@
     snapshot.layer.shadowOpacity = .18; snapshot.layer.shadowOffset = CGSizeMake(0, 6);
     [list.window addSubview:snapshot];
     CGPoint p = [self.press locationInView:list.window];
-    self.pointerY = p.y; self.pointerX = p.x; self.grabOffset = p.y - CGRectGetMidY(frame);
+    self.pointerY = p.y; self.pointerX = p.x; self.grabOffset = p.y - CGRectGetMidY(frame); self.grabX = p.x - CGRectGetMidX(frame);
     self.height = frame.size.height; self.stride=self.height+(self.collection?((UICollectionViewFlowLayout *)((UICollectionView *)list).collectionViewLayout).minimumLineSpacing:0); self.viewport = list.bounds.size;
     self.count = self.itemCount; self.from = self.target = path.row;
     self.scrollEnabled = list.scrollEnabled; list.scrollEnabled = NO;
@@ -133,12 +134,23 @@
     }
     double now = CACurrentMediaTime(), dt = MIN(.04, MAX(0, now - self.previousTime)); self.previousTime = now;
     CGRect viewport = [list convertRect:list.bounds toView:list.window];
-    CGFloat inset = MIN(self.edgeSize, viewport.size.height / 3), distance = 0;
-    if (self.pointerY < CGRectGetMinY(viewport) + inset) distance = -MIN(1, (CGRectGetMinY(viewport) + inset - self.pointerY) / inset);
-    else if (self.pointerY > CGRectGetMaxY(viewport) - inset) distance = MIN(1, (self.pointerY - CGRectGetMaxY(viewport) + inset) / inset);
-    CGFloat top = -list.adjustedContentInset.top, bottom = MAX(top, list.contentSize.height - list.bounds.size.height + list.adjustedContentInset.bottom);
-    CGFloat next = MAX(top, MIN(bottom, list.contentOffset.y + distance * self.edgeSpeed * dt));
-    if (fabs(next - list.contentOffset.y) > .01) { [list setContentOffset:CGPointMake(list.contentOffset.x, next) animated:NO]; [list layoutIfNeeded]; }
+    BOOL x = self.horizontal;
+    CGFloat start = x ? CGRectGetMinX(viewport) : CGRectGetMinY(viewport);
+    CGFloat end = x ? CGRectGetMaxX(viewport) : CGRectGetMaxY(viewport);
+    CGFloat pointer = x ? self.pointerX : self.pointerY;
+    CGFloat inset = MIN(self.edgeSize, (end-start)/3);
+    CGFloat velocity = pointer < start+inset ? -MIN(1,(start+inset-pointer)/inset)
+                     : pointer > end-inset ? MIN(1,(pointer-end+inset)/inset) : 0;
+    CGFloat minimum = x ? -list.adjustedContentInset.left : -list.adjustedContentInset.top;
+    CGFloat maximum = MAX(minimum, x ? list.contentSize.width-list.bounds.size.width+list.adjustedContentInset.right
+                                     : list.contentSize.height-list.bounds.size.height+list.adjustedContentInset.bottom);
+    CGPoint offset = list.contentOffset;
+    CGFloat current = x ? offset.x : offset.y;
+    CGFloat next = MAX(minimum, MIN(maximum, current+velocity*self.edgeSpeed*dt));
+    if (fabs(next-current) > .01) {
+        if (x) offset.x=next; else offset.y=next;
+        [list setContentOffset:offset animated:NO]; [list layoutIfNeeded];
+    }
     [self update];
 }
 - (void)restore:(UIView *)cell state:(JoltReorderCellState *)state {
@@ -150,14 +162,23 @@
     if (!self.active || self.settling) return;
     UIScrollView *list = self.list;
     CGFloat center = self.pointerY - self.grabOffset;
-    CGPoint inList = [list convertPoint:CGPointMake(self.pointerX, center) fromView:list.window];
+    BOOL spatial = self.horizontal || self.grid;
+    CGPoint point = CGPointMake(spatial ? self.pointerX-self.grabX : self.overlay.center.x, self.horizontal ? self.overlay.center.y : center);
+    CGPoint inList = [list convertPoint:point fromView:list.window];
     CGFloat draggedTop = inList.y - self.height / 2;
-    self.overlay.center = CGPointMake(self.overlay.center.x, center);
+    self.overlay.center = point;
     NSArray<NSIndexPath *> *paths = self.paths;
     NSInteger destination = self.from;
+    CGFloat best = CGFLOAT_MAX;
     for (NSIndexPath *path in paths) {
-        if (path.section || path.row == self.from) continue;
+        if (path.section) continue;
         CGRect frame = [self frameAt:path];
+        if (spatial) {
+            CGFloat distance = hypot(CGRectGetMidX(frame)-inList.x, CGRectGetMidY(frame)-inList.y);
+            if (distance < best) { best=distance; destination=path.row; }
+            continue;
+        }
+        if (path.row == self.from) continue;
         CGFloat midpoint = CGRectGetMidY(frame) - (path.row > self.from ? self.stride : 0);
         NSInteger insertion = path.row - (path.row > self.from ? 1 : 0);
         destination = insertion;
@@ -176,12 +197,18 @@
         cell.clipsToBounds = NO; [self content:cell].clipsToBounds = NO;
         cell.alpha = path.row == self.from ? 0 : state.alpha;
         CGFloat offset = path.row > self.from && path.row <= self.target ? -self.stride : path.row < self.from && path.row >= self.target ? self.stride : 0;
-        if (fabs(offset - state.offset) < .01) continue;
+        CGFloat dx = 0;
+        if (spatial && offset != 0) {
+            NSInteger slot = path.row + (offset < 0 ? -1 : 1);
+            CGRect before = [self frameAt:path], after = [self frameAt:[NSIndexPath indexPathForItem:slot inSection:0]];
+            dx = CGRectGetMidX(after)-CGRectGetMidX(before); offset = CGRectGetMidY(after)-CGRectGetMidY(before);
+        }
+        if (fabs(offset-state.offset)<.01 && fabs(dx-state.offsetX)<.01) continue;
         // UITableView owns cell/contentView frames. Move only the contents of
         // the layer so height estimation and recycling cannot corrupt geometry.
         CALayer *layer = [self content:cell].layer;
         CATransform3D previous = ((CALayer *)layer.presentationLayer ?: layer).sublayerTransform;
-        state.offset = offset; layer.sublayerTransform = CATransform3DTranslate(state.transform, 0, offset, 0);
+        state.offset = offset; state.offsetX = dx; layer.sublayerTransform = CATransform3DTranslate(state.transform, dx, offset, 0);
         [layer removeAnimationForKey:@"jolt.reorder"];
         if (!self.reduced) {
             CASpringAnimation *spring = [CASpringAnimation animationWithKeyPath:@"sublayerTransform"];

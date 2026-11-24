@@ -132,3 +132,25 @@ amount.animate(1, 'snappy')
 ## 可移植基础（RC.12 工作）
 
 [可移植基础（RC.12 工作）](./portable-foundations): 指针存在状态、属性组、渲染活动、有界绘图与原生 press/shape 修复。
+
+## 实验性桌面动画 {#desktop-motion}
+
+AppKit 入口接受由图层支持的 NSView，Windows 入口接受 XAML UIElement。支持透明度（0–1）和 x/y 平移（macOS 使用点，Windows 使用 DIP）。Core Animation 和 XAML Storyboard 负责逐帧播放。时长单位为毫秒。
+
+使用 @nativescript/macos-node-api 0.5.0-beta.0 加载 AppKit 和 QuartzCore。Windows 示例使用 @nativescript/windows-napi 1.0.0-beta.20、专用 TranslateTransform 和带 XAML Islands 兼容清单的 Node 22。XAML Islands 需要 Windows 10 1903 或更高版本。录像在 Windows Server 2025 上完成。 [Microsoft Learn](https://learn.microsoft.com/zh-cn/windows/uwp/xaml-islands/xaml-islands)
+
+```ts
+import { appKitMotion } from '@rafaelaugusto/jolt/appkit'
+import { windowsMotion } from '@rafaelaugusto/jolt/windows'
+
+const owner = appKitMotion(nsView)
+// Windows: const owner = windowsMotion(xamlElement, Windows)
+const move = owner.animate('x', 80, { duration: 350, ease: 'easeOut' })
+const completed = await move.finished
+```
+
+每个目标创建一个控制器。替换动画从屏幕上的当前值开始。取消或挂起会保留该值。正常完成时 finished 返回 true，中断时返回 false。系统的减少动态效果设置及显式选项均可立即应用目标值。宿主挂起时调用 suspend，移除视图或关闭窗口时调用 dispose。
+
+<Clip name="appkit-desktop-motion" caption="macOS AppKit 窗口。按钮移动、更改目标、保持透明度，然后恢复。" />
+
+<Clip name="windows-xaml-motion" caption="Windows Server 2025 原生 XAML 窗口。按钮更改目标，淡出中断后保持当前透明度并恢复。" />

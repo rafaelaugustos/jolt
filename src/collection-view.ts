@@ -7,6 +7,8 @@ import type { ReorderAdapter, ReorderKey } from './reorder/types.js'
 /** Structural public API of @nativescript-community/ui-collectionview 6.1.x. No eager plugin import. */
 interface Collection extends RecycledListView {
   orientation: string
+  layoutStyle?: string
+  spanSize?: unknown
   reverseLayout: boolean
   reorderEnabled: boolean
   computeSpanCount(): number
@@ -31,13 +33,18 @@ function collection(view: View): Collection {
   return result
 }
 function validate(view: Collection) {
+  const spans = view.computeSpanCount()
   if (
-    view.orientation !== 'vertical' ||
+    !['vertical', 'horizontal'].includes(view.orientation) ||
     view.reverseLayout ||
-    view.computeSpanCount() !== 1
+    !Number.isInteger(spans) ||
+    spans < 1 ||
+    (spans > 1 && view.orientation === 'horizontal') ||
+    (view.layoutStyle && view.layoutStyle !== 'grid') ||
+    (spans > 1 && view.spanSize)
   )
     throw new TypeError(
-      'Collection motion supports flat vertical lists with one span, without reverse layout.',
+      'Use a flat linear list or regular vertical grid with uniform spans and forward layout.',
     )
   if (view.reorderEnabled)
     throw new TypeError(
@@ -76,10 +83,12 @@ function claim(view: Collection) {
     if (
       !manager ||
       !manager.findFirstVisibleItemPosition ||
-      manager.getOrientation() !== 1 ||
-      (manager.getSpanCount?.() ?? 1) !== 1
+      manager.getOrientation() !== (view.orientation === 'horizontal' ? 0 : 1) ||
+      (manager.getSpanCount?.() ?? 1) !== view.computeSpanCount()
     )
-      throw new TypeError('Collection motion requires a vertical native linear layout.')
+      throw new TypeError(
+        'Collection motion requires a matching native linear or grid layout.',
+      )
     state = { count: 0, animator: native.getItemAnimator(), native }
     native.setItemAnimator(null)
     claims.set(view, state)
@@ -102,6 +111,8 @@ function reveal(view: Collection, index: number) {
   if (
     !target ||
     !position ||
+    position.x < 0 ||
+    position.x + target.getActualSize().width > view.getActualSize().width ||
     position.y < 0 ||
     position.y + target.getActualSize().height > view.getActualSize().height
   )
@@ -137,6 +148,10 @@ export function collectionViewListAdapter<T>(target: View): NativeListAdapter<T>
       const index = Math.max(0, view.findFirstVisibleItemIndex()),
         key = keys[index]
       const native = view.nativeViewProtected
+      if (key === undefined) return () => {}
+      const horizontal = view.orientation === 'horizontal'
+      const axis = horizontal ? 'x' : 'y'
+      const leading = horizontal ? 'left' : 'top'
       let inset = 0
       if (isIOS) {
         const attributes = native.layoutAttributesForItemAtIndexPath(
@@ -144,13 +159,20 @@ export function collectionViewListAdapter<T>(target: View): NativeListAdapter<T>
         )
         if (attributes)
           inset =
-            attributes.frame.origin.y -
-            native.contentOffset.y -
-            native.adjustedContentInset.top
+            attributes.frame.origin[axis] -
+            native.contentOffset[axis] -
+            native.adjustedContentInset[leading]
       } else {
         const manager = native.getLayoutManager(),
           row = manager.findViewByPosition(index)
-        if (row) inset = manager.getDecoratedTop(row) - native.getPaddingTop()
+        if (row)
+          inset = !horizontal
+            ? manager.getDecoratedTop(row) - native.getPaddingTop()
+            : native.getLayoutDirection() === 1
+              ? native.getWidth() -
+                native.getPaddingRight() -
+                manager.getDecoratedRight(row)
+              : manager.getDecoratedLeft(row) - native.getPaddingLeft()
       }
       return (next: readonly K[]) => {
         if (!view.isLoaded || !next.length) return
@@ -162,23 +184,22 @@ export function collectionViewListAdapter<T>(target: View): NativeListAdapter<T>
             NSIndexPath.indexPathForItemInSection(destination, 0),
           )
           if (!attributes) return
-          const minimum = -native.adjustedContentInset.top
+          const minimum = -native.adjustedContentInset[leading]
+          const extent = horizontal ? 'width' : 'height'
           const maximum = Math.max(
             minimum,
-            native.contentSize.height -
-              native.bounds.size.height +
-              native.adjustedContentInset.bottom,
+            native.contentSize[extent] -
+              native.bounds.size[extent] +
+              native.adjustedContentInset[horizontal ? 'right' : 'bottom'],
+          )
+          const position = Math.max(
+            minimum,
+            Math.min(maximum, attributes.frame.origin[axis] - inset + minimum),
           )
           native.setContentOffsetAnimated(
             CGPointMake(
-              native.contentOffset.x,
-              Math.max(
-                minimum,
-                Math.min(
-                  maximum,
-                  attributes.frame.origin.y - inset - native.adjustedContentInset.top,
-                ),
-              ),
+              horizontal ? position : native.contentOffset.x,
+              horizontal ? native.contentOffset.y : position,
             ),
             false,
           )
@@ -215,6 +236,10 @@ export function collectionViewReorderAdapter<T>(target: View): ReorderAdapter<T>
   const view = collection(target)
   return recycledListAdapter(view, {
     collection: true,
+    geometry: () => ({
+      horizontal: view.orientation === 'horizontal',
+      grid: view.computeSpanCount() > 1,
+    }),
     validate: () => validate(view),
     reveal: (index) => reveal(view, index),
     claim: () => claim(view),

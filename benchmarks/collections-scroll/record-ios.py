@@ -26,7 +26,15 @@ try:
  for source in output.glob('*.mov'):
   subprocess.run(['ffmpeg','-y','-v','error','-i',str(source),'-an','-vf','scale=-2:1200','-c:v','libx264','-crf','22','-pix_fmt','yuv420p','-movflags','+faststart',str(source.with_suffix('.mp4'))],check=True)
  container=subprocess.check_output(['xcrun','simctl','get_app_container',serial,'dev.jolt.nativeci','data'],text=True).strip()
- report=json.loads((Path(container)/'Documents/collections-scroll.json').read_text())
+ report_name = 'collection-layouts.json' if 'testCollectionLayouts' in sys.argv else 'collections-scroll.json'
+ report=json.loads((Path(container)/'Documents'/report_name).read_text())
+ if 'testCollectionLayouts' in sys.argv:
+  for scene in ['Carousel','RTL','Heights']:
+   audits=[e for e in report['history'] if e['scene']==scene and e['audit']]
+   before=next(e for e in audits if e['message']=='Jumped to card 19')
+   after=next(e for e in audits if e['message']=='Inserted a card')
+   assert before['anchor']==after['anchor'] and abs(before['offset']-after['offset'])<2,(before,after)
+  assert report['commits']==2 and report['right']==['Birch'], report
  if len(sys.argv)>3 and sys.argv[3]=='testHorizontalLifecycle':
   cancelled=[i for i,event in enumerate(report['events']) if event['scene']=='LTR' and event['name']=='cancel']
   assert len(cancelled)==1 and not any(event['name']=='commit' for event in report['events'][:cancelled[0]]),report

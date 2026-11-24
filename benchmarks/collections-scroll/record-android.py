@@ -1,16 +1,27 @@
 """Real OS contact paths and native snapshots, on a dedicated Android emulator."""
 import contextlib,json,pathlib,re,subprocess,sys,time,xml.etree.ElementTree as ET
 serial,folder,jar=sys.argv[1:4]
+layouts_only=len(sys.argv)>4 and sys.argv[4]=='layouts'
 edges_only=len(sys.argv)>4 and sys.argv[4]=='edges'
 life_only=len(sys.argv)>4 and sys.argv[4]=='lifecycle'
 if not serial.startswith('emulator-'):raise SystemExit('Use a dedicated emulator.')
 output=pathlib.Path(folder).resolve();output.mkdir(parents=True,exist_ok=True)
 lock=pathlib.Path('/tmp/jolt-collections-recording-'+serial);lock.mkdir()
 def adb(*args):return subprocess.check_output(['adb','-s',serial,*map(str,args)],text=True)
+control_bounds={}
+static_controls={'Carousel','RTL','Grid','Heights','Transfer','Audit','Cancel','Move','Jump','Delete','Insert','Empty','Reject'}
 def bounds(name):
+ if layouts_only and name in control_bounds:return control_bounds[name]
  adb('shell','uiautomator','dump','/data/local/tmp/jolt-collections.xml')
+ match=None
  for node in ET.fromstring(adb('shell','cat','/data/local/tmp/jolt-collections.xml')).iter('node'):
-  if name in [node.get('text'),node.get('content-desc'),node.get('resource-id')]:return tuple(map(int,re.findall(r'\d+',node.get('bounds'))))
+  labels=[node.get('text'),node.get('content-desc'),node.get('resource-id')]
+  rect=tuple(map(int,re.findall(r'\d+',node.get('bounds'))))
+  if layouts_only and node.get('class')=='android.widget.Button':
+   for label in labels:
+    if label in static_controls:control_bounds[label]=rect
+  if name in labels:match=rect
+ if match:return match
  raise AssertionError('Missing control: '+name)
 def tap(name,wait=.6):
  a,b,c,d=bounds(name);adb('shell','input','tap',(a+c)//2,(b+d)//2);time.sleep(wait)
@@ -31,9 +42,69 @@ def record(name):
 reports=[];previous=adb('shell','settings','get','system','show_touches').strip()
 try:
  adb('shell','settings','put','system','show_touches','1');adb('push',jar,'/data/local/tmp/jolt-collections-input.jar')
- adb('shell','am','start','-S','-n','dev.jolt.nativeci/com.tns.NativeScriptActivity');time.sleep(2)
+ adb('shell','am','start','-W','-S','-n','dev.jolt.nativeci/com.tns.NativeScriptActivity');time.sleep(2)
+ if layouts_only:
+  deadline=time.monotonic()+75
+  while True:
+   try:bounds('Carousel');break
+   except (AssertionError,ET.ParseError):
+    if time.monotonic()>=deadline:raise
+    time.sleep(.5)
  density=int(adb('shell','wm','density').strip().split()[-1])/160
- if not edges_only and not life_only:
+ if layouts_only:
+  def read_history():
+   return json.loads(adb('shell','run-as','dev.jolt.nativeci','cat','files/collection-layouts.json'))['history']
+  def state():
+   previous=len(read_history())
+   tap('Audit',.1)
+   deadline=time.monotonic()+10
+   while time.monotonic()<deadline:
+    for value in read_history()[previous:]:
+     if value['scene']==scene and value['audit']:
+      assert not value['message'].startswith('Error'),value
+      reports.append(value)
+      return value
+    time.sleep(.1)
+   raise AssertionError('No new audit from '+scene)
+  def center(name):
+   a,b,c,d=bounds(name);return ((a+c)/2,(b+d)/2)
+  def drag(source,target,hold):
+   x,y=center(source);xx,yy=center(target);contact(x,y,xx-x,yy-y,hold=hold)
+  failures=[]
+  for scene in sys.argv[5:] or ['Carousel','RTL','Grid','Heights','Transfer']:
+   try:
+    tap(scene,1);control_bounds={key:rect for key,rect in control_bounds.items() if key in {'Carousel','RTL','Grid','Heights','Transfer'}}
+    with record('collection-'+scene.lower()+'-android'):
+     if scene=='Transfer':
+      drag('Atlas','Elm',120);assert state()['commits']==1,reports[-1]
+      tap('Reject');drag('Birch','Dune',120);assert state()['commits']==1,reports[-1]
+      xx,yy=center('Dune');tap('Reject');tap('Empty');x,y=center('Birch');contact(x,y,xx-x,yy-y,hold=120)
+      assert state()['right']==['Birch'],reports[-1]
+     else:
+      if scene!='Heights':
+       if scene in ('Carousel','RTL'):
+        first_x,_=center('Card 01');third_x,_=center('Card 03')
+        assert (first_x>third_x)==(scene=='RTL'),(scene,first_x,third_x)
+       drag('Card 01','Card 04' if scene=='Grid' else 'Card 03',600)
+       assert state()['commits']==1,reports[-1]
+       a,b,c,d=bounds('cards');x,y=center('Card 01')
+       far=(x,d-4*density) if scene=='Grid' else (c-4*density,y)
+       near=(x,b+4*density) if scene=='Grid' else (a+4*density,y)
+       if scene=='RTL':far,near=near,far
+       contact(x,y,far[0]-x,far[1]-y,near[0]-far[0],near[1]-far[1],hold=600,dwell=1200,reverse_dwell=800)
+       before=state();tap('Cancel',.05)
+       contact(x,y,far[0]-x,far[1]-y,hold=600,dwell=800)
+       after=state();assert after['commits']==before['commits'] and after['cancels']>before['cancels'],(before,after)
+      tap('Jump',1);before=state();tap('Insert');after=state()
+      assert after['count']==65 and (scene=='Grid' or (after['anchor']==before['anchor'] and abs(after['offset']-before['offset'])<2)),(before,after)
+      tap('Move')
+      tap('Delete');assert state()['count']==64,reports[-1]
+   except (AssertionError,subprocess.CalledProcessError,ET.ParseError) as error:
+    failures.append((scene,str(error)));print('Failed',scene,error,flush=True)
+   else:print('Passed',scene,flush=True)
+  (output/'acceptance.json').write_text(json.dumps(reports,indent=2))
+  assert not failures,failures
+ elif not edges_only and not life_only:
   with record('collection-motion-android'):
    tap('Jump 100');before=snapshot();tap('Prepend');s=snapshot();assert s['count']==201 and s['anchor']==before['anchor'] and abs(s['anchorY']-before['anchorY'])<2,(before,s)
    tap('Remove');tap('Reverse');tap('Changes');tap('Reorder')
