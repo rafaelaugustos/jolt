@@ -1,4 +1,6 @@
 import assert from 'node:assert/strict'
+import { spawn } from 'node:child_process'
+import { once } from 'node:events'
 import { createRequire } from 'node:module'
 import { setTimeout as wait } from 'node:timers/promises'
 import { windowsMotion } from '../../dist/desktop/windows.js'
@@ -6,7 +8,7 @@ const { Windows, XamlWindow, native } = createRequire(import.meta.url)(
   '@nativescript/windows-napi',
 )
 const Xaml = Windows.UI.Xaml
-const window = new XamlWindow({ title: 'Jolt · Desktop motion', theme: 'light' })
+const window = new XamlWindow({ title: 'Jolt Desktop Motion', theme: 'light' })
 const panel = new Xaml.Controls.StackPanel()
 const card = new Xaml.Controls.Button()
 card.Content = 'Move card'
@@ -17,15 +19,21 @@ window.show()
 const pump = setInterval(() => native.pumpMessages(), 8)
 const motion = windowsMotion(card, Windows)
 window.on('closed', () => motion.dispose())
-let movement
+let movement, error, recorder, recorded
 card.Click = () => {
-  movement = motion.animate('x', 160, { duration: 1000 })
+  try { movement = motion.animate('x', 160, { duration: 1000 }) } catch (cause) { error = cause }
 }
 try {
-  await wait(600)
+  await wait(850)
+  if (process.argv[2]) {
+    recorder = spawn('ffmpeg', ['-hide_banner','-loglevel','error','-y','-f','gdigrab','-framerate','24','-i','title=Jolt Desktop Motion','-vf','pad=ceil(iw/2)*2:ceil(ih/2)*2','-c:v','libx264','-pix_fmt','yuv420p',process.argv[2]], {stdio:['pipe','inherit','inherit']})
+    recorded = once(recorder, 'exit')
+    await wait(800)
+  }
   const peer = new Xaml.Automation.Peers.ButtonAutomationPeer(card)
   peer.GetPattern(Xaml.Automation.Peers.PatternInterface.Invoke).Invoke()
   await wait(300)
+  if(error) throw error
   assert(movement)
   const first = movement
   const second = motion.animate('x', 48, { duration: 500 })
@@ -41,11 +49,14 @@ try {
   assert.equal(await fading.finished, false)
   await motion.animate('opacity', 1, { reducedMotion: true }).finished
   assert.equal(card.Opacity, 1)
+  await wait(600)
+  if(recorder) { recorder.stdin.end('q'); assert.equal((await recorded)[0],0); recorder=undefined }
   const final = motion.animate('y', 40, { duration: 800 })
   window.close()
   await wait(200)
   assert.equal(await final.finished, false)
 } finally {
+  if(recorder && recorder.exitCode===null) recorder.stdin.end('q')
   motion.dispose()
   clearInterval(pump)
 }

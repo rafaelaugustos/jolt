@@ -19,5 +19,12 @@ jobs:
       - run: npx --no-install tsc -p tsconfig.build.json
       - run: npm ci --prefix benchmarks/desktop-motion
       - run: node benchmarks/desktop-motion/windows-host.mjs .local/runtime/node.exe
+      - name: Locate the window recorder
+        shell: pwsh
+        run: if (!(Get-Command ffmpeg -ErrorAction SilentlyContinue)) { choco install ffmpeg -y --no-progress }
       - name: Exercise the native XAML window
-        run: .local/runtime/node.exe benchmarks/desktop-motion/windows.mjs
+        run: .local/runtime/node.exe benchmarks/desktop-motion/windows.mjs windows-motion.mp4
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-motion
+          path: windows-motion.mp4
