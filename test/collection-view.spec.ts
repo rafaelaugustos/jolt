@@ -53,10 +53,12 @@ it('uses current keyed content for recycled plugin targets, without visiting 200
 it('rejects incompatible collection layouts before claiming native animation ownership', () => {
   const { view } = collection()
   view.orientation = 'horizontal'
-  expect(() => collectionViewListAdapter(view)).toThrow(/vertical/)
+  expect(collectionViewListAdapter(view).view).toBe(view)
+  view.computeSpanCount = () => 2
+  expect(() => collectionViewListAdapter(view)).toThrow(/uniform spans/)
   view.orientation = 'vertical'
   view.computeSpanCount = () => 2
-  expect(() => collectionViewListAdapter(view)).toThrow(/one span/)
+  expect(collectionViewListAdapter(view).view).toBe(view)
   view.computeSpanCount = () => 1
   view.reorderEnabled = true
   expect(() => collectionViewListAdapter(view)).toThrow(/reorderEnabled/)

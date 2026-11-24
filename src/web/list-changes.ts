@@ -29,6 +29,7 @@ export interface WebListChangesOptions<
   adapter: WebListAdapter<T, K>
   move?: AnimateOptions | SpringName
   /** Scrolling viewport, defaulting to the container itself. */
+  axis?: 'x' | 'y'
   scroll?: HTMLElement
 }
 export interface WebListHost {
@@ -67,6 +68,17 @@ export function createWebListChanges<T, K extends ReorderKey>(
     )
   if (scroll.ownerDocument !== document)
     throw new TypeError('List viewport must belong to the same document.')
+  const horizontal = options.axis === 'x'
+  function visible(rect: DOMRect, viewport: DOMRect) {
+    return (
+      rect.height > 0 &&
+      rect.width > 0 &&
+      rect.bottom > viewport.top &&
+      rect.top < viewport.bottom &&
+      rect.right > viewport.left &&
+      rect.left < viewport.right
+    )
+  }
   const rows = () => {
     const rows = [...adapter.rows()]
     if (
@@ -105,9 +117,7 @@ export function createWebListChanges<T, K extends ReorderKey>(
       const viewport = scroll.getBoundingClientRect()
       return rows().flatMap((row) => {
         const rect = row.target.getBoundingClientRect()
-        return rect.height && rect.bottom > viewport.top && rect.top < viewport.bottom
-          ? [{ ...row, x: rect.left, y: rect.top }]
-          : []
+        return visible(rect, viewport) ? [{ ...row, x: rect.left, y: rect.top }] : []
       })
     },
     layout(callback) {
@@ -120,11 +130,12 @@ export function createWebListChanges<T, K extends ReorderKey>(
       : (keys) => {
           const viewport = scroll.getBoundingClientRect(),
             before = rows(),
-            first = before.find(
-              (row) => row.target.getBoundingClientRect().bottom > viewport.top,
+            first = before.find((row) =>
+              visible(row.target.getBoundingClientRect(), viewport),
             )
           if (!first) return () => {}
-          const top = first.target.getBoundingClientRect().top,
+          const edge = horizontal ? 'left' : 'top'
+          const offset = first.target.getBoundingClientRect()[edge],
             index = keys.indexOf(first.key)
           return (next) => {
             const after = rows(),
@@ -135,7 +146,8 @@ export function createWebListChanges<T, K extends ReorderKey>(
                     row.key === next[Math.min(index, Math.max(0, next.length - 1))],
                 )
             if (destination)
-              scroll.scrollTop += destination.target.getBoundingClientRect().top - top
+              scroll[horizontal ? 'scrollLeft' : 'scrollTop'] +=
+                destination.target.getBoundingClientRect()[edge] - offset
           }
         },
     capture(target, budget) {

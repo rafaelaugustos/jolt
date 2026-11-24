@@ -43,6 +43,8 @@ export interface WebReorderOptions<K extends ReorderKey = ReorderKey> {
   items: () => readonly WebReorderItem<K>[]
   handle?: string | ((row: HTMLElement) => HTMLElement | undefined)
   axis?: 'x' | 'y'
+  /** Uniform cells in a vertically scrolling grid, in DOM order. */
+  layout?: 'linear' | 'grid'
   scrollContainer?: HTMLElement
   onCommit: (move: ReorderMove<K>) => void
   onStart?: (key: K) => void
@@ -76,6 +78,8 @@ interface Preview<K extends ReorderKey> {
   start: number
   size: number
   value: WebMotionValue
+  box: DOMRect
+  cross?: WebMotionValue
   binding: OwnedBinding
 }
 export function createReorder<K extends ReorderKey>(
@@ -90,12 +94,14 @@ export function createReorder<K extends ReorderKey>(
   )
     throw new TypeError('Reorder requires keyed items and an onCommit callback.')
   const axis = options.axis ?? 'y',
+    grid = options.layout === 'grid',
     source = options.scrollContainer ?? container,
     delay = options.longPress ?? 350,
     edge = options.edge?.size ?? 72,
     speed = options.edge?.speed ?? 640
   if (
     !['x', 'y'].includes(axis) ||
+    (grid && axis !== 'y') ||
     !Number.isFinite(delay) ||
     delay < 150 ||
     delay > 2000 ||
@@ -154,7 +160,8 @@ export function createReorder<K extends ReorderKey>(
     () => coordinateTouch(container),
   )
   let releaseShared: (() => void) | undefined
-  let crossStart = 0
+  let crossStart = 0,
+    crossLatest = 0
   const position = (event: PointerEvent) => (axis === 'x' ? event.clientX : event.clientY)
   const scrollOffset = () => (axis === 'x' ? source.scrollLeft : source.scrollTop)
   const notify = (fn: (() => void) | undefined) => {
@@ -201,6 +208,7 @@ export function createReorder<K extends ReorderKey>(
       ...owned.flatMap((entry) => [
         () => entry.binding.dispose(),
         () => entry.value.dispose(),
+        () => entry.cross?.dispose(),
       ]),
       () => restore?.(),
     ])
@@ -279,6 +287,15 @@ export function createReorder<K extends ReorderKey>(
     to = constrain(index, 0, preview.length - 1)
     const order = preview.filter((_, i) => i !== from)
     order.splice(to, 0, preview[from]!)
+    if (grid) {
+      order.forEach((entry, slot) => {
+        if (entry !== preview[from] || keyboard) {
+          entry.cross!.set(preview[slot]!.box.left - entry.box.left)
+          entry.value.set(preview[slot]!.box.top - entry.box.top)
+        }
+      })
+      return
+    }
     let offset = baseStart
     for (const entry of order) {
       if (entry !== preview[from])
@@ -305,6 +322,16 @@ export function createReorder<K extends ReorderKey>(
         axis === 'y' ? rect.top : orderDirection < 0 ? -rect.right : rect.left
       const length = (rect: DOMRect) => (axis === 'y' ? rect.height : rect.width)
       if (
+        grid &&
+        boxes.some(
+          (box) =>
+            Math.abs(box.width - boxes[0]!.width) > 1 ||
+            Math.abs(box.height - boxes[0]!.height) > 1,
+        )
+      )
+        throw new TypeError('Grid reorder requires uniformly sized cells.')
+      if (
+        !grid &&
         boxes.some(
           (box, i) =>
             i > 0 &&
@@ -330,10 +357,15 @@ export function createReorder<K extends ReorderKey>(
       preview = []
       for (const [i, entry] of rows.entries()) {
         const box = boxes[i]!,
-          value = host.motionValue(0)
+          value = host.motionValue(0),
+          cross = grid ? host.motionValue(0) : undefined
         let binding: OwnedBinding
         try {
-          binding = host.bindLayer(entry.target, { [axis]: value }, layer)
+          binding = host.bindLayer(
+            entry.target,
+            cross ? { x: cross, y: value } : { [axis]: value },
+            layer,
+          )
           try {
             const lease = host.geometry(entry.target)
             geometry.get(entry.target)?.dispose()
@@ -343,11 +375,14 @@ export function createReorder<K extends ReorderKey>(
             throw error
           }
         } catch (error) {
+          cross?.dispose()
           value.dispose()
           throw error
         }
         preview.push({
           row: entry,
+          box,
+          cross,
           start: logicalStart(box),
           size: length(box),
           value,
@@ -433,7 +468,23 @@ export function createReorder<K extends ReorderKey>(
         entry = preview[from]!
       entry.value.set(delta)
       const center = entry.start + orderDirection * delta + entry.size / 2
-      const index = reorderDestination(preview, from, center) ?? from
+      let index
+      if (grid) {
+        const dx = crossLatest - crossStart
+        entry.cross!.set(dx)
+        const x = entry.box.left + entry.box.width / 2 + dx,
+          y = entry.box.top + entry.box.height / 2 + delta
+        let best = Infinity
+        index = from
+        for (const [i, { box }] of preview.entries()) {
+          const distance =
+            (x - box.left - box.width / 2) ** 2 + (y - box.top - box.height / 2) ** 2
+          if (distance < best) {
+            best = distance
+            index = i
+          }
+        }
+      } else index = reorderDestination(preview, from, center) ?? from
       if (index !== to) {
         reorderPreview(index)
         announce(active, to, 'moved')
@@ -504,7 +555,7 @@ export function createReorder<K extends ReorderKey>(
     if (active !== undefined) cancel()
     pointer = event.pointerId
     peer.begin(pointer)
-    crossStart = axis === 'x' ? event.clientY : event.clientX
+    crossLatest = crossStart = axis === 'x' ? event.clientY : event.clientX
     start = latest = last = position(event)
     moveTime = event.timeStamp
     scrollVelocity = 0
@@ -534,6 +585,7 @@ export function createReorder<K extends ReorderKey>(
         delta = next - last,
         dt = event.timeStamp - moveTime
       if (dt > 0) scrollVelocity = constrain((delta / dt) * 1000, -5000, 5000)
+      crossLatest = axis === 'x' ? event.clientY : event.clientX
       latest = next
       last = next
       moveTime = event.timeStamp
@@ -561,6 +613,7 @@ export function createReorder<K extends ReorderKey>(
     (event: PointerEvent) => {
       if (event.pointerId !== pointer) return
       if (active !== undefined) {
+        crossLatest = axis === 'x' ? event.clientY : event.clientX
         latest = position(event)
         task.read?.(host.scheduler.now())
         task.update?.(host.scheduler.now())
@@ -644,7 +697,7 @@ export function createReorder<K extends ReorderKey>(
         order.splice(to, 0, item)
         const target =
           baseStart + order.slice(0, to).reduce((sum, row) => sum + row.size + gap, 0)
-        item.value.set(target - item.start)
+        if (!grid) item.value.set(orderDirection * (target - item.start))
         announce(active, to, 'moved')
         rows[to]?.target.scrollIntoView({
           block: 'nearest',

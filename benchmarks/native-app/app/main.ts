@@ -6,7 +6,10 @@ import { runValuesScrollLists } from '../../values-scroll-lists/native'
 declare const __JOLT_VALUES_LAB__: boolean
 import { runNativeCI } from '../../native-ci'
 
-if (__JOLT_READER_ACCEPTANCE__) runReaderAcceptance()
+import { runCollectionLayouts } from '../../collection-layouts/native'
+declare const __JOLT_COLLECTION_LAYOUTS__: boolean
+if (__JOLT_COLLECTION_LAYOUTS__) runCollectionLayouts()
+else if (__JOLT_READER_ACCEPTANCE__) runReaderAcceptance()
 else if (__JOLT_COLLECTIONS_SCROLL__) runCollectionsScroll()
 else if (__JOLT_MOTION_CONTRACTS__) runMotionContracts()
 else if (__JOLT_VALUES_LAB__) runValuesScrollLists()

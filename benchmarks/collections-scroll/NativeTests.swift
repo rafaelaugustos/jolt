@@ -37,6 +37,45 @@ final class CollectionsScroll: XCTestCase {
   func contact(_ start: CGPoint, _ delta: CGPoint, _ reverse: CGPoint = .zero, _ hold: Double = 0.1) {
     XCTAssertNil(JoltScrollContact(start, delta, reverse, hold)); Thread.sleep(forTimeInterval: 0.7)
   }
+  func testCollectionLayouts() throws {
+    continueAfterFailure = false
+    app.launch()
+    for scene in ["Carousel","RTL","Grid","Heights","Transfer"] {
+      tap(scene, 1)
+      let name = "collection-"+scene.lowercased()+"-ios"
+      try cue("start",name)
+      if scene == "Transfer" {
+        let source=element("Atlas").frame, target=element("Elm").frame
+        contact(CGPoint(x:source.midX,y:source.midY),CGPoint(x:target.midX-source.midX,y:target.midY-source.midY))
+        XCTAssertTrue(element("result").label.contains("Moved Atlas"),app.debugDescription)
+        tap("Reject")
+        let next=element("Birch").frame
+        contact(CGPoint(x:next.midX,y:next.midY),CGPoint(x:target.midX-next.midX,y:target.midY-next.midY))
+        XCTAssertTrue(element("Birch").frame.midX < target.midX)
+        tap("Reject");tap("Empty")
+        contact(CGPoint(x:next.midX,y:next.midY),CGPoint(x:target.midX-next.midX,y:target.midY-next.midY))
+        XCTAssertTrue(element("result").label.contains("Moved Birch"),app.debugDescription)
+      } else {
+        if scene != "Heights" {
+          let source=element(scene=="RTL" ? "Card 62" : "Card 01").frame, target=element(scene=="RTL" ? "Card 64" : scene=="Grid" ? "Card 04" : "Card 03").frame
+          contact(CGPoint(x:source.midX,y:source.midY),CGPoint(x:target.midX-source.midX,y:target.midY-source.midY),.zero,0.6)
+          XCTAssertTrue(element("result").label.contains("Moved Card"),app.debugDescription)
+          let viewport=element("cards").frame, start=CGPoint(x:source.midX,y:source.midY)
+          let end=scene=="Grid" ? CGPoint(x:target.midX,y:viewport.maxY-3) : CGPoint(x:viewport.maxX-3,y:source.midY)
+          let reverse=scene=="Grid" ? CGPoint(x:target.midX,y:viewport.minY+3) : CGPoint(x:viewport.minX+3,y:source.midY)
+          XCTAssertNil(JoltReorderContact(start,end,reverse,1.2,0.8))
+          Thread.sleep(forTimeInterval:0.4)
+          let cancel=app.buttons["Cancel"].firstMatch.frame
+          XCTAssertNil(JoltNativeTap(CGPoint(x:cancel.midX,y:cancel.midY)))
+          XCTAssertNil(JoltReorderContact(start,end,.zero,0.6,0))
+          XCTAssertTrue(element("result").label.contains("cancelled"),app.debugDescription)
+        }
+        tap("Jump");tap("Audit");tap("Insert");tap("Audit");tap("Move");tap("Delete");tap("Audit")
+        XCTAssertTrue(element("result").label.contains("Deleted a card"),app.debugDescription)
+      }
+      try cue("stop",name)
+    }
+  }
   func testHorizontalEdges() throws {
     continueAfterFailure = false; app.launch()
     tap("LTR")

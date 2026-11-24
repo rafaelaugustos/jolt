@@ -3,7 +3,7 @@ export type { DesktopOptions, DesktopProperty } from './finite.js'
 interface AppKitLayer {
   valueForKeyPath(key: string): number
   setValueForKeyPath(value: number, key: string): void
-  readonly presentationLayer?: AppKitLayer
+  presentationLayer(): AppKitLayer | null
   addAnimationForKey(animation: unknown, key: string): void
   removeAnimationForKey(key: string): void
 }
@@ -34,10 +34,11 @@ export function appKitMotion(view: { wantsLayer: boolean; layer: AppKitLayer }) 
     }
   }
   return finiteMotion(
+    view,
     (property) => {
       const key = property === 'opacity' ? 'opacity' : 'transform.translation.' + property
       const animationKey = 'jolt.' + key
-      const read = () => Number((layer.presentationLayer ?? layer).valueForKeyPath(key))
+      const read = () => Number((layer.presentationLayer() ?? layer).valueForKeyPath(key))
       return {
         read,
         write: (value) => transaction(() => layer.setValueForKeyPath(value, key)),

@@ -13,11 +13,17 @@ interface NativeChannel {
   play(track: Track, done: () => void): () => void
 }
 
+const owners = new WeakSet<object>()
+
 /** One explicit owner per surface. Call dispose when its native window or view is removed. */
 export function finiteMotion(
+  target: object,
   channel: (property: DesktopProperty) => NativeChannel,
   reduced: () => boolean,
 ) {
+  if (owners.has(target))
+    throw new Error('This desktop target already has a motion owner.')
+  owners.add(target)
   const active = new Map<DesktopProperty, () => void>()
   let disposed = false
   function suspend() {
@@ -71,8 +77,13 @@ export function finiteMotion(
     },
     suspend,
     dispose() {
+      if (disposed) return
       disposed = true
-      suspend()
+      try {
+        suspend()
+      } finally {
+        owners.delete(target)
+      }
     },
   }
 }

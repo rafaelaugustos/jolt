@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><title>Jolt collection motion</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      background: #142331;
+      color: #edf7f5;
+      font: 18px system-ui;
+    }
+    main {
+      max-width: 680px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 30px;
+      margin: 0 0 18px;
+    }
+    nav {
+      display: flex;
+      gap: 8px;
+      height: 42px;
+    }
+    button {
+      font: inherit;
+      border: 0;
+      border-radius: 6px;
+      color: inherit;
+      background: #30485a;
+      padding: 5px 16px;
+    }
+    #list {
+      position: relative;
+      margin: 18px 0;
+      overflow: auto;
+      height: 260px;
+      overflow-anchor: none;
+      scrollbar-width: thin;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .carousel,
+    .rtl {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .card {
+      position: relative;
+      background: #286071;
+      color: #fff;
+      padding: 18px;
+      border-radius: 7px;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      height: 70px;
+    }
+    .card:nth-child(3n) {
+      background: #54577d;
+    }
+    .card:nth-child(3n + 2) {
+      background: #2d6353;
+    }
+    .carousel .card,
+    .rtl .card {
+      min-width: 145px;
+      height: 115px;
+    }
+    .heights .card {
+      margin-bottom: 6px;
+    }
+    .heights .card:nth-child(3n + 1) {
+      height: 52px;
+    }
+    .heights .card:nth-child(3n + 2) {
+      height: 88px;
+    }
+    .transfer {
+      display: flex;
+      gap: 16px;
+      overflow: visible !important;
+    }
+    .transfer section {
+      flex: 1;
+      background: #253948;
+      padding: 10px;
+      border-radius: 8px;
+    }
+    .transfer .card {
+      height: 52px;
+      margin-bottom: 5px;
+    }
+    .slot {
+      box-shadow: 0 -4px #b2ffcc;
+    }
+    .end {
+      border-bottom: 4px solid #b2ffcc;
+    }
+    output {
+      color: #b7e1d6;
+    }
+  </style>
+  <main>
+    <h1></h1>
+    <nav></nav>
+    <div id="list"></div>
+    <output>Ready</output>
+  </main>
+  <script type="module" src="/fixture.js"></script>
+</html>

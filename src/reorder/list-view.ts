@@ -39,6 +39,7 @@ export function recycledListAdapter<T>(
     validate(): void
     reveal?(index: number): void
     claim?(): () => void
+    geometry?(): { horizontal: boolean; grid: boolean }
     collection?: boolean
   },
 ): ReorderAdapter<T> {
@@ -76,6 +77,7 @@ export function recycledListAdapter<T>(
     attach(config) {
       validate()
       const options = JSON.stringify({
+        ...port.geometry?.(),
         longPress: config.longPress,
         edgeSize: config.edgeSize,
         edgeSpeed: config.edgeSpeed,

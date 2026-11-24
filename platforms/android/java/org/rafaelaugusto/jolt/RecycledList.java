@@ -11,10 +11,12 @@ final class RecycledList {
     private final ListView core;
     private final Object manager;
     private final Method childAtPoint, childPosition, find, itemCount;
-    RecycledList(ViewGroup view) {
+    final boolean horizontal;
+    RecycledList(ViewGroup view, boolean horizontal, boolean grid) {
+        this.horizontal = horizontal;
         this.view=view;core=view instanceof ListView?(ListView)view:null;
         if(core!=null){manager=null;childAtPoint=childPosition=find=itemCount=null;return;}
-        manager=linearManager(view,false);
+        manager=linearManager(view,horizontal,grid);
         try {
             Class<?> recycler=Class.forName("androidx.recyclerview.widget.RecyclerView");
             childAtPoint=recycler.getMethod("findChildViewUnder",float.class,float.class);
@@ -24,6 +26,9 @@ final class RecycledList {
         } catch(ReflectiveOperationException error){throw new IllegalArgumentException("Unsupported CollectionView API",error);}
     }
     static Object linearManager(View source,boolean horizontal) {
+        return linearManager(source,horizontal,false);
+    }
+    private static Object linearManager(View source,boolean horizontal,boolean grid) {
         try {
             Class<?> recycler=Class.forName("androidx.recyclerview.widget.RecyclerView");
             if(!recycler.isInstance(source))throw new IllegalArgumentException("Expected a RecyclerView");
@@ -31,7 +36,7 @@ final class RecycledList {
             if(manager==null || !Class.forName("androidx.recyclerview.widget.LinearLayoutManager").isInstance(manager))
                 throw new IllegalArgumentException("CollectionView requires a linear layout");
             Class<?> type=manager.getClass();
-            if(Class.forName("androidx.recyclerview.widget.GridLayoutManager").isInstance(manager) && (Integer)type.getMethod("getSpanCount").invoke(manager)!=1)
+            if(!grid && Class.forName("androidx.recyclerview.widget.GridLayoutManager").isInstance(manager) && (Integer)type.getMethod("getSpanCount").invoke(manager)!=1)
                 throw new IllegalArgumentException("CollectionView requires one span");
             if(((Integer)type.getMethod("getOrientation").invoke(manager)==0)!=horizontal ||
                 (Boolean)type.getMethod("getReverseLayout").invoke(manager) || (Boolean)type.getMethod("getStackFromEnd").invoke(manager))
@@ -59,7 +64,7 @@ final class RecycledList {
             return height;
         }catch(ReflectiveOperationException error){throw new IllegalStateException(error);}
     }
-    void scroll(int pixels){if(core!=null)core.scrollListBy(pixels);else view.scrollBy(0,pixels);}
+    void scroll(int pixels){if(core!=null)core.scrollListBy(pixels);else view.scrollBy(horizontal ? pixels : 0,horizontal ? 0 : pixels);}
     View cell(View descendant){
         View current=descendant;
         while(current!=null && current.getParent()!=view)current=current.getParent() instanceof View?(View)current.getParent():null;

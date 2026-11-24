@@ -5,8 +5,6 @@ import { captureListFocus, listFocusAfterMotion } from './list-focus.js'
 import {
   Application,
   ListView,
-  Length,
-  Utils,
   isIOS,
   type EventData,
   type ItemEventData,
@@ -34,12 +32,12 @@ export interface ListChangesOptions<
 > extends CommonOptions<T, K> {
   /** Explicit plugin adapter; Core ListView retains its built-in implementation. */
   adapter?: NativeListAdapter<T>
-  /** Set a fixed positive ListView rowHeight in DIPs, or use its existing loaded value. */
-  rowHeight?: number
+  /** Set a fixed height in DIPs, request measured rows with 'auto', or keep the list's existing sizing. */
+  rowHeight?: number | 'auto'
   move?: SpringName | Omit<LayoutOptions, 'enter' | 'exit' | 'size' | 'maxSnapshotPixels'>
 }
 const owners = new WeakMap<ListView, ListChanges<unknown>>()
-/** Flat fixed-height Core ListView. All data commits must go through update(). */
+/** Flat Core ListView with fixed or measured rows. All data commits must go through update(). */
 export function listChanges<T, K extends ReorderKey = ReorderKey>(
   target: Target,
   options: ListChangesOptions<T, K>,
@@ -58,32 +56,15 @@ export function listChanges<T, K extends ReorderKey = ReorderKey>(
   if (owners.has(list))
     throw new Error('This ListView already has a listChanges controller.')
   if (options.rowHeight !== undefined) {
-    if (!Number.isFinite(options.rowHeight) || options.rowHeight <= 0)
+    if (
+      options.rowHeight !== 'auto' &&
+      (!Number.isFinite(options.rowHeight) || options.rowHeight <= 0)
+    )
       throw new RangeError(
-        'listChanges needs a fixed positive ListView rowHeight in DIPs.',
+        'listChanges needs auto or a positive ListView rowHeight in DIPs.',
       )
     list.rowHeight = options.rowHeight
   }
-  // Core coerces rowHeight to auto until the native view is attached. Validate the
-  // effective height at the data commit, after its density-dependent coercion.
-  const fixedRowHeight = () => {
-    if (list.rowHeight === 'auto') {
-      // Core iOS can leave a value assigned before native creation coerced to auto.
-      // Reapply its saved requested value through Core's own coercion hook.
-      ;(
-        list as ListView & { updateEffectiveRowHeight(): void }
-      ).updateEffectiveRowHeight()
-    }
-    const height = Utils.layout.toDeviceIndependentPixels(
-      Length.toDevicePixels(list.rowHeight, -1),
-    )
-    if (!Number.isFinite(height) || height <= 0)
-      throw new RangeError(
-        'listChanges needs a loaded ListView with fixed positive rowHeight.',
-      )
-    return height
-  }
-  if (list.isLoaded) fixedRowHeight()
   const transition =
     typeof options.move === 'string'
       ? springs[options.move]
@@ -193,39 +174,60 @@ export function listChanges<T, K extends ReorderKey = ReorderKey>(
       if (!list.isLoaded || !keys.length) return () => {}
       restoreFocus = undefined
       const focus = captureListFocus(list, rows())
-      const native = list.nativeViewProtected,
-        rowHeight = fixedRowHeight()
-      let index: number, local: number
+      const native = list.nativeViewProtected
+      const visible: { key: K; index: number; local: number }[] = []
       if (isIOS) {
-        index = Math.max(
-          0,
-          Math.min(
-            keys.length - 1,
-            Math.floor(
-              (native.contentOffset.y + native.adjustedContentInset.top) / rowHeight,
-            ),
-          ),
-        )
-        local =
-          native.contentOffset.y + native.adjustedContentInset.top - index * rowHeight
+        const top = native.contentOffset.y + native.adjustedContentInset.top
+        const paths = native.indexPathsForVisibleRows
+        for (let i = 0; i < (paths?.count ?? 0); i++) {
+          const path = paths.objectAtIndex(i),
+            rect = native.rectForRowAtIndexPath(path)
+          if (rect.origin.y + rect.size.height > top && keys[path.row] !== undefined)
+            visible.push({
+              key: keys[path.row]!,
+              index: path.row,
+              local: top - rect.origin.y,
+            })
+        }
+        visible.sort((a, b) => a.index - b.index)
       } else {
-        index = native.getFirstVisiblePosition()
-        const first = native.getChildAt(0)
-        local = first
-          ? (native.getPaddingTop() - first.getTop()) /
-            native.getResources().getDisplayMetrics().density
-          : 0
+        const first = native.getFirstVisiblePosition(),
+          density = native.getResources().getDisplayMetrics().density
+        for (let i = 0; i < native.getChildCount(); i++) {
+          const index = first + i,
+            child = native.getChildAt(i)
+          if (child && keys[index] !== undefined)
+            visible.push({
+              key: keys[index]!,
+              index,
+              local: (native.getPaddingTop() - child.getTop()) / density,
+            })
+        }
       }
-      const key = keys[index]
+      if (!visible.length) return () => {}
       return (next) => {
-        if (!list.isLoaded) return
+        if (!list.isLoaded || !next.length) return
         restoreFocus = () => {
           if (!isIOS || !focus.accessibility) focus(rows())
         }
-        const found = next.indexOf(key!),
-          destination = found < 0 ? Math.min(index, Math.max(0, next.length - 1)) : found
+        const positions = new Map(next.map((key, index) => [key, index]))
+        const anchor = visible.find((row) => positions.has(row.key)) ?? visible[0]!
+        const local = anchor.local,
+          destination =
+            positions.get(anchor.key) ?? Math.min(anchor.index, next.length - 1)
         if (isIOS) {
           native.layoutIfNeeded()
+          const path = NSIndexPath.indexPathForRowInSection(destination, 0)
+          if (!native.cellForRowAtIndexPath(path)) {
+            native.scrollToRowAtIndexPathAtScrollPositionAnimated(
+              path,
+              1 /* UITableViewScrollPositionTop */,
+              false,
+            )
+            native.layoutIfNeeded()
+          }
+          const start = native.rectForRowAtIndexPath(path).origin.y
+          const minimum = -native.adjustedContentInset.top
           const maximum = Math.max(
             -native.adjustedContentInset.top,
             native.contentSize.height -
@@ -235,10 +237,7 @@ export function listChanges<T, K extends ReorderKey = ReorderKey>(
           native.setContentOffsetAnimated(
             CGPointMake(
               native.contentOffset.x,
-              Math.min(
-                maximum,
-                destination * rowHeight + local - native.adjustedContentInset.top,
-              ),
+              Math.min(maximum, Math.max(minimum, start + local + minimum)),
             ),
             false,
           )
