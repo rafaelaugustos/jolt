@@ -1,5 +1,7 @@
 # Valores combinados, scroll e listas por chave
 
+A branch de desenvolvimento também aceita alturas medidas na ListView do Core e mais layouts de coleção. [CollectionView / ListView](./collections-scroll#collection-layouts)
+
 **Disponível na 0.1.0-rc.15 (Beta).** Recompile o aplicativo nativo após atualizar. Os vídeos mostram interação real nas plataformas indicadas; simuladores/emuladores não comprovam desempenho em aparelho físico.
 
 Em 20 de novembro de 2026, o mantenedor aceitou evidências emuladas para #385, #415 e #494. VoiceOver real no simulador iOS 27 e TalkBack real no emulador Android API 36 passaram na navegação de saídas e no foco por chave de Core ListView/CollectionView (#498/#499). A correção de foco nativo está incluída na RC.17; os artefatos RC.16 publicados permanecem inalterados. O aceite de ponteiros físicos (#492) continua separado. Mudanças/reordenação de CollectionView suportam uma coluna vertical; seções, grids e movimentos entre listas permanecem fora dos adaptadores, e a virtualização Web pertence ao app. Esses testes não comprovam precisão, tempo por frame ou menor CPU/PSS em aparelhos físicos. [Relatório](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/acceptance-closure).

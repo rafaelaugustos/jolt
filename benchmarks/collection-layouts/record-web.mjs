@@ -19,7 +19,9 @@ const js = (
 for (const [name, engine] of Object.entries({ chromium, firefox, webkit })) {
   const browser = await engine.launch()
   try {
-    for (const mode of (process.argv.length>2 ? process.argv.slice(2) : ['Carousel', 'RTL', 'Grid', 'Heights', 'Transfer'])) {
+    for (const mode of process.argv.length > 2
+      ? process.argv.slice(2)
+      : ['Carousel', 'RTL', 'Grid', 'Heights', 'Transfer']) {
       const size = { width: 760, height: 475 },
         context = await browser.newContext({
           viewport: size,
@@ -65,7 +67,14 @@ for (const [name, engine] of Object.entries({ chromium, firefox, webkit })) {
         await drag('Birch', [r.x + 60, r.y + 60])
         assert.deepEqual((await state()).right, ['Birch'])
         const settled = await p.locator('[data-key="Birch"]').boundingBox()
-        assert(settled.x >= r.x && settled.x + settled.width <= r.x + r.width + 1, JSON.stringify({r,settled,style:await p.locator('[data-key=Birch]').getAttribute('style')}))
+        assert(
+          settled.x >= r.x && settled.x + settled.width <= r.x + r.width + 1,
+          JSON.stringify({
+            r,
+            settled,
+            style: await p.locator('[data-key=Birch]').getAttribute('style'),
+          }),
+        )
         await p.waitForTimeout(500)
       } else {
         if (mode !== 'Heights') {

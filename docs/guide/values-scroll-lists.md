@@ -1,5 +1,7 @@
 # Combined values, scroll and keyed updates
 
+The current development branch also supports measured Core ListView rows and additional collection layouts. [CollectionView / ListView](./collections-scroll#collection-layouts)
+
 **Available in 0.1.0-rc.15 (Beta).** Rebuild native applications after upgrading. The recordings below show actual interaction on the labeled platforms; simulators/emulators are not physical-device performance evidence.
 
 On 20 November 2026, the maintainer accepted emulator evidence for #385, #415 and #494. Actual VoiceOver on the iOS 27 simulator and TalkBack on the Android API 36 emulator pass exit traversal and keyed Core ListView/CollectionView focus (#498/#499). The native focus correction is included in RC.17; published RC.16 artifacts are unchanged. Physical pointer acceptance (#492) remains separate. CollectionView changes/reorder support one vertical span; sections, grids and cross-list moves remain outside the adapters, and Web virtualization stays application-owned. These runs do not establish physical-device accuracy, frame pacing or lower application CPU/PSS. [Report](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/acceptance-closure).

@@ -128,26 +128,23 @@ export function createWebListChanges<T, K extends ReorderKey>(
     anchor: adapter.anchor
       ? (keys) => adapter.anchor!(keys)
       : (keys) => {
-          const viewport = scroll.getBoundingClientRect(),
-            before = rows(),
-            first = before.find((row) =>
-              visible(row.target.getBoundingClientRect(), viewport),
-            )
-          if (!first) return () => {}
+          const viewport = scroll.getBoundingClientRect()
           const edge = horizontal ? 'left' : 'top'
-          const offset = first.target.getBoundingClientRect()[edge],
-            index = keys.indexOf(first.key)
+          const anchors = rows().flatMap((row) => {
+            const rect = row.target.getBoundingClientRect()
+            return visible(rect, viewport) ? [{ key: row.key, offset: rect[edge] }] : []
+          })
+          const first = anchors[0]
+          if (!first) return () => {}
+          const index = keys.indexOf(first.key)
           return (next) => {
-            const after = rows(),
-              destination =
-                after.find((row) => row.key === first.key) ??
-                after.find(
-                  (row) =>
-                    row.key === next[Math.min(index, Math.max(0, next.length - 1))],
-                )
+            const after = new Map(rows().map((row) => [row.key, row.target]))
+            const anchor = anchors.find((row) => after.has(row.key)) ?? first
+            const destination =
+              after.get(anchor.key) ?? after.get(next[Math.min(index, next.length - 1)]!)
             if (destination)
               scroll[horizontal ? 'scrollLeft' : 'scrollTop'] +=
-                destination.target.getBoundingClientRect()[edge] - offset
+                destination.getBoundingClientRect()[edge] - anchor.offset
           }
         },
     capture(target, budget) {

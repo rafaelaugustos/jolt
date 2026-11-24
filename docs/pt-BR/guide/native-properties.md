@@ -130,3 +130,25 @@ O wrapper preserva a identidade do alvo até `dispose()`, que também libera sua
 ## Bases portáveis (trabalho da RC.12)
 
 [Bases portáveis (trabalho da RC.12)](./portable-foundations): Presença do ponteiro, grupos de propriedades, atividade do renderer, desenhos com limites e correções nativas de press/shape.
+
+## Animação experimental no desktop {#desktop-motion}
+
+Use a entrada AppKit com uma NSView que tenha camada e a entrada Windows com um UIElement XAML. Ambas animam opacidade (0–1) e translação x/y (pontos no macOS e DIPs no Windows). Core Animation e XAML Storyboard executam os quadros. A duração é expressa em milissegundos.
+
+Carregue AppKit e QuartzCore com @nativescript/macos-node-api 0.5.0-beta.0. O exemplo Windows usa @nativescript/windows-napi 1.0.0-beta.20, um TranslateTransform dedicado e um executável Node 22 com o manifesto de compatibilidade do XAML Islands. O XAML Islands exige Windows 10 versão 1903 ou posterior. A gravação foi feita no Windows Server 2025. [Microsoft Learn](https://learn.microsoft.com/pt-br/windows/uwp/xaml-islands/xaml-islands)
+
+```ts
+import { appKitMotion } from '@rafaelaugusto/jolt/appkit'
+import { windowsMotion } from '@rafaelaugusto/jolt/windows'
+
+const owner = appKitMotion(nsView)
+// Windows: const owner = windowsMotion(xamlElement, Windows)
+const move = owner.animate('x', 80, { duration: 350, ease: 'easeOut' })
+const completed = await move.finished
+```
+
+Crie um controlador por alvo. Uma substituição começa no valor que está na tela. Cancelar ou suspender mantém o valor atual. A promessa finished resolve para false em uma interrupção e true ao concluir. A preferência do sistema por movimento reduzido e a opção explícita aplicam o destino imediatamente. Chame suspend ao suspender o host e dispose ao remover a janela ou a view.
+
+<Clip name="appkit-desktop-motion" caption="Janela AppKit no macOS. O botão se move, troca de destino, mantém a opacidade interrompida e volta à opacidade total." />
+
+<Clip name="windows-xaml-motion" caption="Janela XAML no Windows Server 2025. O botão troca de destino, interrompe a transição de opacidade e volta a ficar opaco." />

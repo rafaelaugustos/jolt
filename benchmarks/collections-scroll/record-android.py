@@ -8,10 +8,20 @@ if not serial.startswith('emulator-'):raise SystemExit('Use a dedicated emulator
 output=pathlib.Path(folder).resolve();output.mkdir(parents=True,exist_ok=True)
 lock=pathlib.Path('/tmp/jolt-collections-recording-'+serial);lock.mkdir()
 def adb(*args):return subprocess.check_output(['adb','-s',serial,*map(str,args)],text=True)
+control_bounds={}
+static_controls={'Carousel','RTL','Grid','Heights','Transfer','Audit','Cancel','Move','Jump','Delete','Insert','Empty','Reject'}
 def bounds(name):
+ if layouts_only and name in control_bounds:return control_bounds[name]
  adb('shell','uiautomator','dump','/data/local/tmp/jolt-collections.xml')
+ match=None
  for node in ET.fromstring(adb('shell','cat','/data/local/tmp/jolt-collections.xml')).iter('node'):
-  if name in [node.get('text'),node.get('content-desc'),node.get('resource-id')]:return tuple(map(int,re.findall(r'\d+',node.get('bounds'))))
+  labels=[node.get('text'),node.get('content-desc'),node.get('resource-id')]
+  rect=tuple(map(int,re.findall(r'\d+',node.get('bounds'))))
+  if layouts_only and node.get('class')=='android.widget.Button':
+   for label in labels:
+    if label in static_controls:control_bounds[label]=rect
+  if name in labels:match=rect
+ if match:return match
  raise AssertionError('Missing control: '+name)
 def tap(name,wait=.6):
  a,b,c,d=bounds(name);adb('shell','input','tap',(a+c)//2,(b+d)//2);time.sleep(wait)
@@ -32,7 +42,14 @@ def record(name):
 reports=[];previous=adb('shell','settings','get','system','show_touches').strip()
 try:
  adb('shell','settings','put','system','show_touches','1');adb('push',jar,'/data/local/tmp/jolt-collections-input.jar')
- adb('shell','am','start','-S','-n','dev.jolt.nativeci/com.tns.NativeScriptActivity');time.sleep(2)
+ adb('shell','am','start','-W','-S','-n','dev.jolt.nativeci/com.tns.NativeScriptActivity');time.sleep(2)
+ if layouts_only:
+  deadline=time.monotonic()+75
+  while True:
+   try:bounds('Carousel');break
+   except (AssertionError,ET.ParseError):
+    if time.monotonic()>=deadline:raise
+    time.sleep(.5)
  density=int(adb('shell','wm','density').strip().split()[-1])/160
  if layouts_only:
   def state():
@@ -45,8 +62,8 @@ try:
    a,b,c,d=bounds(name);return ((a+c)/2,(b+d)/2)
   def drag(source,target,hold):
    x,y=center(source);xx,yy=center(target);contact(x,y,xx-x,yy-y,hold=hold)
-  for scene in ['Carousel','RTL','Grid','Heights','Transfer']:
-   tap(scene,1)
+  for scene in sys.argv[5:] or ['Carousel','RTL','Grid','Heights','Transfer']:
+   control_bounds.clear();tap(scene,1);control_bounds.clear()
    with record('collection-'+scene.lower()+'-android'):
     if scene=='Transfer':
      drag('Atlas','Elm',120);assert state()['commits']==1,reports[-1]

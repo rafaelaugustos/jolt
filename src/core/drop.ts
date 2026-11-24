@@ -31,7 +31,7 @@ export interface DropTarget<T> {
   /** Larger values win; declaration order resolves ties. */
   readonly priority?: number
   /** Synchronous acceptance, evaluated again at the final release. */
-  readonly accept?: (event: DropEvent<T>, bounds: DropRect) => boolean
+  readonly accept?: (event: DropEvent<T>, bounds?: DropRect) => boolean
   /** Extra hit area outside the visual bounds: one value or per edge, 0–1,000. */
   readonly padding?: number | DropPadding
 }

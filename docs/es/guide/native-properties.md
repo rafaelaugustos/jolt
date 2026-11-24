@@ -132,3 +132,25 @@ El contenedor conserva la identidad del objetivo hasta `dispose()`, que también
 ## Bases portables (trabajo de RC.12)
 
 [Bases portables (trabajo de RC.12)](./portable-foundations): Presencia del puntero, grupos de propiedades, actividad del renderer, dibujos acotados y correcciones nativas de press/shape.
+
+## Animación experimental de escritorio {#desktop-motion}
+
+Use la entrada AppKit con una NSView respaldada por una capa y la entrada Windows con un UIElement de XAML. Admiten opacidad (0–1) y desplazamiento x/y (puntos en macOS, DIPs en Windows). Core Animation y XAML Storyboard reproducen los fotogramas. La duración se expresa en milisegundos.
+
+Cargue AppKit y QuartzCore con @nativescript/macos-node-api 0.5.0-beta.0. El ejemplo Windows usa @nativescript/windows-napi 1.0.0-beta.20, un TranslateTransform dedicado y Node 22 con el manifiesto de XAML Islands. XAML Islands requiere Windows 10 versión 1903 o posterior. La prueba se grabó en Windows Server 2025. [Microsoft Learn](https://learn.microsoft.com/es-es/windows/uwp/xaml-islands/xaml-islands)
+
+```ts
+import { appKitMotion } from '@rafaelaugusto/jolt/appkit'
+import { windowsMotion } from '@rafaelaugusto/jolt/windows'
+
+const owner = appKitMotion(nsView)
+// Windows: const owner = windowsMotion(xamlElement, Windows)
+const move = owner.animate('x', 80, { duration: 350, ease: 'easeOut' })
+const completed = await move.finished
+```
+
+Cree un controlador por elemento. Una sustitución parte del valor visible. Cancelar o suspender mantiene ese valor. La promesa finished devuelve false al interrumpirse y true al terminar. Se respeta la preferencia del sistema de reducir movimiento. Llame a suspend al suspender el host y a dispose al retirar la vista o cerrar la ventana.
+
+<Clip name="appkit-desktop-motion" caption="Ventana AppKit en macOS. El botón cambia de destino, conserva la opacidad interrumpida y recupera la opacidad total." />
+
+<Clip name="windows-xaml-motion" caption="Ventana XAML en Windows Server 2025. El botón cambia de destino, mantiene el valor de opacidad y vuelve a ser opaco." />

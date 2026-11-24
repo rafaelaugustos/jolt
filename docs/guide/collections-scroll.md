@@ -1,8 +1,62 @@
 # Collections and scroll continuity
 
-**Available in 0.1.0-rc.16 (Beta).** Covers [#495](https://github.com/rafaelaugustos/jolt/issues/495), [#496](https://github.com/rafaelaugustos/jolt/issues/496) and [#510](https://github.com/rafaelaugustos/jolt/issues/510), [#511](https://github.com/rafaelaugustos/jolt/issues/511), [#512](https://github.com/rafaelaugustos/jolt/issues/512), [#513](https://github.com/rafaelaugustos/jolt/issues/513). Install matching core/native versions and rebuild the native app after upgrading. SwiftUI remains Beta on iOS 17+ and macOS 14+.
+## Measured collections and transfers {#collection-layouts}
 
-## CollectionView adapters {#collections}
+On the development branch, the community CollectionView adapters accept forward single-span carousels (LTR/RTL) and regular vertical grids. Disable plugin reorder and use stable keys. Native recycling, pickup, edge autoscroll and cancellation use mounted cell geometry. Core ListView also accepts auto row heights and preserves the position of the first surviving visible row on structural updates.
+
+On the Web, pass axis x to listChanges for a horizontal viewport and layout grid to reorder for uniform CSS grid cells. Virtualizers provide their own anchor and recycling hooks. Masonry, section headers and horizontal multi-span grids are outside this adapter.
+
+Pass listTransferOptions to dropZones for each source. Supply unique keys across both lists, realized destination centers in visual coordinates and a commit callback that updates both lists once. An empty destination accepts position zero. preview receives the slot and clears on exit. accept runs synchronously at release. Increment revision on data invalidation, cancel on interruption and dispose when unmounting. Existing reorder keyboard controls and dropZones.request remain available.
+
+```ts
+const options = listTransferOptions({
+  key: card.id,
+  target: destination,
+  sourceKeys: () => inbox.map(item => item.id),
+  targetKeys: () => queue.map(item => item.id),
+  centers: measureVisibleDestinationRows,
+  revision: () => boardRevision,
+  accept: () => queue.length < capacity,
+  preview: showInsertionMarker,
+  commit: ({ fromIndex, toIndex }) => moveCard(inbox, queue, fromIndex, toIndex),
+})
+const owner = dropZones(source, options)
+// Web: runtime.dropZones(source, options)
+```
+
+### Single-span carousel
+
+<Clip name="collection-carousel-ios" caption="Single-span carousel · iOS simulator." />
+
+<Clip name="collection-carousel-web" caption="Single-span carousel · Chromium on macOS." />
+
+### Right-to-left carousel
+
+<Clip name="collection-rtl-ios" caption="Right-to-left carousel · iOS simulator." />
+
+<Clip name="collection-rtl-web" caption="Right-to-left carousel · Chromium on macOS." />
+
+### Measured Core ListView rows
+
+<Clip name="collection-heights-ios" caption="Measured Core ListView rows · iOS simulator." />
+
+<Clip name="collection-heights-web" caption="Measured Core ListView rows · Chromium on macOS." />
+
+### Regular grid
+
+<Clip name="collection-grid-ios" caption="Regular grid · iOS simulator." />
+
+<Clip name="collection-grid-web" caption="Regular grid · Chromium on macOS." />
+
+### Two-list transfer
+
+<Clip name="collection-transfer-ios" caption="Two-list transfer · iOS simulator." />
+
+<Clip name="collection-transfer-web" caption="Two-list transfer · Chromium on macOS." />
+
+## Earlier CollectionView adapters (RC.16) {#collections}
+
+**Available in 0.1.0-rc.16 (Beta).** Covers [#495](https://github.com/rafaelaugustos/jolt/issues/495), [#496](https://github.com/rafaelaugustos/jolt/issues/496) and [#510](https://github.com/rafaelaugustos/jolt/issues/510), [#511](https://github.com/rafaelaugustos/jolt/issues/511), [#512](https://github.com/rafaelaugustos/jolt/issues/512), [#513](https://github.com/rafaelaugustos/jolt/issues/513). Install matching core/native versions and rebuild the native app after upgrading. SwiftUI remains Beta on iOS 17+ and macOS 14+.
 
 `collectionViewListAdapter` and `collectionViewReorderAdapter` support the optional `@nativescript-community/ui-collectionview` plugin (tested with 6.1.3), with one vertical span, stable keys and no reverse layout or plugin `reorderEnabled`. They use actual realized native geometry and do not import the plugin into Jolt. Grids, sections and cross-list transfers are outside this adapter contract.
 

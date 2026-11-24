@@ -51,6 +51,7 @@ else if (entry.endsWith('/web/testing')) {
     'cubicBezier',
     'drawingLimits',
     'gestureRelations',
+    'listTransferOptions',
     'origamiSpring',
     'presets',
     'resolveListTarget',

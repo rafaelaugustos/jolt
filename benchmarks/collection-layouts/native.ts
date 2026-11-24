@@ -7,6 +7,7 @@ import {
   Label,
   ListView,
   Page,
+  Screen,
   StackLayout,
   View,
   isIOS,
@@ -78,6 +79,11 @@ export function runCollectionLayouts() {
       }
       function button(parent: StackLayout, title: string, action: () => void) {
         const b = new Button()
+        if (!isIOS) {
+          b.minWidth = 0
+          b.width =
+            Math.floor((Screen.mainScreen.widthDIPs - 24) / (parent === nav ? 5 : 6)) - 3
+        }
         b.text = title
         b.automationText = title
         b.fontSize = 12

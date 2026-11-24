@@ -1,8 +1,62 @@
 # Coleções e continuidade do scroll
 
-**Disponível na 0.1.0-rc.16 (Beta).** Abrange [#495](https://github.com/rafaelaugustos/jolt/issues/495), [#496](https://github.com/rafaelaugustos/jolt/issues/496) e [#510](https://github.com/rafaelaugustos/jolt/issues/510), [#511](https://github.com/rafaelaugustos/jolt/issues/511), [#512](https://github.com/rafaelaugustos/jolt/issues/512), [#513](https://github.com/rafaelaugustos/jolt/issues/513). Instale core/plugin nativo na mesma versão e recompile o app nativo após atualizar. SwiftUI continua Beta em iOS 17+ e macOS 14+.
+## Coleções medidas e transferência entre listas {#collection-layouts}
 
-## Adaptadores de CollectionView {#collections}
+Na branch de desenvolvimento, os adaptadores de CollectionView aceitam carrosséis de uma linha nos sentidos LTR e RTL e grades verticais regulares. Desative o reorder do plugin e use chaves estáveis. O arrasto, a rolagem nas bordas e o cancelamento usam as posições das células montadas. A ListView do Core também aceita alturas automáticas e mantém a posição da primeira linha visível que sobrevive à atualização.
+
+Na Web, passe axis x a listChanges para um carrossel e layout grid a reorder para uma grade CSS de células uniformes. Virtualizadores fornecem seus próprios controles de âncora e reciclagem. Este adaptador cobre listas planas e grades verticais regulares.
+
+Passe listTransferOptions a dropZones para cada origem. Forneça chaves únicas entre as duas listas, centros das linhas montadas no destino e um commit que atualize ambas uma vez. O destino vazio aceita a posição zero. preview indica a posição de inserção e a limpa ao sair. accept decide de forma síncrona ao soltar. Incremente revision quando os dados perderem validade, cancele ao interromper e chame dispose ao desmontar. Os comandos de teclado do reorder e dropZones.request continuam disponíveis.
+
+```ts
+const options = listTransferOptions({
+  key: card.id,
+  target: destination,
+  sourceKeys: () => inbox.map(item => item.id),
+  targetKeys: () => queue.map(item => item.id),
+  centers: measureVisibleDestinationRows,
+  revision: () => boardRevision,
+  accept: () => queue.length < capacity,
+  preview: showInsertionMarker,
+  commit: ({ fromIndex, toIndex }) => moveCard(inbox, queue, fromIndex, toIndex),
+})
+const owner = dropZones(source, options)
+// Web: runtime.dropZones(source, options)
+```
+
+### Carrossel de uma linha
+
+<Clip name="collection-carousel-ios" caption="Carrossel de uma linha · simulador iOS." />
+
+<Clip name="collection-carousel-web" caption="Carrossel de uma linha · Chromium no macOS." />
+
+### Carrossel da direita para a esquerda
+
+<Clip name="collection-rtl-ios" caption="Carrossel da direita para a esquerda · simulador iOS." />
+
+<Clip name="collection-rtl-web" caption="Carrossel da direita para a esquerda · Chromium no macOS." />
+
+### Linhas de alturas diferentes
+
+<Clip name="collection-heights-ios" caption="Linhas de alturas diferentes · simulador iOS." />
+
+<Clip name="collection-heights-web" caption="Linhas de alturas diferentes · Chromium no macOS." />
+
+### Grade regular
+
+<Clip name="collection-grid-ios" caption="Grade regular · simulador iOS." />
+
+<Clip name="collection-grid-web" caption="Grade regular · Chromium no macOS." />
+
+### Transferência entre duas listas
+
+<Clip name="collection-transfer-ios" caption="Transferência entre duas listas · simulador iOS." />
+
+<Clip name="collection-transfer-web" caption="Transferência entre duas listas · Chromium no macOS." />
+
+## Adaptadores anteriores de CollectionView (RC.16) {#collections}
+
+**Disponível na 0.1.0-rc.16 (Beta).** Abrange [#495](https://github.com/rafaelaugustos/jolt/issues/495), [#496](https://github.com/rafaelaugustos/jolt/issues/496) e [#510](https://github.com/rafaelaugustos/jolt/issues/510), [#511](https://github.com/rafaelaugustos/jolt/issues/511), [#512](https://github.com/rafaelaugustos/jolt/issues/512), [#513](https://github.com/rafaelaugustos/jolt/issues/513). Instale core/plugin nativo na mesma versão e recompile o app nativo após atualizar. SwiftUI continua Beta em iOS 17+ e macOS 14+.
 
 `collectionViewListAdapter` e `collectionViewReorderAdapter` aceitam o plugin opcional `@nativescript-community/ui-collectionview` (testado na 6.1.3), com uma coluna vertical, chaves estáveis e sem layout invertido nem `reorderEnabled` do plugin. Usam a geometria nativa realmente montada e não importam o plugin para o Jolt. Grades, seções e transferência entre listas ficam fora deste contrato.
 

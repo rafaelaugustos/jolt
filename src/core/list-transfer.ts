@@ -96,6 +96,7 @@ export function listTransferOptions<T, K extends ReorderKey>(options: {
         id: 'destination',
         target: options.target,
         accept(event, bounds) {
+          if (!bounds) return false
           if (event.method === 'request') begin()
           accepted = propose(bounds, event.method === 'request')
           if (!accepted) return false
