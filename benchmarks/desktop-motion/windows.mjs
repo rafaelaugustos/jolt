@@ -11,9 +11,16 @@ const Xaml = Windows.UI.Xaml
 console.log('System animations enabled:',new Windows.UI.ViewManagement.UISettings().AnimationsEnabled)
 const window = new XamlWindow({ title: 'Jolt Desktop Motion', theme: 'light' })
 const panel = new Xaml.Controls.StackPanel()
+const heading = new Xaml.Controls.TextBlock()
+heading.Text='Native motion'
+heading.FontSize=26
+const status = new Xaml.Controls.TextBlock()
+status.Text='Ready'
 const card = new Xaml.Controls.Button()
 card.Content = 'Move card'
+panel.Children.Append(heading)
 panel.Children.Append(card)
+panel.Children.Append(status)
 window.content = panel
 window.place({ width: 480, height: 260 })
 window.show()
@@ -23,6 +30,7 @@ const motion = windowsMotion(card, Windows)
 window.on('closed', () => motion.dispose())
 let movement, error, recorder, recorded
 card.Click = () => {
+  status.Text='Moving right'
   try { movement = motion.animate('x', 160, { duration: 1000 }) } catch (cause) { error = cause }
 }
 try {
@@ -40,6 +48,7 @@ try {
   assert(movement)
   console.log('XAML presentation at replacement',card.RenderTransform.X)
   const first = movement
+  status.Text='Return to center'
   const second = motion.animate('x', 48, { duration: 500 })
   assert.equal(await first.finished, false)
   assert.equal(
@@ -47,10 +56,16 @@ try {
     true,
   )
   assert.equal(card.RenderTransform.X, 48)
+  status.Text='Fade and hold'
   const fading = motion.animate('opacity', 0.2, { duration: 700 })
   await wait(200)
-  fading.cancel()
+  motion.suspend()
   assert.equal(await fading.finished, false)
+  const held=card.Opacity
+  assert(held>0.2 && held<1)
+  await wait(650)
+  assert(Math.abs(card.Opacity-held)<0.01)
+  status.Text='Reduce motion · restored'
   await motion.animate('opacity', 1, { reducedMotion: true }).finished
   assert.equal(card.Opacity, 1)
   await wait(600)
