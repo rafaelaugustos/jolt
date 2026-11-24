@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-import { spawn } from 'node:child_process'
+import { spawn, execFileSync } from 'node:child_process'
 import { once } from 'node:events'
 import { createRequire } from 'node:module'
 import { setTimeout as wait } from 'node:timers/promises'
@@ -28,7 +28,8 @@ card.Click = () => {
 try {
   await wait(850)
   if (process.argv[2]) {
-    recorder = spawn('ffmpeg', ['-hide_banner','-loglevel','error','-y','-f','gdigrab','-framerate','24','-i','title=Jolt Desktop Motion','-vf','pad=ceil(iw/2)*2:ceil(ih/2)*2','-c:v','libx264','-pix_fmt','yuv420p',process.argv[2]], {stdio:['pipe','inherit','inherit']})
+    const r=JSON.parse(execFileSync('pwsh',['-NoProfile','-File','benchmarks/desktop-motion/window-bounds.ps1','-WindowHandle',String(window.hwnd)],{encoding:'utf8'}))
+    recorder = spawn('ffmpeg', ['-hide_banner','-loglevel','error','-y','-f','gdigrab','-framerate','24','-offset_x',String(r.x),'-offset_y',String(r.y),'-video_size',r.width+'x'+r.height,'-i','desktop','-vf','pad=ceil(iw/2)*2:ceil(ih/2)*2','-c:v','libx264','-pix_fmt','yuv420p',process.argv[2]], {stdio:['pipe','inherit','inherit']})
     recorded = once(recorder, 'exit')
     await wait(800)
   }

@@ -62,16 +62,16 @@ export function windowsMotion(element: Element, windows: XamlRuntime) {
             .join('')
           const story = xaml.Markup.XamlReader.Load(
             '<Storyboard xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"><DoubleAnimationUsingKeyFrames EnableDependentAnimation="True" Storyboard.TargetProperty="' +
-              (property === 'opacity' ? key : "(UIElement.RenderTransform).(TranslateTransform." + key + ")") +
+              key +
               '">' +
               frames +
               '</DoubleAnimationUsingKeyFrames></Storyboard>',
           )
-          xaml.Media.Animation.Storyboard.SetTarget(story.Children.GetAt(0), element)
+          xaml.Media.Animation.Storyboard.SetTarget(story.Children.GetAt(0), target)
           function stop(value: number) {
             story.Completed = null
-            target[key] = value
             story.Stop()
+            target[key] = value
           }
           story.Completed = () => {
             stop(track.to)
