@@ -10,6 +10,7 @@
   "include": [
     "*.ts",
     "motion-contracts/native.ts",
+    "platform-regressions/native.ts",
     "collections-scroll/native.ts",
     "acceptance-closure/native-reader.ts",
     "../src/android-plugin.d.ts",

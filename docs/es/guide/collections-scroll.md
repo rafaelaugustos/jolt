@@ -2,7 +2,7 @@
 
 ## Colecciones medidas y transferencias {#collection-layouts}
 
-En la rama de desarrollo, los adaptadores de CollectionView admiten carruseles de una fila LTR/RTL y cuadrículas verticales regulares. Desactive el reorder del plugin y use claves estables. El arrastre, el desplazamiento en los bordes y la cancelación usan la geometría de las celdas montadas. ListView de Core admite alturas automáticas y mantiene la posición de la primera fila visible que sobrevive al cambio.
+En RC.18, los adaptadores de CollectionView admiten carruseles de una fila LTR/RTL y cuadrículas verticales regulares. Desactive el reorder del plugin y use claves estables. El arrastre, el desplazamiento en los bordes y la cancelación usan la geometría de las celdas montadas. ListView de Core admite alturas automáticas y mantiene la posición de la primera fila visible que sobrevive al cambio.
 
 En la Web, use axis x en listChanges para carruseles y layout grid en reorder para cuadrículas CSS de celdas uniformes. Los virtualizadores proporcionan su propio anclaje y notificaciones de reciclaje. El adaptador admite listas planas y cuadrículas verticales regulares.
 

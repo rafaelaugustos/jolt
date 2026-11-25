@@ -2,6 +2,8 @@
 
 使用软件键盘移动作曲家、按钮或工具栏：
 
+<Clip :autoplay="false" name="ipad-floating-keyboard" caption="iPadOS 26.2 模拟器。编辑器随停靠键盘上移，键盘浮动时回到底部，再次停靠后重新上移。" />
+
 <Clip name="keyboard" caption="作曲家在 Android 上跟随键盘。" />
 
 ```ts

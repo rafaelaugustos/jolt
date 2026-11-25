@@ -2,6 +2,8 @@
 
 Mova um campo de mensagem, um botão ou uma barra de ferramentas junto com o teclado virtual:
 
+<Clip :autoplay="false" name="ipad-floating-keyboard" caption="Simulador de iPadOS 26.2. O editor sobe com o teclado acoplado, volta à base quando ele flutua e sobe de novo ao reacoplar." />
+
 <Clip name="keyboard" caption="O composer acompanhando o teclado no Android." />
 
 ```ts

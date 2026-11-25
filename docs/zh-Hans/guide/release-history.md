@@ -1,5 +1,11 @@
 # 版本历史
 
+## 0.1.0-rc.18 — 桌面动画、列表间转移与移动端修复 {#rc-18}
+
+RC.18 新增 AppKit 和 Windows 有限时长动画、基于实测尺寸的集合布局、受控跨列表转移和目标列表边缘滚动。iPad 编辑器跟随停靠键盘，在键盘浮动时回到底部。Android 在程序滚动后立即插入行时，也能保持可见卡片的位置。
+
+[AppKit / Windows](./native-properties) · [CollectionView / SwiftUI](./collections-scroll) · [#533](https://github.com/rafaelaugustos/jolt/issues/533) · [#534](https://github.com/rafaelaugustos/jolt/issues/534)
+
 ## 0.1.0-rc.17: 原生读屏焦点与框架安装 {#rc-17}
 
 RC.17 发布 [PR #518](https://github.com/rafaelaugustos/jolt/pull/518) 的[原生列表按键保留焦点修复](./values-scroll-lists#native-reader-acceptance)，以及 [PR #520](https://github.com/rafaelaugustos/jolt/pull/520) 的 [Solid 2 与 Svelte Native 4 命令式安装支持](./install#framework-versions)。请安装相同 `0.1.0-rc.17` 版本的 npm 核心包与原生插件，并重新编译 NativeScript 应用；Swift Package Manager 使用 [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) 的 `v0.1.0-rc.17`。Solid 绑定仍使用 Solid 1；Web 与 SwiftUI 仍为实验性。

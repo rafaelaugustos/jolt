@@ -4,6 +4,8 @@
 
 Available since **0.1.0-rc.1**. Rebuild the native app.
 
+<Clip :autoplay="false" name="android-same-turn-anchor" caption="Android API 36 emulator. The highlighted card stays at the same viewport position after a direct prepend and a guarded refresh." />
+
 <Clip name="scroll-header-ios" caption="iOS 26.2 simulator, English: real drag, overscroll stretch, reversal, fling, a taller cover/title, insertion and programmatic return. Original speed; simulator correctness, not physical-device performance." />
 <Clip name="scroll-header-ios-pt" caption="iOS simulator, Portuguese: the same native composition with actual OS input and translated controls." />
 <Clip name="scroll-header-android" caption="Android 16 emulator, English: real scrolling through recycled rows, anchored layout changes and native scroll-to-item. This adapter uses ordinary Android overscroll without decorative hero stretch." />

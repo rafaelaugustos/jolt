@@ -1,6 +1,6 @@
 # Combined values, scroll and keyed updates
 
-The current development branch also supports measured Core ListView rows and additional collection layouts. [CollectionView / ListView](./collections-scroll#collection-layouts)
+RC.18 also supports measured Core ListView rows and additional collection layouts. [CollectionView / ListView](./collections-scroll#collection-layouts)
 
 **Available in 0.1.0-rc.15 (Beta).** Rebuild native applications after upgrading. The recordings below show actual interaction on the labeled platforms; simulators/emulators are not physical-device performance evidence.
 

@@ -2,6 +2,8 @@
 
 Mover un compositor, un botón o una barra de herramientas con el teclado del software:
 
+<Clip :autoplay="false" name="ipad-floating-keyboard" caption="Simulador de iPadOS 26.2. El editor sube con el teclado acoplado, vuelve a la base cuando flota y sube al acoplarlo de nuevo." />
+
 <Clip name="keyboard" caption="El compositor siguiendo el teclado en Android." />
 
 ```ts

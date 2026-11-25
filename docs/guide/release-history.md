@@ -1,5 +1,11 @@
 # Release history
 
+## 0.1.0-rc.18 — Desktop motion, collection transfers and mobile fixes {#rc-18}
+
+RC.18 adds finite AppKit and Windows motion, measured collection layouts, controlled transfers and destination edge scrolling. The iPad bottom editor now follows a docked keyboard and returns to rest while the keyboard floats. Android scroll headers retain the visible card after a same-turn programmatic scroll.
+
+[AppKit / Windows](./native-properties) · [CollectionView / SwiftUI](./collections-scroll) · [#533](https://github.com/rafaelaugustos/jolt/issues/533) · [#534](https://github.com/rafaelaugustos/jolt/issues/534)
+
 ## 0.1.0-rc.17: Native reader focus and framework installation {#rc-17}
 
 RC.17 publishes [keyed native list focus corrections](./values-scroll-lists#native-reader-acceptance) from [PR #518](https://github.com/rafaelaugustos/jolt/pull/518) and [imperative installation with Solid 2 and Svelte Native 4](./install#framework-versions) from [PR #520](https://github.com/rafaelaugustos/jolt/pull/520). Install matching `0.1.0-rc.17` core/native npm packages and rebuild NativeScript apps; Swift Package Manager uses `v0.1.0-rc.17` of [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift). Solid bindings remain on Solid 1; Web and SwiftUI remain experimental.

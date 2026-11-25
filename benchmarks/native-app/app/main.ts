@@ -10,7 +10,10 @@ import { runCollectionLayouts } from '../../collection-layouts/native'
 declare const __JOLT_COLLECTION_LAYOUTS__: boolean
 import { runCollectionContinuity } from '../../collection-layouts/continuity-native'
 declare const __JOLT_COLLECTION_CONTINUITY__: boolean
-if (__JOLT_COLLECTION_CONTINUITY__) runCollectionContinuity()
+import { runPlatformRegressions } from '../../platform-regressions/native'
+declare const __JOLT_PLATFORM_REGRESSIONS__: boolean
+if (__JOLT_PLATFORM_REGRESSIONS__) runPlatformRegressions()
+else if (__JOLT_COLLECTION_CONTINUITY__) runCollectionContinuity()
 else if (__JOLT_COLLECTION_LAYOUTS__) runCollectionLayouts()
 else if (__JOLT_READER_ACCEPTANCE__) runReaderAcceptance()
 else if (__JOLT_COLLECTIONS_SCROLL__) runCollectionsScroll()

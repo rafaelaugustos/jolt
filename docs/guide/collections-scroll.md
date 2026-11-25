@@ -2,7 +2,7 @@
 
 ## Measured collections and transfers {#collection-layouts}
 
-On the development branch, the community CollectionView adapters accept forward single-span carousels (LTR/RTL) and regular vertical grids. Disable plugin reorder and use stable keys. Native recycling, pickup, edge autoscroll and cancellation use mounted cell geometry. Core ListView also accepts auto row heights and preserves the position of the first surviving visible row on structural updates.
+In RC.18, the community CollectionView adapters accept forward single-span carousels (LTR/RTL) and regular vertical grids. Disable plugin reorder and use stable keys. Native recycling, pickup, edge autoscroll and cancellation use mounted cell geometry. Core ListView also accepts auto row heights and preserves the position of the first surviving visible row on structural updates.
 
 On the Web, pass axis x to listChanges for a horizontal viewport and layout grid to reorder for uniform CSS grid cells. Virtualizers provide their own anchor and recycling hooks. Masonry, section headers and horizontal multi-span grids are outside this adapter.
 

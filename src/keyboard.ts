@@ -84,6 +84,24 @@ function update(height: number, duration: number, transition: Transition) {
   for (const listener of [...listeners]) listener(state)
 }
 
+/** Top of the keyboard area covering the bottom of this window and target. */
+function dockedTop(frame: CGRect, bounds: CGRect, target = bounds): number | undefined {
+  const bottom = bounds.origin.y + bounds.size.height
+  const left = Math.max(bounds.origin.x, target.origin.x, frame.origin.x)
+  const right = Math.min(
+    bounds.origin.x + bounds.size.width,
+    target.origin.x + target.size.width,
+    frame.origin.x + frame.size.width,
+  )
+  if (
+    right > left &&
+    frame.size.height > 0 &&
+    frame.origin.y < bottom &&
+    frame.origin.y + frame.size.height >= bottom - 0.5
+  )
+    return Math.max(bounds.origin.y, frame.origin.y)
+}
+
 function watchIOS() {
   const name = UIKeyboardWillChangeFrameNotification
   const observer = Application.ios.addNotificationObserver(
@@ -95,14 +113,11 @@ function watchIOS() {
         CGRect | undefined
       if (!info || !window || !end) return
       const frame = window.convertRectFromWindow(end, null)
-      const bottom = window.bounds.size.height
-      const docked =
-        frame.size.height > 0 &&
-        frame.origin.y < bottom &&
-        frame.origin.y + frame.size.height >= bottom - 0.5
+      const top = dockedTop(frame, window.bounds)
       const reported = numberIn(info, UIKeyboardAnimationDurationUserInfoKey) * 1000
       const curve = numberIn(info, UIKeyboardAnimationCurveUserInfoKey)
-      const height = docked ? bottom - frame.origin.y : 0
+      const height =
+        top === undefined ? 0 : window.bounds.origin.y + window.bounds.size.height - top
       if (!reported) return update(height, 0, { duration: 0 })
       if (curve === IOS_KEYBOARD_CURVE) return update(height, 500, iosKeyboard)
       update(height, reported, {
@@ -219,11 +234,10 @@ function followIOS(view: View, offset: number) {
       CGRect | undefined
     if (!end) return
     const keyboard = window.convertRectFromWindow(end, null)
-    const hidden =
-      keyboard.size.height <= 0 || keyboard.origin.y >= window.bounds.size.height
-    const frame = native.convertRectToView(native.bounds, null)
+    const frame = native.convertRectToView(native.bounds, window)
+    const top = dockedTop(keyboard, window.bounds, frame)
     const bottom = frame.origin.y + frame.size.height - view.translateY
-    const overlap = hidden ? 0 : Math.max(0, bottom + offset - keyboard.origin.y)
+    const overlap = top === undefined ? 0 : Math.max(0, bottom + offset - top)
     if (overlap === current) return
     current = overlap
     stop(view, ['y'])

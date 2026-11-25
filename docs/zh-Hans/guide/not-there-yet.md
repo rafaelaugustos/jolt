@@ -1,6 +1,6 @@
 # 发布状态与限制 {#not-there-yet}
 
-RC.17 发布 [PR #518](https://github.com/rafaelaugustos/jolt/pull/518) 的[原生列表按键保留焦点修复](./values-scroll-lists#native-reader-acceptance)，以及 [PR #520](https://github.com/rafaelaugustos/jolt/pull/520) 的 [Solid 2 与 Svelte Native 4 命令式安装支持](./install#framework-versions)。请安装相同 `0.1.0-rc.17` 版本的 npm 核心包与原生插件，并重新编译 NativeScript 应用；Swift Package Manager 使用 [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) 的 `v0.1.0-rc.17`。Solid 绑定仍使用 Solid 1；Web 与 SwiftUI 仍为实验性。
+RC.18 新增 AppKit 和 Windows 有限时长动画、基于实测尺寸的集合布局、受控跨列表转移和目标列表边缘滚动。iPad 编辑器跟随停靠键盘，在键盘浮动时回到底部。Android 在程序滚动后立即插入行时，也能保持可见卡片的位置。 [RC.18](./release-history#rc-18)
 
 2026 年 11 月 20 日，维护者批准 #385、#415 和 #494 使用模拟器验收。iOS 27 模拟器中的真实 VoiceOver 与 Android API 36 模拟器中的真实 TalkBack 均通过退出遍历及 Core ListView/CollectionView 按键保留焦点的检查（#498/#499）。原生焦点修复已包含在 RC.17 中；已发布的 RC.16 构件保持不变。实体指针验收（#492）仍独立跟踪。CollectionView 更新/排序仅支持单列垂直布局；分区、网格、跨列表移动不在适配器范围内，Web 虚拟化仍由应用负责。这些测试不证明实体设备精度、帧耗时或更低的应用 CPU/PSS。 [报告](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/acceptance-closure).
 
@@ -16,7 +16,7 @@ RC.12 新增[指针存在状态、协调属性组、渲染活动与有界绘图]
 
 实体指针配件及 iPhone 静音开关仍待验收。#415 已采用获批的模拟器检查器开销测量；旧手机仍仅提供历史兼容性证据。延迟/PSS（#405、#406）仍是技术债务。这些结果不证明性能优势，也不证明应用 JavaScript 阻塞时仍可播放。
 
-**当前版本：0.1.0-rc.17。**包含[原生框架适配器](./frameworks)、[新增传感器来源](./device-sensors#vector-sources)、[移动键盘修复](./mobile-web)、[元素相对 Web 滚动区间](./web-support#element-range)、[原生着色器输入与 iOS 本地视频纹理](./image-effects)，以及 [Android 播放改进](./android-performance)。[安装版本一致的软件包](./install)并重新构建原生应用。Web API 仍为实验性功能。
+**当前版本：0.1.0-rc.18。**包含[原生框架适配器](./frameworks)、[新增传感器来源](./device-sensors#vector-sources)、[移动键盘修复](./mobile-web)、[元素相对 Web 滚动区间](./web-support#element-range)、[原生着色器输入与 iOS 本地视频纹理](./image-effects)，以及 [Android 播放改进](./android-performance)。[安装版本一致的软件包](./install)并重新构建原生应用。Web API 仍为实验性功能。
 
 **RC.10 新增：**[Web 渐变、加载与文字](./web-effects)、[粒子、模糊、形状与图像效果](./web-surfaces)、[键盘、面板、导航、物理与图标](./web-platforms)、[重力、触感、传感器、玻璃与按稳定标识返回缩略图](./web-parity)，以及原生 [Core ScrollView 页头](./scroll-header#retained-scrollview)和[已挂载行排序](./reorder#retained-rows)。请重新构建原生应用。Mavis 的采用工作单独进行。
 
@@ -28,7 +28,7 @@ RC.12 新增[指针存在状态、协调属性组、渲染活动与有界绘图]
 
 **自 RC.7 起：**[颜色、边框、连续绘制、真实尺寸、FLIP 与可定位场景](./web-visual)扩展此运行时。Web API 仍为实验性功能；完整对等由 [#236](https://github.com/rafaelaugustos/jolt/issues/236) 跟踪。
 
-**0.1.0-rc.17 已发布。** 原生功能保留各自文档中说明的平台限制，正式版验收仍在进行。Web 入口仍为实验性功能；发布并不表示 Mavis 集成完成，也不保证所有原生/Web API 完全一致。
+**0.1.0-rc.18 已发布。** 原生功能保留各自文档中说明的平台限制，正式版验收仍在进行。Web 入口仍为实验性功能；发布并不表示 Mavis 集成完成，也不保证所有原生/Web API 完全一致。
 
 RC.6 包含[Web 连续动画](./web-dynamic)：数值、跟随弹簧及拖动/吸附，以及[数值映射、几何刷新和垂直滚动](./web-support)。Web API 仍为实验性功能。
 

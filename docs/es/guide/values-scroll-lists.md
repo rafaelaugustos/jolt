@@ -1,6 +1,6 @@
 # Valores combinados, scroll y listas por clave
 
-La rama de desarrollo también admite alturas medidas en ListView de Core y otros diseños de colección. [CollectionView / ListView](./collections-scroll#collection-layouts)
+RC.18 también admite alturas medidas en ListView de Core y otros diseños de colección. [CollectionView / ListView](./collections-scroll#collection-layouts)
 
 **Disponible en 0.1.0-rc.15 (Beta).** Recompile las aplicaciones nativas tras actualizar. Los vídeos muestran interacción real en las plataformas indicadas; simuladores/emuladores no prueban rendimiento en un dispositivo físico.
 

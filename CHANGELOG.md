@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+## 0.1.0-rc.18 (2026-11-24)
+
+- Ship experimental AppKit and Windows XAML motion with finite opacity, translation, independent scale, rotation and pause/resume (#516, #519, #531, #532).
+- Support recycled horizontal carousels, regular vertical grids, measured-height Core ListView anchoring and sheet-to-grid drag handoff (#523, #524, #525, #528).
+- Transfer keyed items between two controlled lists, scroll the destination edge during a drag, and use controlled transfers in SwiftUI (#526, #529, #530).
+- Trace iOS press actions across suspension and document the downstream Hexdrop reset and app-level controls (#401).
+- Keep a bottom editor at rest when the iPad keyboard floats. Reapply its translation when the keyboard docks and restore it when editing ends (#533).
+- Read the live Android Core ScrollView offset for same-turn anchor transactions after a programmatic scroll, including guarded refresh commits (#534).
+
 ## 0.1.0-rc.17 (2026-11-20)
 
 - Publish matching core/native npm packages and the matching `jolt-swift` tag with #518 and #520. Rebuild NativeScript apps after upgrading; Web and SwiftUI remain experimental.
