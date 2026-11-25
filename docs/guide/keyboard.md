@@ -2,6 +2,8 @@
 
 Move a composer, a button or a toolbar with the software keyboard:
 
+<Clip :autoplay="false" name="ipad-floating-keyboard" caption="iPadOS 26.2 simulator. The bottom editor moves with the docked keyboard, returns to rest while it floats and follows it again after redocking." />
+
 <Clip name="keyboard" caption="The composer following the keyboard on Android." />
 
 ```ts

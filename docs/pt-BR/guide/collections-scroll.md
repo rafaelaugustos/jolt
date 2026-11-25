@@ -2,7 +2,7 @@
 
 ## Coleções medidas e transferência entre listas {#collection-layouts}
 
-Na branch de desenvolvimento, os adaptadores de CollectionView aceitam carrosséis de uma linha nos sentidos LTR e RTL e grades verticais regulares. Desative o reorder do plugin e use chaves estáveis. O arrasto, a rolagem nas bordas e o cancelamento usam as posições das células montadas. A ListView do Core também aceita alturas automáticas e mantém a posição da primeira linha visível que sobrevive à atualização.
+Na RC.18, os adaptadores de CollectionView aceitam carrosséis de uma linha nos sentidos LTR e RTL e grades verticais regulares. Desative o reorder do plugin e use chaves estáveis. O arrasto, a rolagem nas bordas e o cancelamento usam as posições das células montadas. A ListView do Core também aceita alturas automáticas e mantém a posição da primeira linha visível que sobrevive à atualização.
 
 Na Web, passe axis x a listChanges para um carrossel e layout grid a reorder para uma grade CSS de células uniformes. Virtualizadores fornecem seus próprios controles de âncora e reciclagem. Este adaptador cobre listas planas e grades verticais regulares.
 

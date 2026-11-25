@@ -46,9 +46,14 @@ function target(top?: number) {
   return { view, native }
 }
 
-function keyboard(top: number, duration = 0.25, curve = 7) {
+function keyboard(
+  top: number,
+  duration = 0.25,
+  curve = 7,
+  frame = rect(top, WINDOW_HEIGHT - top),
+) {
   const values: Record<string, unknown> = {
-    frame: { CGRectValue: rect(top, WINDOW_HEIGHT - top) },
+    frame: { CGRectValue: frame },
     duration,
     curve,
   }
@@ -122,6 +127,37 @@ describe('followKeyboard on iOS', () => {
     keyboard(500)
     expect(view.translateY).toBe(-316)
     expect(animations).toHaveLength(2)
+    release()
+  })
+
+  it('clears a docked lift for a floating frame, redocks and clears it for hardware input', () => {
+    const { view } = target()
+    const release = followKeyboard(view)
+    keyboard(600)
+    expect(view.translateY).toBe(-216)
+    keyboard(320, 0.3, 2, rect(320, 200))
+    expect(view.translateY).toBe(0)
+    expect(animations.at(-1)?.duration).toBe(0.3)
+    keyboard(540)
+    expect(view.translateY).toBe(-276)
+    keyboard(WINDOW_HEIGHT, 0)
+    expect(view.translateY).toBe(0)
+    release()
+  })
+
+  it('rechecks window bounds on rotation and rejects a horizontally disjoint keyboard', () => {
+    const { view, native } = target(300)
+    const release = followKeyboard(view)
+    native.window!.bounds = rect(0, 390, 844)
+    const side = rect(260, 130, 300)
+    side.origin.x = 410
+    keyboard(260, 0, 0, side)
+    expect(view.translateY).toBe(0)
+    side.origin.x = 100
+    keyboard(260, 0, 0, side)
+    expect(view.translateY).toBe(-96)
+    keyboard(360, 0, 0, rect(360, 30, 844))
+    expect(view.translateY).toBe(0)
     release()
   })
 

@@ -83,6 +83,9 @@ public final class ScrollHeader implements ViewTreeObserver.OnScrollChangedListe
         int first=list.getFirstVisiblePosition();double divider=list.getDividerHeight()/density;
         return (first==0?0:spacer+divider+(first-1)*(rowHeight+divider))+(list.getPaddingTop()-child.getTop())/density;
     }
+    private int phaseAt(double position) {
+        return position <= .5 ? 0 : position >= range - .5 ? 2 : 1;
+    }
     private void update(boolean force) {
         if(disposed)return;
         double next=current();if(!force && Math.abs(next-offset)<.001)return;
@@ -102,7 +105,7 @@ public final class ScrollHeader implements ViewTreeObserver.OnScrollChangedListe
             if(transfer && canFocus(incoming))
                 incoming.performAccessibilityAction(AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS,null);
         }
-        int nextPhase=offset<=.5?0:offset>=range-.5?2:1;
+        int nextPhase=phaseAt(offset);
         if(nextPhase!=phase){phase=nextPhase;callbacks++;if(listener!=null)listener.changed();}
         if(diagnostic!=null)diagnostic.setText(String.format(java.util.Locale.US,"y %.0f · range %.0f · native %d · JS %d",offset,range,updates,callbacks));
     }
@@ -146,7 +149,10 @@ public final class ScrollHeader implements ViewTreeObserver.OnScrollChangedListe
         int first=0,visible=0,total=rows.length;
         if(list!=null){first=list.getFirstVisiblePosition();visible=list.getChildCount();total=list.getCount();}
         else for(int i=0;i<rows.length;i++){if(!ScrollInput.descendant(rows[i],scroll))continue;Rect rect=new Rect();rows[i].getDrawingRect(rect);scroll.offsetDescendantRectToMyCoords(rows[i],rect);if(rect.bottom>scroll.getScrollY() && rect.top<scroll.getScrollY()+scroll.getHeight()){if(visible==0)first=i;visible++;}}
-        try {return new JSONObject().put("minimumOffset",minimumOffset).put("maximumOffset",maximumOffset).put("offset",Double.isFinite(offset)?offset:0).put("phase",new String[]{"expanded","between","collapsed"}[Math.max(0,phase)])
+        // NestedScrollView.scrollTo changes its position before the view-tree scroll
+        // listener runs. Read the same position the visible rows currently occupy.
+        double position = scroll != null && enabled ? current() : (Double.isFinite(offset) ? offset : 0);
+        try {return new JSONObject().put("minimumOffset",Math.min(minimumOffset,position)).put("maximumOffset",Math.max(maximumOffset,position)).put("offset",position).put("phase",new String[]{"expanded","between","collapsed"}[phaseAt(position)])
             .put("refresh",new String[]{"idle","pulling","armed","refreshing"}[refreshState]).put("refreshRequests",refreshRequests).put("refreshDraws",refreshDraws).put("updates",updates).put("callbacks",callbacks).put("first",first).put("visible",visible).put("total",total).toString();}
         catch(Exception error){throw new IllegalStateException(error);}
     }

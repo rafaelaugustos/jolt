@@ -4,6 +4,8 @@
 
 Disponible desde **0.1.0-rc.1**. Reconstruya la aplicación nativa.
 
+<Clip :autoplay="false" name="android-same-turn-anchor" caption="Emulador Android API 36. La tarjeta resaltada conserva su posición con una inserción directa y durante una actualización protegida." />
+
 <Clip name="scroll-header-ios" caption="Simulador iOS 26.2, inglés: arrastre real, estiramiento de overscroll, reversión, lanzamiento, una portada/título más alto, inserción y retorno programático. Velocidad original; corrección del simulador, no el rendimiento del dispositivo físico." />
 <Clip name="scroll-header-ios-pt" caption="Simulador iOS, portugués: la misma composición nativa con entrada real del sistema operativo y controles traducidos." />
 <Clip name="scroll-header-android" caption="Emulador Android 16, inglés: desplazamiento real a través de filas recicladas, cambios de diseño anclados y desplazamiento nativo al elemento. Este adaptador utiliza un desplazamiento normal Android sin estiramiento de héroe decorativo." />

@@ -4,6 +4,8 @@
 
 Disponível desde a **0.1.0-rc.1**. Recompile o aplicativo nativo.
 
+<Clip :autoplay="false" name="android-same-turn-anchor" caption="Emulador Android API 36. O cartão destacado mantém a posição na tela tanto na inserção direta quanto na atualização protegida." />
+
 <Clip name="scroll-header-ios" caption="Simulador iOS 26.2, inglês: arraste real, expansão no overscroll, inversão, inércia, capa/título maiores, inserção e retorno programático. Velocidade original; validação de comportamento, não desempenho em aparelho físico." />
 <Clip name="scroll-header-ios-pt" caption="Simulador iOS, português: a mesma composição nativa com gestos reais do sistema e controles traduzidos." />
 <Clip name="scroll-header-android" caption="Emulador Android 16, inglês: rolagem real com reciclagem, mudanças de layout preservando a posição e navegação nativa. Este adaptador usa o overscroll normal do Android, sem expansão decorativa da capa." />

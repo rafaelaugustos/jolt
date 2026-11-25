@@ -1,6 +1,6 @@
 # 组合数值、滚动与按键更新列表
 
-开发分支还支持 Core ListView 的实测行高及更多集合布局。 [CollectionView / ListView](./collections-scroll#collection-layouts)
+RC.18还支持 Core ListView 的实测行高及更多集合布局。 [CollectionView / ListView](./collections-scroll#collection-layouts)
 
 **已包含在 0.1.0-rc.15（测试版）。** 更新后请重新编译原生应用。以下视频来自所标注平台的实际交互；模拟器不能作为实体设备性能证明。
 

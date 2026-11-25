@@ -1,5 +1,11 @@
 # Histórico de versões
 
+## 0.1.0-rc.18 — Animação no desktop, transferências entre listas e correções no mobile {#rc-18}
+
+A RC.18 traz animações finitas em AppKit e Windows, layouts de coleções medidos, transferências controladas e rolagem na borda da lista de destino. No iPad, o editor acompanha o teclado acoplado e volta à base quando ele flutua. No Android, o cabeçalho preserva a posição do cartão mesmo quando a inserção acontece logo após uma rolagem por código.
+
+[AppKit / Windows](./native-properties) · [CollectionView / SwiftUI](./collections-scroll) · [#533](https://github.com/rafaelaugustos/jolt/issues/533) · [#534](https://github.com/rafaelaugustos/jolt/issues/534)
+
 ## 0.1.0-rc.17: Foco dos leitores nativos e instalação com frameworks {#rc-17}
 
 A RC.17 publica as [correções de foco por chave nas listas nativas](./values-scroll-lists#native-reader-acceptance) do [PR #518](https://github.com/rafaelaugustos/jolt/pull/518) e a [instalação imperativa com Solid 2 e Svelte Native 4](./install#framework-versions) do [PR #520](https://github.com/rafaelaugustos/jolt/pull/520). Instale core/plugin nativo npm na mesma versão `0.1.0-rc.17` e recompile apps NativeScript; no Swift Package Manager, use `v0.1.0-rc.17` do [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift). Os bindings Solid continuam no Solid 1; Web e SwiftUI permanecem experimentais.

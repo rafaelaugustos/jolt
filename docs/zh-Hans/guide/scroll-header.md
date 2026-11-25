@@ -4,6 +4,8 @@
 
 自 **0.1.0-rc.1** 起可用。重建原生应用程序。
 
+<Clip :autoplay="false" name="android-same-turn-anchor" caption="Android API 36 模拟器。直接在顶部插入和通过受保护的刷新插入时，高亮卡片在视口中的位置均保持不变。" />
+
 <Clip name="scroll-header-ios" caption="iOS 26.2模拟器，英文：真实拖动、过度滚动拉伸、反转、猛击、更高的封面/标题、插入和程序化返回。原速度；模拟器的正确性，而不是真机的性能。" />
 <Clip name="scroll-header-ios-pt" caption="iOS 模拟器，葡萄牙语：与实际操作系统输入和翻译控件相同的原生组成。" />
 <Clip name="scroll-header-android" caption="Android 16 模拟器，英语：真正滚动循环行、锚定布局更改和原生滚动到项目。此适配器使用普通 Android 过卷，无装饰英雄拉伸。" />

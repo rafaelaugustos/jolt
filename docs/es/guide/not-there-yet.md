@@ -1,6 +1,6 @@
 # Estado de la versión y límites {#not-there-yet}
 
-RC.17 publica las [correcciones de foco por clave en listas nativas](./values-scroll-lists#native-reader-acceptance) del [PR #518](https://github.com/rafaelaugustos/jolt/pull/518) y la [instalación imperativa con Solid 2 y Svelte Native 4](./install#framework-versions) del [PR #520](https://github.com/rafaelaugustos/jolt/pull/520). Instale core/plugin nativo npm en la misma versión `0.1.0-rc.17` y recompile apps NativeScript; Swift Package Manager usa `v0.1.0-rc.17` de [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift). Los bindings Solid siguen en Solid 1; Web y SwiftUI siguen siendo experimentales.
+RC.18 añade animaciones finitas en AppKit y Windows, diseños de colecciones medidos, transferencias controladas y desplazamiento en el borde del destino. En el iPad, el editor sigue al teclado acoplado y vuelve a la base cuando flota. En Android, el encabezado conserva la posición de la tarjeta al insertar justo después de un desplazamiento programático. [RC.18](./release-history#rc-18)
 
 El 20 de noviembre de 2026, el mantenedor aceptó evidencia emulada para #385, #415 y #494. VoiceOver real en el simulador iOS 27 y TalkBack real en el emulador Android API 36 superan la navegación de salidas y el foco por clave de Core ListView/CollectionView (#498/#499). La corrección de foco se incluye en RC.17; los artefactos RC.16 publicados no cambian. La aceptación de punteros físicos (#492) sigue separada. CollectionView admite una columna vertical; secciones, grids y movimientos entre listas quedan fuera, y la virtualización Web pertenece a la aplicación. Estas pruebas no demuestran precisión, tiempos de frames ni menor CPU/PSS en dispositivos físicos. [Informe](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/acceptance-closure).
 
@@ -16,7 +16,7 @@ RC.12 añade [presencia del puntero, propiedades coordinadas, actividad del rend
 
 La aceptación con punteros físicos y el interruptor de silencio del iPhone siguen pendientes. #415 ahora utiliza mediciones emuladas aprobadas del coste del inspector; el teléfono antiguo sigue siendo evidencia histórica de compatibilidad. Latencia/PSS (#405, #406) siguen como deuda técnica. Los resultados no demuestran superioridad de rendimiento ni reproducción durante bloqueos de JavaScript.
 
-**Versión actual: 0.1.0-rc.17.** Incluye [adaptadores nativos](./frameworks), [fuentes adicionales de sensores](./device-sensors#vector-sources), [correcciones del teclado móvil](./mobile-web), [scroll Web relativo al elemento](./web-support#element-range), [entradas de shaders y vídeo local en iOS](./image-effects) y [mejoras de reproducción Android](./android-performance). [Instala paquetes de la misma versión](./install) y recompila las apps nativas. Las APIs Web siguen experimentales.
+**Versión actual: 0.1.0-rc.18.** Incluye [adaptadores nativos](./frameworks), [fuentes adicionales de sensores](./device-sensors#vector-sources), [correcciones del teclado móvil](./mobile-web), [scroll Web relativo al elemento](./web-support#element-range), [entradas de shaders y vídeo local en iOS](./image-effects) y [mejoras de reproducción Android](./android-performance). [Instala paquetes de la misma versión](./install) y recompila las apps nativas. Las APIs Web siguen experimentales.
 
 **Novedades de RC.10:** [degradados, carga y texto Web](./web-effects), [partículas, blur, formas y efectos de imagen](./web-surfaces), [teclado, paneles, navegación, física e iconos](./web-platforms), [gravedad, haptics, sensores, glass y retorno a miniaturas por clave](./web-parity), además de [headers de Core ScrollView nativo](./scroll-header#retained-scrollview) y [reordenación de filas montadas](./reorder#retained-rows). Recompila las aplicaciones nativas. La adopción en Mavis sigue separada.
 
@@ -28,7 +28,7 @@ La aceptación con punteros físicos y el interruptor de silencio del iPhone sig
 
 **Desde RC.7:** [colores, bordes, pintura continua, tamaño real, FLIP y escenas con seek](./web-visual) amplían este runtime. Las APIs Web siguen experimentales; la paridad completa continúa en [#236](https://github.com/rafaelaugustos/jolt/issues/236).
 
-**0.1.0-rc.17 está disponible.** Las funciones nativas mantienen sus límites documentados mientras continúa la validación estable. Las entradas Web son experimentales; publicarlas no completa la integración Mavis ni establece paridad de todas las APIs entre native y Web.
+**0.1.0-rc.18 está disponible.** Las funciones nativas mantienen sus límites documentados mientras continúa la validación estable. Las entradas Web son experimentales; publicarlas no completa la integración Mavis ni establece paridad de todas las APIs entre native y Web.
 
 RC.6 incluye [movimiento continuo Web](./web-dynamic), con valores, followers y drag/snap, además de [mapeos numéricos, geometría y scroll vertical](./web-support). Las APIs Web siguen experimentales.
 

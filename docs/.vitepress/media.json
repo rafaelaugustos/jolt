@@ -11,6 +11,10 @@
       "bytes": 148310,
       "sha256": "c9eab42fbc715c5aef0730657201486c59e3e2fed0bbe6744586353ffa42f1a6"
     },
+    "android-same-turn-anchor.mp4": {
+      "bytes": 94041,
+      "sha256": "bec36d25ceb85ab785dde6a5adc23df29500fe2ad4dac049190bc156de10a149"
+    },
     "appkit-desktop-motion.mp4": {
       "bytes": 21510,
       "sha256": "728b63243407cd9384bddbcb6c0a73ba527df525bad95f92265a06bfad90bb07"
@@ -762,6 +766,10 @@
     "interrupting-ios.mp4": {
       "bytes": 65953,
       "sha256": "9332613294accd05c6bb5bffd54e92e11d755790a20be23fab0ca332c82ba2b6"
+    },
+    "ipad-floating-keyboard.mp4": {
+      "bytes": 155338,
+      "sha256": "8db0340c67d70369ba6f9313f370ef6fafd68343ded542ee8a30820fc191f417"
     },
     "jolt-car-drive-ios.mp4": {
       "bytes": 912876,
