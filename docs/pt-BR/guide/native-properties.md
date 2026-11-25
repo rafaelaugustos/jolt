@@ -152,3 +152,11 @@ Crie um controlador por alvo. Uma substituição começa no valor que está na t
 <Clip name="appkit-desktop-motion" caption="Janela AppKit no macOS. O botão se move, troca de destino, mantém a opacidade interrompida e volta à opacidade total." />
 
 <Clip name="windows-xaml-motion" caption="Janela XAML no Windows Server 2025. O botão troca de destino, interrompe a transição de opacidade e volta a ficar opaco." />
+
+## Escala, rotação e controles de reprodução
+
+AppKit e Windows XAML também animam `scaleX`, `scaleY` (fatores positivos, com 1 para o tamanho original) e `rotate` (graus). Cada propriedade tem seu canal. Substituir a rotação preserva a translação e ambas as escalas. Use `pause()` no controle retornado para segurar o valor exibido e `resume()` para continuar pela duração e pela curva restantes. A mesma promessa `finished` resolve ao concluir ou interromper. `owner.suspend()` cancela inclusive os canais pausados. Respeite a preferência de movimento reduzido do sistema.
+
+<Clip :autoplay="false" name="desktop-transforms-appkit" caption="macOS · AppKit — transformações independentes, pausa e retomada pela duração restante." />
+
+<Clip :autoplay="false" name="desktop-transforms-windows" caption="Windows Server 2025 · XAML — transformações independentes, pausa e retomada pela duração restante." />

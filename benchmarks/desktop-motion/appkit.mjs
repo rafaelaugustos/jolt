@@ -57,6 +57,15 @@ const pump = setInterval(() => {
   }
   app.updateWindows()
 }, 4)
+const angle = () =>
+  (Number(
+    (card.layer.presentationLayer() ?? card.layer).valueForKeyPath(
+      'transform.rotation.z',
+    ),
+  ) *
+    180) /
+  Math.PI
+const scale = () => Number(card.layer.valueForKeyPath('transform.scale.x'))
 let recording, recorded
 try {
   await wait(350)
@@ -98,6 +107,33 @@ try {
   label.stringValue = 'Reduce motion · restored'
   await motion.animate('opacity', 1, { reducedMotion: true }).finished
   await wait(900)
+  const scaleX = motion.animate('scaleX', 1.45, { duration: 480 })
+  const scaleY = motion.animate('scaleY', 1.28, { duration: 480 })
+  const spin = motion.animate('rotate', 32, { duration: 1300, ease: 'linear' })
+  label.stringValue = 'Scale and rotate'
+  await wait(450)
+  const back = motion.animate('rotate', -14, { duration: 1650, ease: 'linear' })
+  assert.equal(await spin.finished, false)
+  assert.equal(await scaleX.finished, true)
+  assert.equal(await scaleY.finished, true)
+  await wait(380)
+  back.pause()
+  label.stringValue = 'Rotation paused'
+  await wait(150)
+  const heldAngle = angle()
+  assert(heldAngle > -13 && heldAngle < 32, 'Paused in flight: ' + heldAngle)
+  await wait(750)
+  assert(Math.abs(angle() - heldAngle) < 0.8)
+  label.stringValue = 'Resuming rotation'
+  const resumeStart = performance.now()
+  back.resume()
+  assert.equal(await Promise.race([back.finished, wait(3500).then(() => null)]), true)
+  const remaining = performance.now() - resumeStart
+  assert(remaining > 450 && remaining < 1600, 'Remaining duration: ' + remaining)
+  assert(Math.abs(angle() + 14) < 0.9)
+  assert(Math.abs(scale() - 1.45) < 0.03, 'Scale survived rotation replacement')
+  label.stringValue = 'Finished at the original scale'
+  await wait(650)
   const end = motion.animate('y', 32)
   motion.dispose()
   assert.equal(await end.finished, false)

@@ -153,3 +153,23 @@ CollectionView now shares the native keyed-focus capture/restoration used by Cor
 <Clip :autoplay="false" name="collection-focus-voiceover-ios" caption="iOS 27 simulator with actual VoiceOver and XCTest interaction. Visible focus and traversal assertions; silent recording. No physical-device claim. CollectionView keyed focus across updates." />
 
 <Clip :autoplay="false" name="collection-focus-talkback-android" caption="Android API 36 emulator with actual TalkBack and native touch interaction. Visible focus and traversal assertions; silent recording. No physical-device claim. CollectionView keyed focus across updates." />
+
+## A regular grid inside a sheet
+
+Pass `scrollHandoff(collection, { axis: "y" })` as the sheet’s `scrollView` for a forward vertical CollectionView with uniform columns. Drag from a cell to expand the panel. Remaining travel scrolls the grid. Reverse the same contact to consume the grid offset before collapsing the panel. Release velocity belongs to the active scroll or panel. Custom per-item spans and horizontal multi-column layouts are outside this adapter’s contract. On Web, pass the CSS grid’s scroll container as `scrollView`. Disposing the sheet ends the handoff.
+
+<Clip :autoplay="false" name="grid-sheet-continuity-ios" caption="iOS 27 · iPhone Simulator — expand, scroll and reverse with one contact." />
+
+<Clip :autoplay="false" name="grid-sheet-continuity-android" caption="Android · Pixel Emulator — expand, scroll and reverse with one contact." />
+
+<Clip :autoplay="false" name="collection-gridsheet-web" caption="Web · Chromium — expand, scroll and reverse with one contact." />
+
+## Scroll the destination during a transfer
+
+Set `edgeScroll: listTransferScroll(destination)` in `listTransferOptions`. Use a mounted vertical NativeScript ScrollView or an overflowing DOM element. The dragged row’s center must enter the destination. In the outer 48 DIPs or CSS pixels, speed increases towards the edge to 600 units per second. The policy remeasures visible row centers while the pointer stays still. Supply fresh centers in window coordinates, stable keys and one application-owned commit. Leaving the edge, release, cancellation, disposal or reaching a limit stops scrolling. Existing request-based transfers append without a drag.
+
+<Clip :autoplay="false" name="transfer-scroll-ios" caption="iOS 27 · iPhone Simulator — stationary edge contact, cancellation and one insertion." />
+
+<Clip :autoplay="false" name="transfer-scroll-android" caption="Android · Pixel Emulator — stationary edge contact, cancellation and one insertion." />
+
+<Clip :autoplay="false" name="collection-edgetransfer-web" caption="Web · Chromium — stationary edge contact, cancellation and one insertion." />

@@ -7,7 +7,7 @@ export interface ScrollHandoffAdapter {
 }
 export type ScrollHandoffSource = ScrollView | ScrollHandoffAdapter
 
-/** Core lists, Core ScrollView and linear community CollectionView use the same native port. */
+/** Core lists, Core ScrollView and regular community CollectionView layouts use the same native port. */
 export function scrollHandoff(
   view: View,
   options: { axis?: 'x' | 'y' } = {},
@@ -30,17 +30,22 @@ export function scrollHandoff(
     orientation?: string
     reverseLayout?: boolean
     layoutStyle?: string
+    spanSize?: unknown
   }
-  if (
-    plugin.computeSpanCount &&
-    (plugin.computeSpanCount() !== 1 ||
+  if (plugin.computeSpanCount) {
+    const spans = plugin.computeSpanCount()
+    if (
+      !Number.isInteger(spans) ||
+      spans < 1 ||
+      (spans > 1 && (axis !== 'y' || plugin.spanSize)) ||
       plugin.reverseLayout ||
       (plugin.orientation === 'horizontal') !== (axis === 'x') ||
-      plugin.layoutStyle !== 'grid')
-  )
-    throw new TypeError(
-      'CollectionView handoff needs a matching linear axis, one span and no reverse layout.',
+      plugin.layoutStyle !== 'grid'
     )
+      throw new TypeError(
+        'CollectionView handoff needs a matching forward linear or regular vertical grid layout.',
+      )
+  }
   // Custom/plugin native widget validation occurs on attachment, after native creation.
   return Object.freeze({ view, axis })
 }

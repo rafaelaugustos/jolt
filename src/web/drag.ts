@@ -586,15 +586,27 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
   listen(document, 'visibilitychange', () => {
     if (document.hidden) cancel()
   })
-  listen(view, 'scroll', cancel, true, true)
+  // Only scrolling the source's coordinate system invalidates the contact.
+  // An independent destination may scroll under a stationary pointer.
+  const onScroll = (event: Event) => {
+    const scroller = event.composedPath()[0]
+    if (
+      scroller === document ||
+      scroller === view ||
+      scroller === target ||
+      (scroller instanceof view.HTMLElement && contains(scroller, target))
+    )
+      cancel()
+  }
+  listen(view, 'scroll', onScroll, true, true)
   let scrollRoot: Node | undefined
   const watchRoot = () => {
     const root = target.getRootNode()
     if (root === scrollRoot) return
-    scrollRoot?.removeEventListener('scroll', cancel, true)
+    scrollRoot?.removeEventListener('scroll', onScroll, true)
     scrollRoot = root
     if (root !== document)
-      root.addEventListener('scroll', cancel, { capture: true, passive: true })
+      root.addEventListener('scroll', onScroll, { capture: true, passive: true })
   }
   watchRoot()
   listen(
@@ -626,7 +638,7 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
     disposed = true
     abort.abort()
     host.scheduler.remove(task)
-    scrollRoot?.removeEventListener('scroll', cancel, true)
+    scrollRoot?.removeEventListener('scroll', onScroll, true)
     scrollRoot = undefined
     if (stopAnimation && target.isConnected && target.ownerDocument === document)
       animation?.stop()

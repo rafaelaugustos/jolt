@@ -137,3 +137,11 @@ The packed React, Angular, Svelte and Solid consumers use the existing Web APIs 
 <Clip name="web-characters-angular" caption="Angular, Chromium: the same public Web capabilities and framework-owned cleanup; actual browser playback." />
 <Clip name="web-characters-svelte" caption="Svelte, Chromium: bounded transforms, reorder/drop and character effects; actual browser playback." />
 <Clip name="web-characters-solid" caption="Solid, Chromium: shared public Web contracts, accessible alternatives and owned effects; actual browser playback." />
+
+## Move a row between two lists
+
+Create a `JoltDropZones.listTransfer` owner for a source key and a destination ID. Supply the two key arrays and realized row centers in global points, ordered by destination index. Use `axis` and `reverse` for horizontal or reversed layouts. Preview only draws the insertion slot. In `commit`, remove the source row and insert it once at `toIndex`. Empty targets accept index zero. A changed revision, missing target, duplicate keys, cancellation or disposal invalidates the pending drop. `request` offers a non-drag append. Web uses `listTransferOptions` with the same application-owned data.
+
+<Clip :autoplay="false" name="swiftui-controlled-transfer-ios" caption="iOS 27 · iPhone Simulator · SwiftUI — move, rejection and empty destination." />
+
+<Clip :autoplay="false" name="swiftui-controlled-transfer-macos" caption="macOS · SwiftUI — move, rejection and empty destination." />

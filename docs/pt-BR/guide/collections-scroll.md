@@ -153,3 +153,23 @@ CollectionView agora compartilha a captura/restauração de foco por chave do Co
 <Clip :autoplay="false" name="collection-focus-voiceover-ios" caption="Simulador iOS 27 com VoiceOver real e interação XCTest. Foco visível e asserções de navegação; gravação sem áudio. Não comprova comportamento em aparelho físico. Foco por chave do CollectionView durante atualizações." />
 
 <Clip :autoplay="false" name="collection-focus-talkback-android" caption="Emulador Android API 36 com TalkBack real e interação por toques nativos. Foco visível e asserções de navegação; gravação sem áudio. Não comprova comportamento em aparelho físico. Foco por chave do CollectionView durante atualizações." />
+
+## Grade regular dentro de um painel
+
+Passe `scrollHandoff(collection, { axis: "y" })` em `scrollView` para usar uma CollectionView vertical de colunas uniformes e ordem normal. Arraste uma célula para expandir o painel. O restante do movimento rola a grade. Ao inverter o mesmo gesto, a grade volta ao início antes de o painel recolher. A superfície ativa recebe a velocidade ao soltar. O adaptador aceita colunas uniformes, sem larguras por item ou grade horizontal. Na Web, passe o contêiner rolável da grade CSS em `scrollView`. Descartar o painel encerra o gesto.
+
+<Clip :autoplay="false" name="grid-sheet-continuity-ios" caption="iOS 27 · iPhone Simulator — expansão, rolagem e retorno com um único gesto." />
+
+<Clip :autoplay="false" name="grid-sheet-continuity-android" caption="Android · Pixel Emulator — expansão, rolagem e retorno com um único gesto." />
+
+<Clip :autoplay="false" name="collection-gridsheet-web" caption="Web · Chromium — expansão, rolagem e retorno com um único gesto." />
+
+## Rolar a lista de destino durante a transferência
+
+Use `edgeScroll: listTransferScroll(destino)` em `listTransferOptions`. O destino pode ser uma ScrollView vertical montada ou um elemento DOM com rolagem. O centro da linha arrastada deve entrar no destino. Nos 48 DIPs ou pixels CSS próximos à borda, a velocidade aumenta até 600 unidades por segundo. A posição de inserção acompanha os centros visíveis mesmo com o ponteiro parado. Forneça coordenadas de janela atualizadas, chaves estáveis e um único commit controlado pelo aplicativo. Sair da borda, soltar, cancelar, descartar ou atingir o limite encerra a rolagem. A ação sem arraste insere no fim.
+
+<Clip :autoplay="false" name="transfer-scroll-ios" caption="iOS 27 · iPhone Simulator — contato parado na borda, cancelamento e uma inserção." />
+
+<Clip :autoplay="false" name="transfer-scroll-android" caption="Android · Pixel Emulator — contato parado na borda, cancelamento e uma inserção." />
+
+<Clip :autoplay="false" name="collection-edgetransfer-web" caption="Web · Chromium — contato parado na borda, cancelamento e uma inserção." />

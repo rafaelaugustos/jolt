@@ -1,0 +1,380 @@
+{
+  "app": "rafaelaugustos/hexdrop@ebdc02a",
+  "simulator": "iPhone 17, iOS 26.2",
+  "candidate": "rafaelaugustos/jolt@bc863bc5",
+  "input": "Three OS taps, Home after 0/50/200 ms. Fourth background transition during held OS contact. The app records primaryAction entry before its foreground guard.",
+  "runs": {
+    "published-rc11": [
+      {
+        "ms": 0,
+        "event": "resume",
+        "phase": "ready",
+        "suspended": false
+      },
+      {
+        "ms": 2206,
+        "event": "primary",
+        "phase": "ready",
+        "suspended": false
+      },
+      {
+        "ms": 2209,
+        "event": "brew",
+        "phase": "ready",
+        "suspended": false
+      },
+      {
+        "ms": 2666,
+        "event": "suspend",
+        "phase": "brewing",
+        "suspended": true
+      },
+      {
+        "ms": 3316,
+        "event": "unload",
+        "phase": "brewing",
+        "suspended": true
+      },
+      {
+        "ms": 3652,
+        "event": "resume",
+        "phase": "brewing",
+        "suspended": false
+      },
+      {
+        "ms": 3806,
+        "event": "primary",
+        "phase": "brewing",
+        "suspended": false
+      },
+      {
+        "ms": 3806,
+        "event": "reset",
+        "phase": "brewing",
+        "suspended": false
+      },
+      {
+        "ms": 4320,
+        "event": "suspend",
+        "phase": "ready",
+        "suspended": true
+      },
+      {
+        "ms": 4938,
+        "event": "unload",
+        "phase": "ready",
+        "suspended": true
+      },
+      {
+        "ms": 5285,
+        "event": "resume",
+        "phase": "ready",
+        "suspended": false
+      },
+      {
+        "ms": 5439,
+        "event": "primary",
+        "phase": "ready",
+        "suspended": false
+      },
+      {
+        "ms": 5439,
+        "event": "brew",
+        "phase": "ready",
+        "suspended": false
+      },
+      {
+        "ms": 6103,
+        "event": "suspend",
+        "phase": "brewing",
+        "suspended": true
+      },
+      {
+        "ms": 6709,
+        "event": "unload",
+        "phase": "brewing",
+        "suspended": true
+      },
+      {
+        "ms": 7049,
+        "event": "resume",
+        "phase": "brewing",
+        "suspended": false
+      },
+      {
+        "ms": 7783,
+        "event": "suspend",
+        "phase": "brewing",
+        "suspended": true
+      },
+      {
+        "ms": 8575,
+        "event": "unload",
+        "phase": "brewing",
+        "suspended": true
+      },
+      {
+        "ms": 11224,
+        "event": "resume",
+        "phase": "brewing",
+        "suspended": false
+      }
+    ],
+    "transient-unload": [
+      {
+        "ms": 0,
+        "event": "resume",
+        "phase": "ready",
+        "suspended": false
+      },
+      {
+        "ms": 2184,
+        "event": "primary",
+        "phase": "ready",
+        "suspended": false
+      },
+      {
+        "ms": 2187,
+        "event": "brew",
+        "phase": "ready",
+        "suspended": false
+      },
+      {
+        "ms": 2656,
+        "event": "suspend",
+        "phase": "brewing",
+        "suspended": true
+      },
+      {
+        "ms": 3327,
+        "event": "unload",
+        "phase": "brewing",
+        "suspended": true
+      },
+      {
+        "ms": 3327,
+        "event": "reset",
+        "phase": "brewing",
+        "suspended": true
+      },
+      {
+        "ms": 3659,
+        "event": "resume",
+        "phase": "ready",
+        "suspended": false
+      },
+      {
+        "ms": 3817,
+        "event": "primary",
+        "phase": "ready",
+        "suspended": false
+      },
+      {
+        "ms": 3822,
+        "event": "brew",
+        "phase": "ready",
+        "suspended": false
+      },
+      {
+        "ms": 4338,
+        "event": "suspend",
+        "phase": "brewing",
+        "suspended": true
+      },
+      {
+        "ms": 4951,
+        "event": "unload",
+        "phase": "brewing",
+        "suspended": true
+      },
+      {
+        "ms": 4951,
+        "event": "reset",
+        "phase": "brewing",
+        "suspended": true
+      },
+      {
+        "ms": 5278,
+        "event": "resume",
+        "phase": "ready",
+        "suspended": false
+      },
+      {
+        "ms": 5450,
+        "event": "primary",
+        "phase": "ready",
+        "suspended": false
+      },
+      {
+        "ms": 5451,
+        "event": "brew",
+        "phase": "ready",
+        "suspended": false
+      },
+      {
+        "ms": 6112,
+        "event": "suspend",
+        "phase": "brewing",
+        "suspended": true
+      },
+      {
+        "ms": 6734,
+        "event": "unload",
+        "phase": "brewing",
+        "suspended": true
+      },
+      {
+        "ms": 6735,
+        "event": "reset",
+        "phase": "brewing",
+        "suspended": true
+      },
+      {
+        "ms": 7077,
+        "event": "resume",
+        "phase": "ready",
+        "suspended": false
+      },
+      {
+        "ms": 7900,
+        "event": "suspend",
+        "phase": "ready",
+        "suspended": true
+      },
+      {
+        "ms": 8713,
+        "event": "unload",
+        "phase": "ready",
+        "suspended": true
+      },
+      {
+        "ms": 8714,
+        "event": "reset",
+        "phase": "ready",
+        "suspended": true
+      },
+      {
+        "ms": 11158,
+        "event": "resume",
+        "phase": "ready",
+        "suspended": false
+      }
+    ],
+    "packed-candidate": [
+      {
+        "ms": 0,
+        "event": "resume",
+        "phase": "ready",
+        "suspended": false
+      },
+      {
+        "ms": 2209,
+        "event": "primary",
+        "phase": "ready",
+        "suspended": false
+      },
+      {
+        "ms": 2212,
+        "event": "brew",
+        "phase": "ready",
+        "suspended": false
+      },
+      {
+        "ms": 2674,
+        "event": "suspend",
+        "phase": "brewing",
+        "suspended": true
+      },
+      {
+        "ms": 3295,
+        "event": "unload",
+        "phase": "brewing",
+        "suspended": true
+      },
+      {
+        "ms": 3634,
+        "event": "resume",
+        "phase": "brewing",
+        "suspended": false
+      },
+      {
+        "ms": 3807,
+        "event": "primary",
+        "phase": "brewing",
+        "suspended": false
+      },
+      {
+        "ms": 3807,
+        "event": "reset",
+        "phase": "brewing",
+        "suspended": false
+      },
+      {
+        "ms": 4331,
+        "event": "suspend",
+        "phase": "ready",
+        "suspended": true
+      },
+      {
+        "ms": 4938,
+        "event": "unload",
+        "phase": "ready",
+        "suspended": true
+      },
+      {
+        "ms": 5255,
+        "event": "resume",
+        "phase": "ready",
+        "suspended": false
+      },
+      {
+        "ms": 5407,
+        "event": "primary",
+        "phase": "ready",
+        "suspended": false
+      },
+      {
+        "ms": 5407,
+        "event": "brew",
+        "phase": "ready",
+        "suspended": false
+      },
+      {
+        "ms": 6082,
+        "event": "suspend",
+        "phase": "brewing",
+        "suspended": true
+      },
+      {
+        "ms": 6706,
+        "event": "unload",
+        "phase": "brewing",
+        "suspended": true
+      },
+      {
+        "ms": 7059,
+        "event": "resume",
+        "phase": "brewing",
+        "suspended": false
+      },
+      {
+        "ms": 7771,
+        "event": "suspend",
+        "phase": "brewing",
+        "suspended": true
+      },
+      {
+        "ms": 8574,
+        "event": "unload",
+        "phase": "brewing",
+        "suspended": true
+      },
+      {
+        "ms": 11245,
+        "event": "resume",
+        "phase": "brewing",
+        "suspended": false
+      }
+    ]
+  }
+}

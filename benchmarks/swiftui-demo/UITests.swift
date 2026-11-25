@@ -664,6 +664,26 @@ final class SwiftUIAcceptance: XCTestCase {
     XCTAssertTrue(wait { self.label(app, "key-status").contains("completed") })
     cue("stop")
   }
+  @MainActor func testControlledListTransfer() {
+    let app = lab("--controlled-list-transfer")
+    let item = { (id: String) in app.descendants(matching: .any)["cross-" + id].firstMatch }
+    let card = item("Atlas")
+    XCTAssertTrue(card.waitForExistence(timeout: 15))
+    func move(to destination: XCUIElement) {
+      card.coordinate(withNormalizedOffset: .init(dx:0.5,dy:0.5)).press(forDuration:0.15,
+        thenDragTo:destination.coordinate(withNormalizedOffset:.init(dx:0.5,dy:0.32)), withVelocity:.slow, thenHoldForDuration:0.35)
+    }
+    cue("start")
+    move(to:item("Elm"))
+    XCTAssertTrue(wait { self.label(app,"cross-status").contains("position 2 · 1 accepted") },app.debugDescription)
+    click(app.buttons["cross-reject"])
+    move(to:item("Cedar"))
+    XCTAssertTrue(wait { self.label(app,"cross-status").contains("Rejected") })
+    click(app.buttons["cross-reject"]); click(app.buttons["cross-empty"])
+    move(to:item("col-0"))
+    XCTAssertTrue(wait { self.label(app,"cross-status").contains("position 1 · 2 accepted") },app.debugDescription)
+    cue("stop")
+  }
   @MainActor func testTransferExpansion() {
     let app = lab("--transfer-lab")
     let source = app.descendants(matching: .any)["drop-source"].firstMatch

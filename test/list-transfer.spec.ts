@@ -93,3 +93,66 @@ describe('two-list transfer', () => {
     expect(commit).not.toHaveBeenCalled()
   })
 })
+
+it('remeasures slots during a stationary edge hold and ignores stale frames after cancellation', () => {
+  const source = {},
+    target = {},
+    commit = vi.fn(),
+    preview = vi.fn()
+  let time = 0,
+    offset = 0,
+    next: (() => void) | undefined
+  const keys = ['A', 'B', 'C', 'D']
+  const policy = createDropPolicy(
+    source,
+    listTransferOptions({
+      key: 'row',
+      target,
+      sourceKeys: () => ['row'],
+      targetKeys: () => keys,
+      centers: () => keys.map((key, i) => ({ key, center: 30 + 60 * i - offset })),
+      edgeScroll: {
+        now: () => time,
+        viewport: () => ({ top: 0, bottom: 100 }),
+        scrollBy(delta) {
+          offset += delta
+          return true
+        },
+        frame(callback) {
+          next = callback
+          return () => {
+            next = undefined
+          }
+        },
+      },
+      preview,
+      commit,
+    }),
+    {
+      enabled: () => true,
+      bounds: (view) =>
+        view === source
+          ? { x: 9, y: 90, width: 8, height: 8 }
+          : { x: 0, y: 0, width: 100, height: 100 },
+      cancelDrag() {},
+    },
+  )
+  policy.begin()
+  policy.move()
+  expect(preview.mock.lastCall?.[0].toIndex).toBe(2)
+  for (let step = 0; step < 12; step++) {
+    time += 16
+    next?.()
+  }
+  expect(offset).toBeGreaterThan(60)
+  expect(preview.mock.lastCall?.[0].toIndex).toBeGreaterThan(2)
+  const last = next,
+    atCancel = offset
+  policy.handle.cancel()
+  time += 500
+  last?.()
+  expect(offset).toBe(atCancel)
+  expect(next).toBeUndefined()
+  expect(policy.release()).toBe(false)
+  expect(commit).not.toHaveBeenCalled()
+})

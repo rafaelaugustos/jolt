@@ -128,3 +128,11 @@ Las formas iOS usan `UIView.bounds` local después de layout transformado, para 
 <Clip name="portable-press-ios" caption="Simulador iPhone, iOS 26.2: una acción por toque con feedback en scope, Home/background, regreso y remontaje. Interfaz en inglés, tiempo original; muestra prevención de duplicación, no una acción reproducida durante suspensión." />
 
 Consulta [validación y datos brutos](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/portable-foundations.md). No demuestran menor CPU/PSS total del app ni superioridad sobre Reanimated.
+
+## Pulsación durante el paso a segundo plano
+
+El botón de prueba registra acciones incluso durante la suspensión. En el simulador iOS 27, cuatro pulsaciones por configuración (simple, directa, en ámbito y registro repetido) produjeron 16 acciones. Ir al inicio a los 0, 50 o 200 ms, mantener el contacto durante la suspensión y volver a montar el botón produjeron cero acciones mientras estaba suspendido. El informe original se produjo durante la preparación en Hexdrop. La medición describe la reproducción reducida. En Web se prueban visibilidad, foco y liberación.
+
+En el iPhone 17 con iOS 26.2 del informe original, Hexdrop reprodujo el reinicio cuando la raíz trató la descarga transitoria como cierre de la pantalla. Tres preparaciones activas se reiniciaron en este control. Conservar la escena durante la descarga temporal mantuvo su progreso. En las tres compilaciones, todas las llamadas del botón ocurrieron en primer plano.
+
+<Clip :autoplay="false" name="press-lifecycle-ios" caption="iOS 27 · simulador de iPhone — pulsaciones, inicio, regreso y nuevo montaje." />

@@ -154,3 +154,11 @@ const completed = await move.finished
 <Clip name="appkit-desktop-motion" caption="macOS AppKit 窗口。按钮移动、更改目标、保持透明度，然后恢复。" />
 
 <Clip name="windows-xaml-motion" caption="Windows Server 2025 原生 XAML 窗口。按钮更改目标，淡出中断后保持当前透明度并恢复。" />
+
+## 缩放、旋转与播放控制
+
+AppKit 和 Windows XAML 支持独立的 `scaleX`、`scaleY`（正比例，1 表示原始大小）和 `rotate`（度）。替换旋转不会影响平移及两个缩放通道。对返回的句柄调用 `pause()` 可保持当前显示值，再用 `resume()` 按剩余时长和原曲线继续。原有 `finished` 在完成或中断时返回。调用 `owner.suspend()` 会取消所有通道，包括已暂停的动画。请遵循系统的减少动态效果设置。
+
+<Clip :autoplay="false" name="desktop-transforms-appkit" caption="macOS · AppKit — 独立变换、暂停与剩余轨迹的播放。" />
+
+<Clip :autoplay="false" name="desktop-transforms-windows" caption="Windows Server 2025 · XAML — 独立变换、暂停与剩余轨迹的播放。" />

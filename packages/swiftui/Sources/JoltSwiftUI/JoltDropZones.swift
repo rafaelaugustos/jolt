@@ -22,6 +22,7 @@ public struct JoltDropEvent: Equatable, Sendable {
   public let id: String, method: Method
 }
 @MainActor public final class JoltDropZones: ObservableObject, JoltResource {
+  var transfer: JoltListTransferPolicy?
   public let targets: [JoltDropTarget]
   public let overlap: Bool
   @Published public private(set) var hovered: String?
@@ -116,7 +117,7 @@ public struct JoltDropEvent: Equatable, Sendable {
     } else {
       frames.removeValue(forKey: id)
     }
-    if accepted == id && frames[id] == nil { cancel() }
+    if frames[id] == nil && (accepted == id || (transfer != nil && dragging)) { cancel() }
     refresh()
   }
   public func begin() {
@@ -129,6 +130,7 @@ public struct JoltDropEvent: Equatable, Sendable {
     start = offset
     translation = .zero
     dragging = true
+    transfer?.begin()
     refresh()
   }
   public func move(_ translation: CGSize) {
@@ -153,12 +155,17 @@ public struct JoltDropEvent: Equatable, Sendable {
         height: source.height)
     else {
       hovered = nil
+      transfer?.display(nil)
       return
     }
     hovered =
       targets.first { target in
         frames[target.id].map { rect.hits($0, overlap: overlap, padding: target.padding) } ?? false
       }?.id
+    if let transfer {
+      let center = transfer.axis == .vertical ? rect.y + rect.height / 2 : rect.x + rect.width / 2
+      transfer.display(hovered == nil ? nil : transfer.proposal(at: center))
+    }
   }
   @discardableResult public func end(reducedMotion: Bool = false) -> Bool {
     guard dragging else { return false }
@@ -173,6 +180,7 @@ public struct JoltDropEvent: Equatable, Sendable {
     clearEffect()
     guard generation == epoch, available else { return false }
     group.cancel()
+    transfer?.begin()
     return commit(id, method: .request, reducedMotion: reducedMotion)
   }
   private func commit(_ id: String?, method: JoltDropEvent.Method, reducedMotion: Bool) -> Bool {
@@ -182,9 +190,20 @@ public struct JoltDropEvent: Equatable, Sendable {
     guard available else { return false }
     let target = targets.first { $0.id == id && frames[$0.id] != nil }
     let detail = target.map { JoltDropEvent(id: $0.id, method: method) }
-    let allowed = target?.accepts() ?? false
+    var move: JoltListTransferMove?
+    var allowed = target?.accepts() ?? false
+    if let transfer {
+      if allowed, let source {
+        let center = transfer.axis == .vertical
+          ? source.y + source.height / 2 + offset.height : source.x + source.width / 2 + offset.width
+        move = transfer.proposal(at: method == .request ? nil : center)
+      }
+      transfer.display(nil)
+      allowed = move.map { transfer.valid && transfer.accept($0) && transfer.valid } ?? false
+    }
     guard generation == epoch, available else { return false }
     guard allowed, let target, frames[target.id] != nil, let detail else {
+      transfer?.cancel()
       onReject(detail)
       if generation == epoch, available {
         try? group.animate(to: ["x": 0, "y": 0], reducedMotion: reducedMotion)
@@ -193,6 +212,11 @@ public struct JoltDropEvent: Equatable, Sendable {
     }
     group.cancel()
     accepted = target.id
+    if let transfer, let move {
+      transfer.cancel()
+      transfer.commit(move)
+      return true
+    }
     let result = onDrop(detail)
     guard generation == epoch, available, frames[target.id] != nil else {
       result?.dispose()
@@ -209,6 +233,7 @@ public struct JoltDropEvent: Equatable, Sendable {
   }
   public func cancel() {
     generation += 1
+    transfer?.cancel()
     dragging = false
     hovered = nil
     group.cancel()

@@ -9,6 +9,8 @@ interface XamlRuntime {
       Markup: { XamlReader: { Load(xml: string): any } }
       Media: {
         TranslateTransform: new () => any
+        CompositeTransform: new () => any
+        TransformGroup: new () => any
         Animation: { Storyboard: { SetTarget(timeline: unknown, target: unknown): void } }
       }
     }
@@ -19,39 +21,66 @@ interface Element {
   Opacity: number
   RenderTransform: any
 }
+const installed = new WeakMap<Element, { root: any; translation: any; composite: any }>()
+
 export function windowsMotion(element: Element, windows: XamlRuntime) {
   const xaml = windows.UI.Xaml
   const settings = new windows.UI.ViewManagement.UISettings()
-  let translation: any
+  function transform(property: string) {
+    const current = element.RenderTransform
+    const owned = installed.get(element)
+    if (owned && current === owned.root) return owned
+    if (current instanceof xaml.Media.CompositeTransform)
+      return { root: current, translation: undefined, composite: current }
+    if (current instanceof xaml.Media.TranslateTransform) {
+      if (property === 'x' || property === 'y')
+        return { translation: current, composite: undefined }
+      // Preserve any in-flight translation on the original native object.
+      const composite = new xaml.Media.CompositeTransform()
+      const root = new xaml.Media.TransformGroup()
+      element.RenderTransform = root
+      root.Children.Append(composite)
+      root.Children.Append(current)
+      const group = { root, translation: current, composite }
+      installed.set(element, group)
+      return group
+    }
+    const matrix = current?.Matrix
+    if (
+      current &&
+      !(
+        matrix &&
+        matrix.M11 === 1 &&
+        matrix.M22 === 1 &&
+        matrix.M12 === 0 &&
+        matrix.M21 === 0 &&
+        matrix.OffsetX === 0 &&
+        matrix.OffsetY === 0
+      )
+    )
+      throw new Error(
+        'Desktop motion needs an identity, translation or composite transform.',
+      )
+    const composite = new xaml.Media.CompositeTransform()
+    element.RenderTransform = composite
+    return { root: composite, translation: undefined, composite }
+  }
   return finiteMotion(
     element,
     (property) => {
-      if (property !== 'opacity' && !translation) {
-        const current = element.RenderTransform
-        if (current instanceof xaml.Media.TranslateTransform) translation = current
-        else {
-          const local = current?.Matrix
-          if (
-            current &&
-            !(
-              local &&
-              local.M11 === 1 &&
-              local.M22 === 1 &&
-              local.M12 === 0 &&
-              local.M21 === 0 &&
-              local.OffsetX === 0 &&
-              local.OffsetY === 0
-            )
-          )
-            throw new Error(
-              'Translation requires an identity or TranslateTransform target.',
-            )
-          translation = new xaml.Media.TranslateTransform()
-          element.RenderTransform = translation
-        }
-      }
-      const target = property === 'opacity' ? element : translation
-      const key = property === 'opacity' ? 'Opacity' : property.toUpperCase()
+      const part = property === 'opacity' ? undefined : transform(property)
+      const translation = (property === 'x' || property === 'y') && part?.translation
+      const target = part ? translation || part.composite : element
+      const key = translation
+        ? property.toUpperCase()
+        : {
+            opacity: 'Opacity',
+            x: 'TranslateX',
+            y: 'TranslateY',
+            scaleX: 'ScaleX',
+            scaleY: 'ScaleY',
+            rotate: 'Rotation',
+          }[property]
       return {
         read: () => Number(target[key]),
         write: (value) => {

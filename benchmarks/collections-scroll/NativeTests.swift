@@ -37,6 +37,40 @@ final class CollectionsScroll: XCTestCase {
   func contact(_ start: CGPoint, _ delta: CGPoint, _ reverse: CGPoint = .zero, _ hold: Double = 0.1) {
     XCTAssertNil(JoltScrollContact(start, delta, reverse, hold)); Thread.sleep(forTimeInterval: 0.7)
   }
+  func testCollectionContinuity() throws {
+    continueAfterFailure = false
+    app.launch()
+    tap("Grid sheet", 1.3)
+    try cue("start","grid-sheet-continuity-ios")
+    tap("Audit")
+    let grid = element("sheet-grid")
+    let bottom = min(grid.frame.maxY, app.frame.maxY - 105)
+    let point = CGPoint(x:grid.frame.midX,y:bottom - 18)
+    let dy = point.y - 150
+    contact(point,CGPoint(x:0,y:-dy))
+    tap("Audit")
+    let top = CGPoint(x:grid.frame.midX,y:max(140,grid.frame.minY+25))
+    contact(top,CGPoint(x:0,y:point.y-top.y))
+    let next = CGPoint(x:grid.frame.midX,y:grid.frame.minY+25)
+    if next.y < point.y { contact(next,CGPoint(x:0,y:point.y-next.y)) }
+    tap("Audit")
+    tap("Grid sheet",1.2)
+    contact(point,CGPoint(x:0,y:-dy),CGPoint(x:0,y:dy-12))
+    tap("Audit")
+    try cue("stop","grid-sheet-continuity-ios")
+    tap("Transfer",1)
+    try cue("start","transfer-scroll-ios")
+    let card=element("Atlas").frame, target=element("destination").frame
+    let start=CGPoint(x:card.midX,y:card.midY), end=CGPoint(x:target.midX,y:target.maxY-18)
+    tap("Cancel")
+    XCTAssertNil(JoltReorderContact(start,end,.zero,2,0))
+    tap("Audit")
+    tap("Transfer",1)
+    XCTAssertNil(JoltReorderContact(start,end,.zero,2.5,0))
+    Thread.sleep(forTimeInterval:0.7)
+    tap("Audit")
+    try cue("stop","transfer-scroll-ios")
+  }
   func testCollectionLayouts() throws {
     continueAfterFailure = false
     app.launch()

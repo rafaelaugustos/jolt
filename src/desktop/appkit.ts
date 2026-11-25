@@ -36,26 +36,38 @@ export function appKitMotion(view: { wantsLayer: boolean; layer: AppKitLayer }) 
   return finiteMotion(
     view,
     (property) => {
-      const key = property === 'opacity' ? 'opacity' : 'transform.translation.' + property
+      const key = {
+        opacity: 'opacity',
+        x: 'transform.translation.x',
+        y: 'transform.translation.y',
+        scaleX: 'transform.scale.x',
+        scaleY: 'transform.scale.y',
+        rotate: 'transform.rotation.z',
+      }[property]
+      const factor = property === 'rotate' ? Math.PI / 180 : 1
       const animationKey = 'jolt.' + key
-      const read = () => Number((layer.presentationLayer() ?? layer).valueForKeyPath(key))
+      const read = () =>
+        Number((layer.presentationLayer() ?? layer).valueForKeyPath(key)) / factor
       return {
         read,
-        write: (value) => transaction(() => layer.setValueForKeyPath(value, key)),
+        write: (value) =>
+          transaction(() => layer.setValueForKeyPath(value * factor, key)),
         play(track, done) {
           const animation = api.CAKeyframeAnimation.animationWithKeyPath(key)
-          animation.values = api.NSArray.arrayWithArray(track.values)
+          animation.values = api.NSArray.arrayWithArray(
+            track.values.map((value) => value * factor),
+          )
           animation.keyTimes = api.NSArray.arrayWithArray(track.times)
           animation.duration = track.duration / 1000
           transaction(() => {
-            layer.setValueForKeyPath(track.to, key)
+            layer.setValueForKeyPath(track.to * factor, key)
             api.CATransaction.setCompletionBlock(done)
             layer.addAnimationForKey(animation, animationKey)
           })
           return () => {
             const current = read()
             transaction(() => {
-              layer.setValueForKeyPath(current, key)
+              layer.setValueForKeyPath(current * factor, key)
               layer.removeAnimationForKey(animationKey)
             })
           }

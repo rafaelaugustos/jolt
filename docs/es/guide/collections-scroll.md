@@ -153,3 +153,23 @@ CollectionView comparte ahora la captura/restauración de foco por clave de Core
 <Clip :autoplay="false" name="collection-focus-voiceover-ios" caption="Simulador iOS 27 con VoiceOver real e interacción XCTest. Foco visible y aserciones de navegación; grabación sin audio. No demuestra comportamiento en dispositivos físicos. Foco por clave de CollectionView durante actualizaciones." />
 
 <Clip :autoplay="false" name="collection-focus-talkback-android" caption="Emulador Android API 36 con TalkBack real e interacción táctil nativa. Foco visible y aserciones de navegación; grabación sin audio. No demuestra comportamiento en dispositivos físicos. Foco por clave de CollectionView durante actualizaciones." />
+
+## Cuadrícula regular dentro de un panel
+
+Pasa `scrollHandoff(collection, { axis: "y" })` como `scrollView` para una CollectionView vertical en orden normal con columnas uniformes. Arrastrar una celda expande el panel y el recorrido restante desplaza la cuadrícula. Al invertir el mismo contacto se agota primero el desplazamiento y después se cierra el panel. La superficie activa recibe la velocidad al soltar. Se excluyen las columnas variables por elemento y las cuadrículas horizontales. En Web pasa el contenedor desplazable de la cuadrícula CSS como `scrollView`. Liberar el panel termina el gesto.
+
+<Clip :autoplay="false" name="grid-sheet-continuity-ios" caption="iOS 27 · iPhone Simulator — expansión, desplazamiento y regreso con un solo contacto." />
+
+<Clip :autoplay="false" name="grid-sheet-continuity-android" caption="Android · Pixel Emulator — expansión, desplazamiento y regreso con un solo contacto." />
+
+<Clip :autoplay="false" name="collection-gridsheet-web" caption="Web · Chromium — expansión, desplazamiento y regreso con un solo contacto." />
+
+## Desplazar el destino durante una transferencia
+
+Configura `edgeScroll: listTransferScroll(destino)` en `listTransferOptions` con una ScrollView vertical montada o un elemento DOM desplazable. El centro de la fila debe entrar en el destino. En los últimos 48 DIPs o píxeles CSS la velocidad aumenta hasta 600 unidades por segundo. La posición se actualiza con los centros visibles aunque el puntero permanezca quieto. Proporciona coordenadas de ventana, claves estables y una sola confirmación controlada por la aplicación. Salir del borde, soltar, cancelar, liberar o llegar al límite detiene la operación. Una solicitud sin arrastre añade la fila al final.
+
+<Clip :autoplay="false" name="transfer-scroll-ios" caption="iOS 27 · iPhone Simulator — contacto fijo en el borde, cancelación y una inserción." />
+
+<Clip :autoplay="false" name="transfer-scroll-android" caption="Android · Pixel Emulator — contacto fijo en el borde, cancelación y una inserción." />
+
+<Clip :autoplay="false" name="collection-edgetransfer-web" caption="Web · Chromium — contacto fijo en el borde, cancelación y una inserción." />
